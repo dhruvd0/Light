@@ -1,13 +1,13 @@
 import os  # os.system(string) is used to run cmd commands
 import urllib
 import re
-import requests
+#import requests
 import json
 from datetime import datetime
-import tkinter as tk
-import kivy
-from kivy.app import App
-from kivy.uix.label import Label
+#import tkinter as tk
+#import kivy
+#from kivy.app import App
+#from kivy.uix.label import Label
 
 
 
@@ -88,6 +88,8 @@ def Main():  # main display and user input
 if __name__ == '__main__':  # executes the block at the start of the program , in this case it will execute Main()
     os.system("cls")
 
-    Main()
+    #Main()
+
+    print ("test")
 
     os.system("exit")
