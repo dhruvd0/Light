@@ -1,4 +1,4 @@
-
+#use this to test and run gui
 import kivy
 from kivy.app import App
 from kivy.uix.label import Label
@@ -12,5 +12,5 @@ class mainApp(App):
     
 if __name__=="__main__":
     print ("hello")
-    os.sys
+    
     mainApp().run()

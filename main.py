@@ -53,7 +53,7 @@ def thankYou():
 
 def getResponse(userIn):  # function that decides the appropriate response also our main
 
-    subs = userIn.split()
+    subs = userIn.split() #words
     if "weather" in subs:
         return getWeather()
     elif "date" in subs or "time" in subs:
@@ -88,8 +88,8 @@ def Main():  # main display and user input
 if __name__ == '__main__':  # executes the block at the start of the program , in this case it will execute Main()
     os.system("cls")
 
-    #Main()
+    Main()
 
-    print ("test")
+    
 
     os.system("exit")
