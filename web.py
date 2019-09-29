@@ -42,6 +42,3 @@ def openWeb(link):  # checks if the links is valid
         link = "https://www.google.com/search?q="+mainLink
     webbrowser.open(link)
 
-
-if __name__ == "__main__":
-    #openWeb("hello")
