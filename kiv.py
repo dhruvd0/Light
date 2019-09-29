@@ -1,4 +1,4 @@
-#use this to test and run gui
+#use this to test and run kivy gui
 import kivy
 from kivy.app import App
 from kivy.uix.label import Label
