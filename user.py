@@ -14,4 +14,6 @@ def getResponse(userIn):  # function that decides the appropriate response also 
         for i in subs:
             if (i not in ["open", "search"]):
                 web.openWeb(i)
-                return "Opening"+i
+                return "Opening "+i
+    elif "lms" in subs or "login" in subs:
+        web.loginLms()
