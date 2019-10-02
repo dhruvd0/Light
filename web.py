@@ -1,4 +1,4 @@
-# This particular method is called "Web scraping"
+
 # Use this file to test and learn requests and Beautiful soup
 
 import webbrowser
@@ -6,8 +6,10 @@ import requests
 import urllib
 from bs4 import BeautifulSoup
 
-url = "https://www.google.com"
-r = requests.get(url)  # use this get webpages , returns 200
+#--------------------------------------------------------------------------------------------------
+# This particular method is called "Web scraping"                                                 
+url = "https://www.google.com"                                                                    
+r = requests.get(url)  # use this get webpages , returns 200                                        
 
 # rint (r.content) #gets raw html data in text form
 
@@ -17,6 +19,7 @@ soup = BeautifulSoup(r.content, 'html5lib')
 # scraped all link elements from google.com
 links = soup.find_all("input", attrs={"name:q"})
 
+#------------------------------------------------------------------------------------------------
 
 def checkDictionary():
     pass
@@ -24,6 +27,16 @@ def checkDictionary():
 
 def getWeather():
     return ("shows weather")
+
+
+def isValidInternet():
+    try:
+        r=requests.get("http://www.google.com")
+        return True
+    except requests.exceptions.ConnectionError:
+        return False
+
+
 
 
 def openWeb(link):  # checks if the links is valid

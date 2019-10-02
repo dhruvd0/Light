@@ -1,14 +1,9 @@
-import os  # os.system(string) is used to run cmd commands
+import os  
 import urllib
 import re
 import user
-#import requests
 import json
 from datetime import datetime
-#import tkinter as tk
-#import kivy
-#from kivy.app import App
-#from kivy.uix.label import Label
 import web
 def checkIn(userIn):  # checks if user input is alphanumeric
     for x in userIn:
@@ -31,8 +26,6 @@ def openApps():
 
 def showSchedule():
     pass
-
-
 
 def thankYou():
     print("\n Thank you \n")
@@ -59,10 +52,14 @@ def Main():  # main display and user input
     thankYou()
 
 
-if __name__ == '__main__':  # executes the block at the start of the program , in this case it will execute Main()
-    os.system("cls")
+if __name__ == '__main__':
 
+   
+    # executes the block at the start of the program , in this case it will execute Main()
     Main()
+
+    
+    
 
     
  
