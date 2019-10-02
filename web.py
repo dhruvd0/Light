@@ -25,7 +25,7 @@ def isValidInternet():
 
 
 def loginLms():
-    os.system("cls")
+    
     #gets user details
     userId = input("enter user:")
     userPass = getpass("enter pass:")
