@@ -1,6 +1,6 @@
 
 # Use this file to test and learn requests and Beautiful soup
-
+import notifs
 import webbrowser
 import requests
 import urllib
@@ -25,7 +25,7 @@ def isValidInternet():
 
 
 def loginLms():
-    os.system("cls")
+    #os.system("cls")
     #gets user details
     userId = input("enter user:")
     userPass = getpass("enter pass:")
@@ -38,6 +38,7 @@ def loginLms():
     userName = soup.find("span", {"class": "usertext"}).text
 
     courses = soup.find_all("h4", {"class": "media-heading"})
+    notifs.loginSuccess(userName)
     print("Hi ", userName)
     print("Your courses:")
     for courseName in courses:
