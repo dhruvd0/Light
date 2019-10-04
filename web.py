@@ -1,6 +1,6 @@
 
 # Use this file to test and learn requests and Beautiful soup
-import notifs
+
 import webbrowser
 import requests
 import urllib
@@ -13,6 +13,28 @@ def isValidInternet():
         return True
     except requests.exceptions.ConnectionError:
         return False
+
+
+def loginLms():
+    os.system("cls")
+    #gets user details
+    userId = input("enter user:")
+    userPass = getpass("enter pass:")
+
+    d = {"username": userId, "password": userPass}
+
+    login = requests.post(
+        "http://lms.bennett.edu.in/login/index.php", data=d)  # post request
+    soup = BeautifulSoup(login.content, "html5lib")
+    userName = soup.find("span", {"class": "usertext"}).text
+
+    courses = soup.find_all("h4", {"class": "media-heading"})
+    print("Hi ", userName)
+    print("Your courses:")
+    for courseName in courses:
+        print(courseName.text)
+
+
 
 def openWeb(link):  # checks if the links is valid
     mainLink = link
