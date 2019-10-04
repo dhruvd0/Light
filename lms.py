@@ -16,7 +16,7 @@ def loginLms():
     userName = ""
    
     login = request_session.post(
-        "http://lms.bennett.edu.in/login/index.php", data=d)  # post request
+        "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=d)  # post request
     # soup element which has all the html content
     soup = BeautifulSoup(login.content, "html5lib")
     
@@ -30,4 +30,5 @@ def loginLms():
         loginLms()
 
 
+loginLms()
 
