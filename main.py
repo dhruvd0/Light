@@ -1,7 +1,7 @@
 import os  
 import urllib
 import re
-import user
+import profile
 import json
 from datetime import datetime
 import web
@@ -42,10 +42,11 @@ def Main():  # main display and user input
 
     while(True):
         if userIn in exit_op:
+            
             break
 
         response = "\n                            " + \
-            str(user.getResponse(userIn)) + \
+            str(profile.getResponse(userIn)) + \
             " \n                                                        ~"
         userIn = input(response)
 
