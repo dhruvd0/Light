@@ -5,11 +5,13 @@ import notifs
 import webbrowser
 import requests
 import urllib
+import web
 from getpass import getpass
 from bs4 import BeautifulSoup
 import wget
 d = {}
 request_session = requests.Session()
+os.system("cls")
 
 
 def loginLms():
@@ -35,6 +37,9 @@ def loginLms():
         loginLms()
 
 
+dashboardPage = loginLms()
+
+
 def seeLastMessages():
     unreadCount = dashboardPage.find("label", {"class": "unreadnumber"}).text
     print("You have ", unreadCount, " messages:")
@@ -44,11 +49,11 @@ def seeLastMessages():
     messagePage = BeautifulSoup(messagesRequest.content, "html5lib")
     messages = messagePage.find_all("span", {"class": "text"})
     for message in messages:
-        print(message)
+        print(message.text)
 
 
-def fileSearch():
-    searchName = "Tutorial 1"  # input("File to search:")
+def fileSearch():  # returns a dictionary of file details
+    searchName = "Lab Assignment 1"  # input("File to search:")
     courseHeadings = dashboardPage.find_all("h4", {"class": "media-heading"})
     fileId = 0
     files = []  # dictionary of files returned
@@ -72,26 +77,62 @@ def fileSearch():
 
             if resourceName == searchName:
                 fileId += 1
+
                 fileDict = {"id": fileId, "name": resourceName,
                             "course": courseName, "url": resource.a["href"]}
                 files.append(fileDict)
                 break
-    for i in files:
-        print(i, "\n")
-    id = int(input("Select fle id:"))
-    for i in files:
-        if(i["id"] == id):
-            return (i)
+    if (len(files) == 0):
+        return ("No files Found")
+    else:
+        for i in files:
+            print(i, "\n")
+        id = 1#int(input("Select fle id:"))
+        for i in files:
+
+            if(i["id"] == id):
+                return (i)
 
 
 def downloadFile(file):
+    #print (file["url"])
     fileRequest = request_session.get(file["url"], stream=True)
 
+    newFile = file["course"].replace(":", "_")
+    file["course"] = newFile
+
+    temp = file["name"].replace(" ", "_")
+    file["name"] = temp
     if fileRequest.headers["content-type"] == "application/pdf":
-        path = file["name"]+".pdf"
-        with open(path, 'wb') as f:
-            f.write(fileRequest.content)
+
+        path = file["course"]+"/"+file["name"]+".pdf"
+        try:
+            with open(path, 'wb') as f:
+                f.write(fileRequest.content)
+        except OSError:
+            os.mkdir(file["course"])
+            with open(path, 'wb') as f:
+                f.write(fileRequest.content)
+    # Submittable Assignment File
+    elif BeautifulSoup(fileRequest.content, "html5lib").find("head").title.text == "Assignment":
+        assignmentPageRequest = request_session.get(file["url"])
+        assignmentPage = BeautifulSoup(
+            assignmentPageRequest.content, "html5lib")
+        assignmentDiv = assignmentPage.find("div", {"id": "intro"})
+        file["name"] = assignmentDiv.a.text
+        assignmentFileReq = request_session.get(assignmentDiv.a["href"])
+        path = file["course"]+"/"+file["name"]
+        try:
+            with open(path, 'wb') as t:
+                t.write(assignmentFileReq.content)
+        except OSError:
+            os.mkdir(file["course"])
+            with open(path, 'wb') as t:
+                t.write(assignmentFileReq.content)
+    else:
+        linkReq=request_session.get(file["url"],stream=True)
+        
+        print (linkReq.headers["content-type"])
 
 
-dashboardPage = loginLms()
 downloadFile(fileSearch())
