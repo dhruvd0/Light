@@ -9,15 +9,17 @@ import web
 from getpass import getpass
 from bs4 import BeautifulSoup
 import wget
+#import tkint
 d = {}
 request_session = requests.Session()
-os.system("cls")
 
 
-def loginLms():
+request_session = requests.Session()
 
-    userId = input("enter user:")  # user id eg:e19cse001
-    userPass = getpass("enter pass:")
+def loginLms(userId,userPass):
+
+    
+
     # form data to be submitted
     d = {"username": userId, "password": userPass}
     userName = ""
@@ -33,13 +35,9 @@ def loginLms():
         print("Hi ", userName)
         return dashboardPage
     except AttributeError:
-        print("Invalid Login Please try agin")
-        loginLms()
-
-
-dashboardPage = loginLms()
-
-
+        print ("Invalid Login Please try agin")
+        
+dashboardPage=loginLms()
 def seeLastMessages():
     unreadCount = dashboardPage.find("label", {"class": "unreadnumber"}).text
     print("You have ", unreadCount, " messages:")
@@ -134,5 +132,3 @@ def downloadFile(file):
         
         print (linkReq.headers["content-type"])
 
-
-downloadFile(fileSearch())
