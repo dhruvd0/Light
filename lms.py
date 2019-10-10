@@ -29,11 +29,11 @@ def loginLms(userId, userPass):
         userName = dashboardPage.find("span", {"class": "usertext"}).text
         notifs.loginSuccess(userName)  # windows toast notification
         print("Hi ", userName)
-        # return dashboardPage
+        return dashboardPage
     except AttributeError:
         print("Invalid Login Please try agin")
 
-# dashboardPage=loginLms()
+dashboardPage=loginLms("e19cse447","Aug@2019")
 
 
 def seeLastMessages():
@@ -131,4 +131,20 @@ def downloadFile(file):
         print(linkReq.headers["content-type"])
 
 
+def deadLines():
+    calLink=dashboardPage.find("a",{"title":"This month"}).attrs["href"]
+    calendarRequest=request_session.get(calLink)
+    calendarPage=BeautifulSoup(calendarRequest.content,"html5lib")
+    events=[]
+    calendarEvents=calendarPage.find_all("ul",{"class":"events-new"}) #ul element
+    for calendarEvent in calendarEvents:
+        eves=calendarEvent.find_all("li")
+        event={}
+        for i in eves:
+            event["name"]=eves.a.text
+            events.append(event)
+    return (events)
+    
+
+print (deadLines())
 
