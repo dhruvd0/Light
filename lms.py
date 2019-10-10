@@ -9,32 +9,59 @@ import web
 from getpass import getpass
 from bs4 import BeautifulSoup
 import wget
+import numpy as np
 d = {}
 request_session = requests.Session()
 os.system("cls")
 
 
 def loginLms():
-
-    userId = input("enter user:")  # user id eg:e19cse001
-    userPass = getpass("enter pass:")
-    # form data to be submitted
-    d = {"username": userId, "password": userPass}
-    userName = ""
-
-    login = request_session.post(
-        "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=d)  # post request
-    # soup element which has all the html content
-    dashboardPage = BeautifulSoup(login.content, "html5lib")
-
     try:
-        userName = dashboardPage.find("span", {"class": "usertext"}).text
-        notifs.loginSuccess(userName)  # windows toast notification
-        print("Hi ", userName)
-        return dashboardPage
-    except AttributeError:
-        print("Invalid Login Please try agin")
-        loginLms()
+        read_d = np.load('my_file.npy').item()
+        os.path.getsize('my_file.npy')
+
+        # form data to be submitted
+        
+        d = {"username": read_d['username'], "password": read_d['password']}
+        userName = ""
+
+        login = request_session.post(
+            "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=d)  # post request
+        # soup element which has all the html content
+        dashboardPage = BeautifulSoup(login.content, "html5lib")
+
+        try:
+            userName = dashboardPage.find("span", {"class": "usertext"}).text
+            notifs.loginSuccess(userName)  # windows toast notification
+            print("Hi ", userName)
+            return dashboardPage
+        except AttributeError:
+            print("Invalid Login Please try agin")
+            loginLms()
+    except os.error:
+        userId = input("enter user:")  # user id eg:e19cse001
+        userPass = getpass("enter pass:")
+        # form data to be submitted
+        d = {"username": userId, "password": userPass}
+        np.save('my_file.npy', d)
+        userName = ""
+
+        login = request_session.post(
+            "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=d)  # post request
+        # soup element which has all the html content
+        dashboardPage = BeautifulSoup(login.content, "html5lib")
+
+        try:
+            userName = dashboardPage.find("span", {"class": "usertext"}).text
+            notifs.loginSuccess(userName)  # windows toast notification
+            print("Hi ", userName)
+            return dashboardPage
+        except AttributeError:
+            print("Invalid Login Please try agin")
+            loginLms()
+
+    
+    
 
 
 dashboardPage = loginLms()
