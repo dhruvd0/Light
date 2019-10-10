@@ -1,8 +1,15 @@
 import tkinter as tk
 root = tk.Tk()
 
-HEIGHT = 700
-WIDTH = 800
+HEIGHT = 1080
+WIDTH = 1920
+
+def username (name):
+    print("The username entered is : ", name)
+
+def password (pwd):
+    print("The password entered is :", pwd)
+
 
 canvas = tk.Canvas(root, height = HEIGHT, width = WIDTH, bg = 'black')
 canvas.pack()
@@ -10,8 +17,44 @@ canvas.pack()
 frame = tk.Frame(root, bg = 'black')
 frame.place(relx=0.7 , relwidth=0.3, relheight = 0.20) 
 
-label_main = tk.Label(root, text = "Light", bg = 'white', fg = 'white')
+frame_display = tk.Frame(root, bg = 'white')
+frame_display.place(relx=0.24, rely = 0.2, relwidth=0.5, relheight = 0.6) 
+
+frame_dline = tk.Frame(root, bg = 'white')
+frame_dline.place(relx=0.8, rely=0.2, relwidth= 0.3, relheight= 0.299)
+
+frame_cal = tk.Frame(root, bg = 'white')
+frame_cal.place(relx=0.8, rely= 0.5, relwidth = 0.3, relheight = 0.3)
+
+frame_tt = tk.Frame(root, bg = 'white')
+frame_tt.place(rely = 0.2, relwidth = 0.2 , relheight = 0.6)
+
+frame_image = tk.Frame(root, bg = 'white')
+frame_image.place(relx =0.37, rely=0.01,relwidth= 0.2, relheight = 0.1)
+
+frame_sugg = tk.Frame(root, bg = 'white')
+frame_sugg.place(rely=0.85, relwidth = 1, relheight = 0.1)
+
+
+label_logo = tk.Label(frame_image, text = "LOGO", fg = 'black', font = 30)
+label_logo.pack()
+
+label_tt = tk.Label(frame_tt, text = "TIME TABLE", fg = 'black', font = 30 )
+label_tt.pack()
+
+label_dline = tk.Label(frame_dline, text = "DEADLINES", fg = 'black', font = 30 )
+label_dline.pack()
+
+label_cal = tk.Label(frame_cal, text = "CALENDER", fg = 'black', font = 30 )
+label_cal.pack()
+
+label_sugg = tk.Label(frame_sugg, text = "SUGGESTIONS", fg = 'black', font = 30 )
+label_sugg.pack()
+
+label_main = tk.Label(frame_display, text = "MAIN WINDOW", fg = 'black', font = 30 )
 label_main.pack()
+
+
 
 label1 = tk.Label(frame, text = "Username", bg = 'black', fg = 'white', font = 25)
 label1.pack() 
@@ -25,7 +68,7 @@ label2.pack()
 entry_pass = tk.Entry(frame, bg = '#1f1f14', fg = 'white')
 entry_pass.pack()
 
-button = tk.Button(frame , text="Submit", bg = '#1f1f14', fg = 'white')
+button = tk.Button(frame , text="Submit", bg = '#1f1f14', fg = 'white' )
 button.pack()
 
 
