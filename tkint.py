@@ -55,6 +55,11 @@ label_sugg.place(relwidth = 0.14 , relheight = 0.3)
 label_main = tk.Label(frame_display)
 label_main.place(relwidth = 1, relheight= 0.95 )
 
+#scrollbar for main window ------>
+
+scroll1 = tk.Scrollbar(label_main, bg = 'blue')
+scroll1.place(relheight = 1, relx = 0.98)
+
 #label for after info
 #def info ():
     #label_info = tk.Label(root, text = "Welcome", fg = 'white', font = 25)

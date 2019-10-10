@@ -4,3 +4,5 @@ toast=ToastNotifier()
 
 def loginSuccess(userName):
     toast.show_toast("Light","Welcome "+userName,duration=3)
+
+loginSuccess("test")
