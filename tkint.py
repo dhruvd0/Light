@@ -13,6 +13,11 @@ import lms
 
 root = tk.Tk()
 
+
+def main_input(say):
+    print(say)
+
+
 HEIGHT = 1080
 WIDTH = 1920
 
@@ -44,6 +49,7 @@ frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)
 label_logo = tk.Label(frame_image, text="LOGO", fg='black', font=30)
 label_logo.pack()
 
+
 label_tt = tk.Label(frame_tt, text="TIME TABLE", fg='black', font=30)
 label_tt.pack()
 
@@ -57,7 +63,7 @@ label_sugg = tk.Label(frame_sugg, text="SUGGESTIONS", fg='black', font=30)
 label_sugg.pack()
 
 label_main = tk.Label(frame_display)
-label_main.place(relwidth = 1, relheight= 0.95 )
+label_main.place(relwidth=1, relheight=0.95)
 
 # --------------------------------------------------------------------------------------
 
@@ -73,20 +79,21 @@ label2.pack()
 entry_pass = tk.Entry(frame, bg='#1f1f14', fg='white')
 entry_pass.pack()
 
+
 def login():
     lms.loginLms(entry_user.get(), entry_pass.get())
 
 
-entry_main = tk.Entry(frame_display, bg = 'white', fg='black' )
-entry_main.place(rely = 0.94, relwidth=0.9 , relheight = 0.06)
+entry_main = tk.Entry(frame_display, bg='white', fg='black')
+entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
-button_main = tk.Button(frame_display,text = "-->", bg = 'black', fg = 'white', command = lambda : main_input(entry_main.get()))
-button_main.place(rely=0.94, relx = 0.9, relwidth = 0.1, relheight = 0.06)
+button_main = tk.Button(frame_display, text="-->", bg='black',
+                        fg='white', command=lambda: main_input(entry_main.get()))
+button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
 
 button = tk.Button(frame, text="Submit", bg='#1f1f14',
                    fg='white', command=login)
 button.pack()
 
-while True:
-    root.update()
+root.mainloop()

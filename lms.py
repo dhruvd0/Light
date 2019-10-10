@@ -14,11 +14,7 @@ d = {}
 request_session = requests.Session()
 
 
-request_session = requests.Session()
-
-def loginLms(userId,userPass):
-
-    
+def loginLms(userId, userPass):
 
     # form data to be submitted
     d = {"username": userId, "password": userPass}
@@ -33,11 +29,13 @@ def loginLms(userId,userPass):
         userName = dashboardPage.find("span", {"class": "usertext"}).text
         notifs.loginSuccess(userName)  # windows toast notification
         print("Hi ", userName)
-        return dashboardPage
+        # return dashboardPage
     except AttributeError:
-        print ("Invalid Login Please try agin")
-        
-dashboardPage=loginLms()
+        print("Invalid Login Please try agin")
+
+# dashboardPage=loginLms()
+
+
 def seeLastMessages():
     unreadCount = dashboardPage.find("label", {"class": "unreadnumber"}).text
     print("You have ", unreadCount, " messages:")
@@ -50,8 +48,8 @@ def seeLastMessages():
         print(message.text)
 
 
-def fileSearch():  # returns a dictionary of file details
-    searchName = "Lab Assignment 1"  # input("File to search:")
+def fileSearch(searchName):  # returns a dictionary of file details
+    # input("File to search:")
     courseHeadings = dashboardPage.find_all("h4", {"class": "media-heading"})
     fileId = 0
     files = []  # dictionary of files returned
@@ -85,7 +83,7 @@ def fileSearch():  # returns a dictionary of file details
     else:
         for i in files:
             print(i, "\n")
-        id = 1#int(input("Select fle id:"))
+        id = 1  # int(input("Select fle id:"))
         for i in files:
 
             if(i["id"] == id):
@@ -128,7 +126,9 @@ def downloadFile(file):
             with open(path, 'wb') as t:
                 t.write(assignmentFileReq.content)
     else:
-        linkReq=request_session.get(file["url"],stream=True)
-        
-        print (linkReq.headers["content-type"])
+        linkReq = request_session.get(file["url"], stream=True)
+
+        print(linkReq.headers["content-type"])
+
+
 
