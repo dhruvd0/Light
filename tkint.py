@@ -33,12 +33,12 @@ frame_image.place(relx=0.37, rely=0.01, relwidth=0.2, relheight=0.1)
 frame_sugg = tk.Frame(root, bg='black')
 frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)
 
-
 label_logo = tk.Label(frame_image, text="LOGO", fg='black', font=30)
 label_logo.pack()
 
-label_tt = tk.Label(frame_tt,text = "Time table", bg = 'green', font = 20)
-label_tt.place(rely = 0.1, relheight = 1 , relwidth = 1)
+#labels for calender --------->
+label_tt1 = tk.Label(frame_tt,text = "Time table", font = 20)
+label_tt1.place(rely = 0.1, relheight = 1 , relwidth = 1)
 
 label_dline = tk.Label(frame_dline, text="DEADLINES", fg='black', font=30)
 label_dline.place(relheight=1,relwidth=1)
@@ -55,23 +55,19 @@ label_sugg.place(relwidth = 0.14 , relheight = 0.3)
 label_main = tk.Label(frame_display)
 label_main.place(relwidth = 1, relheight= 0.95 )
 
+#label for after info
+#def info ():
+    #label_info = tk.Label(root, text = "Welcome", fg = 'white', font = 25)
+    #label_info.place(relx=0.9, relheight = 0.3, relwidth = 0.3)
+
 # --------------------------------------------------------------------------------------
 
-label1 = tk.Label(frame, text="Username", bg='black', fg='white', font=25)
+label1 = tk.Label(frame, text="WELCOME, USER", bg='black', fg='white', font=25)
 label1.pack()
-
-entry_user = tk.Entry(frame, bg='#1f1f14', fg='white')
-entry_user.pack()
-
-label2 = tk.Label(frame, text="Password", bg='black', fg='white', font=25)
-label2.pack()
-
-entry_pass = tk.Entry(frame, bg='#1f1f14', fg='white')
-entry_pass.pack()
 
 def login():
     #lms.loginLms(entry_user.get(), entry_pass.get())
-    pass
+    print ("in login")
 
 
 entry_main = tk.Entry(frame_display, bg = 'white', fg='black' )
@@ -81,12 +77,6 @@ entry_main.place(rely = 0.94, relwidth=0.9 , relheight = 0.06)
 
 button_main = tk.Button(frame_display,text = "-->", bg = 'black', fg = 'white',activebackground = 'black', activeforeground= 'white', command = lambda : main_input(entry_main.get()))
 button_main.place(rely=0.94, relx = 0.9, relwidth = 0.1, relheight = 0.06)
-
-#button for submit ------> 
-
-button = tk.Button(frame, text="Submit", bg='#1f1f14',
-                   fg='white', command=login,activebackground = 'black', activeforeground= 'white')
-button.pack()
 
 #buttons for calender ----->
 
