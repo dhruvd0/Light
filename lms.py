@@ -12,7 +12,6 @@ import wget
 import numpy as np
 d = {}
 request_session = requests.Session()
-os.system("cls")
 
 
 def loginLms():
@@ -63,8 +62,7 @@ def loginLms():
     
     
 
-
-dashboardPage = loginLms()
+# dashboardPage=loginLms()
 
 
 def seeLastMessages():
@@ -79,8 +77,8 @@ def seeLastMessages():
         print(message.text)
 
 
-def fileSearch():  # returns a dictionary of file details
-    searchName = "Lab Assignment 1"  # input("File to search:")
+def fileSearch(searchName):  # returns a dictionary of file details
+    # input("File to search:")
     courseHeadings = dashboardPage.find_all("h4", {"class": "media-heading"})
     fileId = 0
     files = []  # dictionary of files returned
@@ -114,7 +112,7 @@ def fileSearch():  # returns a dictionary of file details
     else:
         for i in files:
             print(i, "\n")
-        id = 1#int(input("Select fle id:"))
+        id = 1  # int(input("Select fle id:"))
         for i in files:
 
             if(i["id"] == id):
@@ -157,9 +155,9 @@ def downloadFile(file):
             with open(path, 'wb') as t:
                 t.write(assignmentFileReq.content)
     else:
-        linkReq=request_session.get(file["url"],stream=True)
-        
-        print (linkReq.headers["content-type"])
+        linkReq = request_session.get(file["url"], stream=True)
+
+        print(linkReq.headers["content-type"])
 
 
-downloadFile(fileSearch())
+
