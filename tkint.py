@@ -10,6 +10,9 @@ def username (name):
 def password (pwd):
     print("The password entered is :", pwd)
 
+def main_input(say):
+    print(say)
+
 
 canvas = tk.Canvas(root, height = HEIGHT, width = WIDTH, bg = 'black')
 canvas.pack()
@@ -51,8 +54,8 @@ label_cal.pack()
 label_sugg = tk.Label(frame_sugg, text = "SUGGESTIONS", fg = 'black', font = 30 )
 label_sugg.pack()
 
-label_main = tk.Label(frame_display, text = "MAIN WINDOW", fg = 'black', font = 30 )
-label_main.pack()
+label_main = tk.Label(frame_display)
+label_main.place(relwidth = 1, relheight= 0.95 )
 
 #--------------------------------------------------------------------------------------
 
@@ -70,6 +73,12 @@ entry_pass.pack()
 
 button = tk.Button(frame , text="Submit", bg = '#1f1f14', fg = 'white' ,command =lambda : (username(entry_user.get()),password(entry_pass.get())))
 button.pack()
+
+entry_main = tk.Entry(frame_display, bg = 'white', fg='black' )
+entry_main.place(rely = 0.94, relwidth=0.9 , relheight = 0.06)
+
+button_main = tk.Button(frame_display,text = "-->", bg = 'black', fg = 'white', command = lambda : main_input(entry_main.get()))
+button_main.place(rely=0.94, relx = 0.9, relwidth = 0.1, relheight = 0.06)
 
 
 root.mainloop() 
