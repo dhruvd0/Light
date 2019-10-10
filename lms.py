@@ -9,35 +9,62 @@ import web
 from getpass import getpass
 from bs4 import BeautifulSoup
 import wget
-#import tkint
+import numpy as np
 d = {}
 request_session = requests.Session()
 
 
-request_session = requests.Session()
+def loginLms():
+    try:
+        read_d = np.load('my_file.npy').item()
+        os.path.getsize('my_file.npy')
 
-def loginLms(userId,userPass):
+        # form data to be submitted
+        
+        d = {"username": read_d['username'], "password": read_d['password']}
+        userName = ""
+
+        login = request_session.post(
+            "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=d)  # post request
+        # soup element which has all the html content
+        dashboardPage = BeautifulSoup(login.content, "html5lib")
+
+        try:
+            userName = dashboardPage.find("span", {"class": "usertext"}).text
+            notifs.loginSuccess(userName)  # windows toast notification
+            print("Hi ", userName)
+            return dashboardPage
+        except AttributeError:
+            print("Invalid Login Please try agin")
+            loginLms()
+    except os.error:
+        userId = input("enter user:")  # user id eg:e19cse001
+        userPass = getpass("enter pass:")
+        # form data to be submitted
+        d = {"username": userId, "password": userPass}
+        np.save('my_file.npy', d)
+        userName = ""
+
+        login = request_session.post(
+            "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=d)  # post request
+        # soup element which has all the html content
+        dashboardPage = BeautifulSoup(login.content, "html5lib")
+
+        try:
+            userName = dashboardPage.find("span", {"class": "usertext"}).text
+            notifs.loginSuccess(userName)  # windows toast notification
+            print("Hi ", userName)
+            return dashboardPage
+        except AttributeError:
+            print("Invalid Login Please try agin")
+            loginLms()
 
     
+    
 
-    # form data to be submitted
-    d = {"username": userId, "password": userPass}
-    userName = ""
+dashboardPage=loginLms("e19cse447","Aug@2019")
 
-    login = request_session.post(
-        "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=d)  # post request
-    # soup element which has all the html content
-    dashboardPage = BeautifulSoup(login.content, "html5lib")
 
-    try:
-        userName = dashboardPage.find("span", {"class": "usertext"}).text
-        notifs.loginSuccess(userName)  # windows toast notification
-        print("Hi ", userName)
-        return dashboardPage
-    except AttributeError:
-        print ("Invalid Login Please try agin")
-        
-dashboardPage=loginLms()
 def seeLastMessages():
     unreadCount = dashboardPage.find("label", {"class": "unreadnumber"}).text
     print("You have ", unreadCount, " messages:")
@@ -50,8 +77,8 @@ def seeLastMessages():
         print(message.text)
 
 
-def fileSearch():  # returns a dictionary of file details
-    searchName = "Lab Assignment 1"  # input("File to search:")
+def fileSearch(searchName):  # returns a dictionary of file details
+    # input("File to search:")
     courseHeadings = dashboardPage.find_all("h4", {"class": "media-heading"})
     fileId = 0
     files = []  # dictionary of files returned
@@ -85,7 +112,7 @@ def fileSearch():  # returns a dictionary of file details
     else:
         for i in files:
             print(i, "\n")
-        id = 1#int(input("Select fle id:"))
+        id = 1  # int(input("Select fle id:"))
         for i in files:
 
             if(i["id"] == id):
@@ -128,7 +155,25 @@ def downloadFile(file):
             with open(path, 'wb') as t:
                 t.write(assignmentFileReq.content)
     else:
-        linkReq=request_session.get(file["url"],stream=True)
-        
-        print (linkReq.headers["content-type"])
+        linkReq = request_session.get(file["url"], stream=True)
+
+        print(linkReq.headers["content-type"])
+
+
+def deadLines():
+    calLink=dashboardPage.find("a",{"title":"This month"}).attrs["href"]
+    calendarRequest=request_session.get(calLink)
+    calendarPage=BeautifulSoup(calendarRequest.content,"html5lib")
+    events=[]
+    calendarEvents=calendarPage.find_all("ul",{"class":"events-new"}) #ul element
+    for calendarEvent in calendarEvents:
+        eves=calendarEvent.find_all("li")
+        event={}
+        for i in eves:
+            event["name"]=eves.a.text
+            events.append(event)
+    return (events)
+    
+
+print (deadLines())
 

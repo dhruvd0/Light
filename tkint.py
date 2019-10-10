@@ -1,13 +1,22 @@
 import tkinter as tk
+import lms
 #import lms
-
-root = tk.Tk()
-
 HEIGHT = 1080
 WIDTH = 1920
+root = tk.Tk()
+
+def exitApp():
+    root.destroy()
+    
+
 
 def main_input(say):
     print(say)
+
+def changeLabel(l,newText):
+    l["text"]=newText
+    return (l)
+
 
 canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH, bg='black')
 canvas.pack()
@@ -53,7 +62,7 @@ label_sugg = tk.Label(frame_sugg, text = 'Suggestions: ', font = 20, bg = 'black
 label_sugg.place(relwidth = 0.14 , relheight = 0.3)
 
 label_main = tk.Label(frame_display)
-label_main.place(relwidth = 1, relheight= 0.95 )
+label_main.place(relwidth=1, relheight=0.95)
 
 #scrollbar for main window ------>
 
@@ -70,13 +79,14 @@ scroll1.place(relheight = 1, relx = 0.98)
 label1 = tk.Label(frame, text="WELCOME, USER", bg='black', fg='white', font=25)
 label1.pack()
 
+
 def login():
     #lms.loginLms(entry_user.get(), entry_pass.get())
     print ("in login")
 
 
-entry_main = tk.Entry(frame_display, bg = 'white', fg='black' )
-entry_main.place(rely = 0.94, relwidth=0.9 , relheight = 0.06)
+entry_main = tk.Entry(frame_display, bg='white', fg='black')
+entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
 #button for main display ---->
 
@@ -104,6 +114,7 @@ button_tt2.place(relx= 0.85, relheight=0.1, relwidth = 0.15)
 button_sugg1 = tk.Button(frame_sugg, text = 'Suggestion 1', bg = '#1f1f14', fg = 'white', activebackground = 'black', activeforeground= 'white')
 button_sugg1.place(relx= 0.05, rely=0.45,relheight= 0.4,relwidth=0.15)
 
+
 button_sugg2 = tk.Button(frame_sugg, text = 'Suggestion 2', bg = '#1f1f14', fg = 'white',activebackground = 'black', activeforeground= 'white')
 button_sugg2.place(relx= 0.25,rely=0.45,relheight= 0.4,relwidth=0.15)
 
@@ -112,6 +123,9 @@ button_sugg3.place(relx=0.45 ,rely=0.45,relheight= 0.4,relwidth=0.15)
 
 button_sugg4 = tk.Button(frame_sugg, text = 'Suggestion 4', bg = '#1f1f14', fg = 'white',activebackground = 'black', activeforeground= 'white')
 button_sugg4.place(relx=0.65, rely=0.45,relheight= 0.4,relwidth=0.15)
+
+button_exit=tk.Button(frame_sugg,text="EXIT",bg = '#1f1f14', fg = 'white',activebackground = 'black', activeforeground= 'white',command=exitApp)
+button_exit.place(relx=0.85, rely=0.25,relheight= 0.4,relwidth=0.08)
 
 while True:
     root.update()
