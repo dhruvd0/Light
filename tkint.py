@@ -54,7 +54,7 @@ label_sugg.pack()
 label_main = tk.Label(frame_display, text = "MAIN WINDOW", fg = 'black', font = 30 )
 label_main.pack()
 
-
+#--------------------------------------------------------------------------------------
 
 label1 = tk.Label(frame, text = "Username", bg = 'black', fg = 'white', font = 25)
 label1.pack() 
@@ -68,7 +68,7 @@ label2.pack()
 entry_pass = tk.Entry(frame, bg = '#1f1f14', fg = 'white')
 entry_pass.pack()
 
-button = tk.Button(frame , text="Submit", bg = '#1f1f14', fg = 'white' )
+button = tk.Button(frame , text="Submit", bg = '#1f1f14', fg = 'white' ,command =lambda : (username(entry_user.get()),password(entry_pass.get())))
 button.pack()
 
 
