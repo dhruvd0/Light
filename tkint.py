@@ -1,18 +1,22 @@
 import tkinter as tk
 import lms
 #import lms
-
+HEIGHT = 1080
+WIDTH = 1920
 root = tk.Tk()
 
 def exitApp():
-    root.quit()
+    root.destroy()
     
 
-HEIGHT = 1080
-WIDTH = 1920
 
 def main_input(say):
     print(say)
+
+def changeLabel(l,newText):
+    l["text"]=newText
+    return (l)
+
 
 canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH, bg='black')
 canvas.pack()
