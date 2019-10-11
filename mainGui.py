@@ -45,7 +45,7 @@ frame_sugg = tk.Frame(root, bg='black')
 frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)
 
 
-label_one = tk.Label(frame, text="WELCOME, USER",
+label1 = tk.Label(frame, text="WELCOME, USER",
                      bg='black', fg='white', font=25)
 label1.pack()
 
