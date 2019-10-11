@@ -1,5 +1,7 @@
 
 # Use this file to test and learn requests and Beautiful soup
+import lms
+import tkinter as tk1
 import os
 import notifs
 import webbrowser
@@ -10,56 +12,64 @@ from getpass import getpass
 from bs4 import BeautifulSoup
 import wget
 import numpy as np
+
 d = {}
 request_session = requests.Session()
 
 
-def loginLms(userId,userPass):
+side = tk1.Tk()
+
+userId = "id "
+userPass = " pass"
+
+
+def login():
+    global userId
+    global userPass
+    userId = entry_user.get()
+    userPass = entry_pass.get()
+    loginLms()
+    side.destroy()
+
+    print(userPass,userId)
+
+
+def autoLogin():
+    global userPass
+    global userId
     try:
+
         read_d = np.load('my_file.npy').item()
         os.path.getsize('my_file.npy')
+        userId = read_d["username"]
+        userPass = read_d["password"]
+        print ("try block")
+        loginLms()
 
-        # form data to be submitted
-        
-        d = {"username": read_d['username'], "password": read_d['password']}
-        userName = ""
-
-        login = request_session.post(
-            "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=d)  # post request
-        # soup element which has all the html content
-        dashboardPage = BeautifulSoup(login.content, "html5lib")
-
-        try:
-            userName = dashboardPage.find("span", {"class": "usertext"}).text
-            notifs.loginSuccess(userName)  # windows toast notification
-            print("Hi ", userName)
-            return dashboardPage
-        except AttributeError:
-            print("Invalid Login Please try agin")
-            
     except os.error:
+
+        side.mainloop()
         
-        # form data to be submitted
-        d = {"username": userId, "password": userPass}
-        np.save('my_file.npy', d)
-        userName = ""
 
-        login = request_session.post(
-            "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=d)  # post request
-        # soup element which has all the html content
-        dashboardPage = BeautifulSoup(login.content, "html5lib")
 
-        try:
-            userName = dashboardPage.find("span", {"class": "usertext"}).text
-            notifs.loginSuccess(userName)  # windows toast notification
-            print("Hi ", userName)
-            return dashboardPage
-        except AttributeError:
-            print("Invalid Login Please try agin")
-            
-
+def loginLms():
+    #global userId
+    #global userPass
+    d = {"username": userId, "password": userPass}
     
-#dashboardPage=loginLms("e19cse132","#31g48@1")
+    login = request_session.post(
+        "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=d)  # post request
+    # soup element which has all the html content
+    dashboardPage = BeautifulSoup(login.content, "html5lib")
+
+    try:
+        userName = dashboardPage.find("span", {"class": "usertext"}).text
+        notifs.loginSuccess(userName)  # windows toast notification
+        np.save("my_file.npy", {"username": userId, "password": userPass})
+        print("Hi ", userName)
+        return dashboardPage
+    except AttributeError:
+        print("Invalid Login Please try agin")
 
 
 def seeLastMessages():
@@ -158,19 +168,50 @@ def downloadFile(file):
 
 
 def deadLines():
-    calLink=dashboardPage.find("a",{"title":"This month"}).attrs["href"]
-    calendarRequest=request_session.get(calLink)
-    calendarPage=BeautifulSoup(calendarRequest.content,"html5lib")
-    events=[]
-    calendarEvents=calendarPage.find_all("ul",{"class":"events-new"}) #ul element
+    calLink = dashboardPage.find("a", {"title": "This month"}).attrs["href"]
+    calendarRequest = request_session.get(calLink)
+    calendarPage = BeautifulSoup(calendarRequest.content, "html5lib")
+    events = []
+    calendarEvents = calendarPage.find_all(
+        "ul", {"class": "events-new"})  # ul element
     for calendarEvent in calendarEvents:
-        eves=calendarEvent.find_all("li")
-        event={}
+        eves = calendarEvent.find_all("li")
+        event = {}
         for i in eves:
-            event["name"]=eves.a.text
+            event["name"] = eves.a.text
             events.append(event)
     return (events)
-    
+
 
 #print (deadLines())
 
+HEIGHT = 500
+WIDTH = 550
+
+canvas = tk1.Canvas(side, height=HEIGHT, width=WIDTH, bg='black')
+canvas.pack()
+
+frame = tk1.Frame(side, bg='black')
+frame.place(relwidth=1, relheight=1)
+
+label_logo = tk1.Label(frame, text="LIGHT", fg='white', font=1000, bg='black')
+label_logo.place(relx=0.4, relheight=0.2, relwidth=0.2)
+
+label1 = tk1.Label(frame, text="Username: ", bg='black', fg='white', font=25)
+label1.place(relx=0.15, rely=0.4)
+
+entry_user = tk1.Entry(frame, bg='#1f1f14', fg='white')
+entry_user.place(relx=0.4, rely=0.41, relheight=0.05, relwidth=0.5)
+
+label2 = tk1.Label(frame, text="Password: ", bg='black', fg='white', font=25)
+label2.place(relx=0.15, rely=0.5,)
+
+entry_pass = tk1.Entry(frame, bg='#1f1f14', fg='white')
+entry_pass.place(relx=0.4, rely=0.51, relheight=0.05, relwidth=0.5)
+
+button = tk1.Button(frame, text="Submit", bg='#1f1f14', fg='white',
+                    activebackground='black', activeforeground='white', command=login)
+button.place(relx=0.5, rely=0.61, relheight=0.05, relwidth=0.2)
+
+
+autoLogin()
