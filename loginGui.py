@@ -1,6 +1,16 @@
 import tkinter as tk1
+import lms
+import tkint
+
 
 side = tk1.Tk()
+
+def login():
+    
+    lms.loginLms(entry_user.get(), entry_pass.get())
+    side.destroy()
+    
+    print ("in login")
 
 HEIGHT = 500
 WIDTH = 550
@@ -26,7 +36,7 @@ label2.place(relx = 0.15, rely = 0.5,)
 entry_pass = tk1.Entry(frame, bg='#1f1f14', fg='white')
 entry_pass.place(relx=0.4, rely = 0.51, relheight = 0.05, relwidth = 0.5)
 
-button = tk1.Button(frame, text="Submit", bg='#1f1f14',fg='white',activebackground = 'black', activeforeground= 'white')
+button = tk1.Button(frame, text="Submit", bg='#1f1f14',fg='white',activebackground = 'black', activeforeground= 'white',command=login)
 button.place(relx = 0.5 , rely = 0.61, relheight= 0.05, relwidth = 0.2)
 
 side.mainloop()

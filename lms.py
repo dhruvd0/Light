@@ -14,7 +14,7 @@ d = {}
 request_session = requests.Session()
 
 
-def loginLms():
+def loginLms(userId,userPass):
     try:
         read_d = np.load('my_file.npy').item()
         os.path.getsize('my_file.npy')
@@ -36,10 +36,9 @@ def loginLms():
             return dashboardPage
         except AttributeError:
             print("Invalid Login Please try agin")
-            loginLms()
+            
     except os.error:
-        userId = input("enter user:")  # user id eg:e19cse001
-        userPass = getpass("enter pass:")
+        
         # form data to be submitted
         d = {"username": userId, "password": userPass}
         np.save('my_file.npy', d)
@@ -57,12 +56,10 @@ def loginLms():
             return dashboardPage
         except AttributeError:
             print("Invalid Login Please try agin")
-            loginLms()
+            
 
     
-    
-
-dashboardPage=loginLms("e19cse447","Aug@2019")
+#dashboardPage=loginLms("e19cse132","#31g48@1")
 
 
 def seeLastMessages():
@@ -175,5 +172,5 @@ def deadLines():
     return (events)
     
 
-print (deadLines())
+#print (deadLines())
 
