@@ -1,6 +1,6 @@
 
 # Use this file to test and learn requests and Beautiful soup
-import lms
+
 import tkinter as tk1
 import os
 import notifs
@@ -12,15 +12,18 @@ from getpass import getpass
 from bs4 import BeautifulSoup
 import wget
 import numpy as np
-
+import mainGui
 d = {}
 request_session = requests.Session()
+
 
 
 side = tk1.Tk()
 
 userId = "id "
 userPass = " pass"
+userName="user"
+dashboardPage="dash"
 
 
 def login():
@@ -28,10 +31,9 @@ def login():
     global userPass
     userId = entry_user.get()
     userPass = entry_pass.get()
-    loginLms()
     side.destroy()
-
-    print(userPass,userId)
+    loginLms()
+    
 
 
 def autoLogin():
@@ -53,10 +55,9 @@ def autoLogin():
 
 
 def loginLms():
-    #global userId
-    #global userPass
-    d = {"username": userId, "password": userPass}
     
+    d = {"username": userId, "password": userPass}
+    global dashboardPage
     login = request_session.post(
         "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=d)  # post request
     # soup element which has all the html content
@@ -65,9 +66,10 @@ def loginLms():
     try:
         userName = dashboardPage.find("span", {"class": "usertext"}).text
         notifs.loginSuccess(userName)  # windows toast notification
-        np.save("my_file.npy", {"username": userId, "password": userPass})
+        np.save("my_file.npy", d)
+        
         print("Hi ", userName)
-        return dashboardPage
+        
     except AttributeError:
         print("Invalid Login Please try agin")
 
@@ -215,3 +217,4 @@ button.place(relx=0.5, rely=0.61, relheight=0.05, relwidth=0.2)
 
 
 autoLogin()
+

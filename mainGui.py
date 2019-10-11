@@ -1,5 +1,5 @@
 import tkinter as tk
-import frames
+
 
 HEIGHT = 1080
 WIDTH = 1920
@@ -138,6 +138,3 @@ entry_main = tk.Entry(frame_display, bg='white', fg='black')
 entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
 
-while 1:
-
-    root.update()
