@@ -137,4 +137,4 @@ scroll1.place(relheight=1, relx=0.98)
 entry_main = tk.Entry(frame_display, bg='white', fg='black')
 entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
-
+root.mainloop()

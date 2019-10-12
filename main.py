@@ -10,8 +10,9 @@ import urllib
 import web
 from getpass import getpass
 from bs4 import BeautifulSoup
-import wget
+
 import numpy as np
+import win10toast
 #import mainGui
 
 # Globals
@@ -61,7 +62,7 @@ def loginLms():  # sends a request to website for login => pushes a toast notif 
 
     except AttributeError:
         print("Invalid Login Please try agin")
-        app.button.config(text="Invalid Login Please try agin")
+        app.button.config( height = 0, text="Invalid Login Please try agin")
         
         app.root.update()
         
@@ -214,18 +215,18 @@ class loginApp():
         
 
     def initEntry(self):
-        self.entry_user = tk1.Entry(self.frame, bg='#1f1f14', fg='white')
+        self.entry_user = tk1.Entry(self.frame, bg='#1f1f14', fg='white', bd = 0)
         self.entry_user.place(relx=0.4, rely=0.41,
                               relheight=0.05, relwidth=0.5)
         self.entry_pass = tk1.Entry(
-            self.frame, bg='#1f1f14', fg='white', show="*")
+            self.frame, bg='#1f1f14', fg='white', show="*", bd = 0)
         self.entry_pass.place(relx=0.4, rely=0.51,
                               relheight=0.05, relwidth=0.5)
 
     def initButtons(self):
 
         self.button = tk1.Button(self.frame, text="Submit", bg='#1f1f14', fg='white',
-                                 activebackground='black', activeforeground='white', command=self.login)
+                                 activebackground='black', activeforeground='white', command=self.login, bd = 0, highlightcolor = 'white')
         self.button.place(relx=0.5, rely=0.61, relheight=0.05, relwidth=0.2)
 
     def login(self):  # gets data from login gui and invokes loginLms()
