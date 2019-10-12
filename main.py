@@ -12,7 +12,7 @@ from getpass import getpass
 from bs4 import BeautifulSoup
 import wget
 import numpy as np
-#import mainGui
+import mainGui
 
 #Globals
 d = {}
@@ -206,7 +206,7 @@ entry_user.place(relx=0.4, rely=0.41, relheight=0.05, relwidth=0.5)
 label2 = tk1.Label(frame, text="Password: ", bg='black', fg='white', font=25)
 label2.place(relx=0.15, rely=0.5,)
 
-entry_pass = tk1.Entry(frame, bg='#1f1f14', fg='white')
+entry_pass = tk1.Entry(frame, bg='#1f1f14', fg='white',show="*")
 entry_pass.place(relx=0.4, rely=0.51, relheight=0.05, relwidth=0.5)
 
 button = tk1.Button(frame, text="Submit", bg='#1f1f14', fg='white',
