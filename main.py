@@ -12,29 +12,19 @@ from getpass import getpass
 from bs4 import BeautifulSoup
 import wget
 import numpy as np
-import mainGui
+#import mainGui
 
-#Globals
+# Globals
 d = {}
 request_session = requests.Session()
-side = tk1.Tk()
+
 userId = "id "
 userPass = " pass"
-userName="user"
-dashboardPage="dash"
+userName = "user"
+dashboardPage = "dash"
 
 
-def login(): #gets data from login gui and invokes loginLms()
-    global userId
-    global userPass
-    userId = entry_user.get()
-    userPass = entry_pass.get()
-    side.destroy()
-    loginLms()
-    
-
-
-def autoLogin(): #checks if file has login data and launches gui if file is empty
+def autoLogin():  # checks if file has login data and launches gui if file is empty
     global userPass
     global userId
     try:
@@ -43,17 +33,16 @@ def autoLogin(): #checks if file has login data and launches gui if file is empt
         os.path.getsize('my_file.npy')
         userId = read_d["username"]
         userPass = read_d["password"]
-        print ("try block")
+        print("try block")
         loginLms()
 
     except os.error:
 
-        side.mainloop()
-        
+        app.runApp()
 
 
-def loginLms():#sends a request to website for login => pushes a toast notif if successfull
-    
+def loginLms():  # sends a request to website for login => pushes a toast notif if successfull
+
     d = {"username": userId, "password": userPass}
     global dashboardPage
     login = request_session.post(
@@ -63,13 +52,19 @@ def loginLms():#sends a request to website for login => pushes a toast notif if 
 
     try:
         userName = dashboardPage.find("span", {"class": "usertext"}).text
+        app.exit()
         notifs.loginSuccess(userName)  # windows toast notification
-        np.save("my_file.npy", d)
-        mainGui.root.mainloop()
-        print("Hi ", userName)
         
+        np.save("my_file.npy", d)
+        #mainGui.root.mainloop()
+        print("Hi ", userName)
+
     except AttributeError:
         print("Invalid Login Please try agin")
+        app.button.config(text="Invalid Login Please try agin")
+        
+        app.root.update()
+        
 
 
 def seeLastMessages():
@@ -184,35 +179,67 @@ def deadLines():
 
 
 #print (deadLines())
+class loginApp():
+    def __init__(self):
+        self.root = tk1.Tk()
+        self.height = 500
+        self.width = 550
+        self.canvas = tk1.Canvas(
+            self.root, height=self.height, width=self.width, bg='black')
+        self.canvas.pack()
 
-HEIGHT = 500
-WIDTH = 550
+    def runApp(self):
+        self.initFrames()
+        self.initButtons()
+        self.initLabels()
+        self.initEntry()
+        self.root.mainloop()
 
-canvas = tk1.Canvas(side, height=HEIGHT, width=WIDTH, bg='black')
-canvas.pack()
+    def initFrames(self):
+        self.frame = tk1.Frame(self.root, bg='black')
+        self.frame.place(relwidth=1, relheight=1)
 
-frame = tk1.Frame(side, bg='black')
-frame.place(relwidth=1, relheight=1)
+    def initLabels(self):
+        self.label_logo = tk1.Label(
+            self.frame, text="LIGHT", fg='white', font=1000, bg='black')
+        self.label_logo.place(relx=0.4, relheight=0.2, relwidth=0.2)
+        self.label2 = tk1.Label(
+            self.frame, text="Password: ", bg='black', fg='white', font=25)
+        self.label2.place(relx=0.15, rely=0.5,)
 
-label_logo = tk1.Label(frame, text="LIGHT", fg='white', font=1000, bg='black')
-label_logo.place(relx=0.4, relheight=0.2, relwidth=0.2)
+        self.label1 = tk1.Label(
+            self.frame, text="Username: ", bg='black', fg='white', font=25)
+        self.label1.place(relx=0.15, rely=0.4)
 
-label1 = tk1.Label(frame, text="Username: ", bg='black', fg='white', font=25)
-label1.place(relx=0.15, rely=0.4)
+        
 
-entry_user = tk1.Entry(frame, bg='#1f1f14', fg='white')
-entry_user.place(relx=0.4, rely=0.41, relheight=0.05, relwidth=0.5)
+    def initEntry(self):
+        self.entry_user = tk1.Entry(self.frame, bg='#1f1f14', fg='white')
+        self.entry_user.place(relx=0.4, rely=0.41,
+                              relheight=0.05, relwidth=0.5)
+        self.entry_pass = tk1.Entry(
+            self.frame, bg='#1f1f14', fg='white', show="*")
+        self.entry_pass.place(relx=0.4, rely=0.51,
+                              relheight=0.05, relwidth=0.5)
 
-label2 = tk1.Label(frame, text="Password: ", bg='black', fg='white', font=25)
-label2.place(relx=0.15, rely=0.5,)
+    def initButtons(self):
 
-entry_pass = tk1.Entry(frame, bg='#1f1f14', fg='white',show="*")
-entry_pass.place(relx=0.4, rely=0.51, relheight=0.05, relwidth=0.5)
+        self.button = tk1.Button(self.frame, text="Submit", bg='#1f1f14', fg='white',
+                                 activebackground='black', activeforeground='white', command=self.login)
+        self.button.place(relx=0.5, rely=0.61, relheight=0.05, relwidth=0.2)
 
-button = tk1.Button(frame, text="Submit", bg='#1f1f14', fg='white',
-                    activebackground='black', activeforeground='white', command=login)
-button.place(relx=0.5, rely=0.61, relheight=0.05, relwidth=0.2)
+    def login(self):  # gets data from login gui and invokes loginLms()
+        global userId
+        global userPass
+        userId = self.entry_user.get()
+        userPass = self.entry_pass.get()
+        
+        loginLms()
+
+    def exit(self):
+        self.root.destroy()
 
 
-autoLogin()
+app = loginApp()
+app.runApp()
 
