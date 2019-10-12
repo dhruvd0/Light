@@ -12,21 +12,19 @@ from getpass import getpass
 from bs4 import BeautifulSoup
 import wget
 import numpy as np
-import mainGui
+#import mainGui
+
+#Globals
 d = {}
 request_session = requests.Session()
-
-
-
 side = tk1.Tk()
-
 userId = "id "
 userPass = " pass"
 userName="user"
 dashboardPage="dash"
 
 
-def login():
+def login(): #gets data from login gui and invokes loginLms()
     global userId
     global userPass
     userId = entry_user.get()
@@ -36,7 +34,7 @@ def login():
     
 
 
-def autoLogin():
+def autoLogin(): #checks if file has login data and launches gui if file is empty
     global userPass
     global userId
     try:
@@ -54,7 +52,7 @@ def autoLogin():
         
 
 
-def loginLms():
+def loginLms():#sends a request to website for login => pushes a toast notif if successfull
     
     d = {"username": userId, "password": userPass}
     global dashboardPage
@@ -67,7 +65,7 @@ def loginLms():
         userName = dashboardPage.find("span", {"class": "usertext"}).text
         notifs.loginSuccess(userName)  # windows toast notification
         np.save("my_file.npy", d)
-        
+        mainGui.root.mainloop()
         print("Hi ", userName)
         
     except AttributeError:
