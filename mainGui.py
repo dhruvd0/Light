@@ -1,4 +1,5 @@
 import tkinter as tk
+import web
 def getResponse(userIn):  # function that decides the appropriate response also our main
 
     subs = userIn.split()  # words
@@ -24,11 +25,11 @@ class mainApp():
         self.canvas = tk.Canvas(self.root, height=self.HEIGHT, width=self.WIDTH, bg='black')
         self.canvas.pack()
 
-    def main_input(self,say):
-        print(say)
+    
 
-    def getResponse(self):
-        return getResponse(self.main_input.get())
+    def getInput(self):
+        self.root.update()
+        getResponse(self.entry_main.get())
     #def changeLabel(l, newText):
         #l["text"] = newText
         #return (l)
@@ -93,7 +94,7 @@ class mainApp():
         # button for main display ---->
 
         self.button_main = tk.Button(self.frame_display, text="-->", bg='black', fg='white', activebackground='black',
-                        activeforeground='white')
+                        activeforeground='white',command=self.getInput)
         self.button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         # buttons for calender ----->
