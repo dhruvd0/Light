@@ -1,4 +1,19 @@
 import tkinter as tk
+def getResponse(userIn):  # function that decides the appropriate response also our main
+
+    subs = userIn.split()  # words
+    if "weather" in subs:
+        print ("gets weather")
+        pass
+    elif "date" in subs or "time" in subs:
+        #return main.getDatetime()
+        print ("gets time")
+    elif "open" in subs or "search" in subs:
+        for i in subs:
+            if (i not in ["open", "search"]):
+                web.openWeb(i)
+                return "Opening "+i
+    
 
 class mainApp():
     
@@ -12,7 +27,8 @@ class mainApp():
     def main_input(self,say):
         print(say)
 
-
+    def getResponse(self):
+        return getResponse(self.main_input.get())
     #def changeLabel(l, newText):
         #l["text"] = newText
         #return (l)
