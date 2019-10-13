@@ -1,7 +1,15 @@
 import tkinter as tk
 
 class mainApp():
-    def main_input(say):
+    
+    def __init__(self):
+        self.root = tk.Tk()
+        self.HEIGHT = 1080
+        self.WIDTH = 1920
+        self.canvas = tk.Canvas(self.root, height=self.HEIGHT, width=self.WIDTH, bg='black')
+        self.canvas.pack()
+
+    def main_input(self,say):
         print(say)
 
 
@@ -12,13 +20,7 @@ class mainApp():
     def exitApp(self):
         self.root.destroy()
     
-    def __init__(self):
-        self.root = tk.Tk()
-        self.HEIGHT = 1080
-        self.WIDTH = 1920
-        self.canvas = tk.Canvas(self.root, height=self.HEIGHT, width=self.WIDTH, bg='black')
-        self.canvas.pack()
-
+    
     def runMain(self):
         self.mainFrames()
         self.mainButton()
@@ -71,14 +73,6 @@ class mainApp():
         self.label_main = tk.Label(self.frame_display)
         self.label_main.place(relwidth=1, relheight=0.95)
 
-
-# label for after info
-# def info ():
-# label_info = tk.Label(root, text = "Welcome", fg = 'white', font = 25)
-# label_info.place(relx=0.9, relheight = 0.3, relwidth = 0.3)
-
-# --------------------------------------------------------------------------------------
-
     def mainButton(self):
         # button for main display ---->
 
@@ -124,7 +118,7 @@ class mainApp():
         self.button_sugg4.place(relx=0.65, rely=0.45, relheight=0.4, relwidth=0.15)
 
         self.button_exit = tk.Button(self.frame_sugg, text="EXIT", bg='#1f1f14', fg='white',
-                        activebackground='black', activeforeground='white', bd = 0)
+                        activebackground='black', activeforeground='white', bd = 0,command=self.exitApp)
         self.button_exit.place(relx=0.85, rely=0.45, relheight=0.4, relwidth=0.08)
 
 
@@ -134,12 +128,11 @@ class mainApp():
         self.scroll1.place(relheight=1, relx=0.98)
 
     def mainEntry(self):
-        self.entry_main = tk.Entry(self.frame_display, bg='white', fg='black'))
+        self.entry_main = tk.Entry(self.frame_display, bg='white', fg='black')
         self.entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
-    #def exitApp(self):
-        #self.root.destroy()
-
+    
+        
 
 main = mainApp()
 main.runMain()
