@@ -21,12 +21,14 @@ class mainApp():
 
     def runMain(self):
         self.mainFrames()
+        self.exitApp()
         self.mainButton()
         self.mainEntry()
         self.mainLabels()
         self.mainScroll()
-        self.root.mainloop()    
-
+        self.root.mainloop()
+        
+        
     def mainFrames(self):
         self.frame = tk.Frame(self.root, bg='black')
         self.frame.place(relx=0.7, relwidth=0.3, relheight=0.20)
@@ -124,7 +126,7 @@ class mainApp():
         self.button_sugg4.place(relx=0.65, rely=0.45, relheight=0.4, relwidth=0.15)
 
         self.button_exit = tk.Button(self.frame_sugg, text="EXIT", bg='#1f1f14', fg='white',
-                        activebackground='black', activeforeground='white', bd = 0)
+                        activebackground='black', activeforeground='white', bd = 0, command = exitApp)
         self.button_exit.place(relx=0.85, rely=0.45, relheight=0.4, relwidth=0.08)
 
 
@@ -134,7 +136,7 @@ class mainApp():
         self.scroll1.place(relheight=1, relx=0.98)
 
     def mainEntry(self):
-        self.entry_main = tk.Entry(self.frame_display, bg='white', fg='black'))
+        self.entry_main = tk.Entry(self.frame_display, bg='white', fg='black')
         self.entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
     #def exitApp(self):
