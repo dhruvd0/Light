@@ -1,5 +1,6 @@
 import tkinter as tk
 import web
+from main import *
 def getResponse(userIn):  # function that decides the appropriate response also our main
 
     subs = userIn.split()  # words
@@ -9,12 +10,15 @@ def getResponse(userIn):  # function that decides the appropriate response also 
     elif "date" in subs or "time" in subs:
         #return main.getDatetime()
         print ("gets time")
-    elif "open" in subs or "search" in subs:
+    elif "open" in subs:
         for i in subs:
             if (i not in ["open", "search"]):
                 web.openWeb(i)
                 return "Opening "+i
-    
+    elif "search" in subs:
+        for i in subs:
+            if (i!="search"):
+                downloadFile(fileSearch(userIn))
 
 class mainApp():
     
@@ -54,13 +58,13 @@ class mainApp():
         self.frame_display.place(relx=0.24, rely=0.2, relwidth=0.5, relheight=0.6)
 
         self.frame_dline = tk.Frame(self.root, bg='white')
-        self.frame_dline.place(relx=0.8, rely=0.2, relwidth=0.3, relheight=0.299)
+        self.frame_dline.place(relx=0.78, rely=0.2, relwidth=0.2, relheight=0.299)
 
         self.frame_cal = tk.Frame(self.root, bg='white')
-        self.frame_cal.place(relx=0.8, rely=0.5, relwidth=0.3, relheight=0.3)
+        self.frame_cal.place(relx=0.78, rely=0.5, relwidth=0.2, relheight=0.3)
 
         self.frame_tt = tk.Frame(self.root, bg='white')
-        self.frame_tt.place(rely=0.2, relwidth=0.2, relheight=0.6)
+        self.frame_tt.place(relx=0.01,rely=0.2, relwidth=0.2, relheight=0.6)
 
         self.frame_image = tk.Frame(self.root, bg='white')
         self.frame_image.place(relx=0.37, rely=0.01, relwidth=0.2, relheight=0.1)
