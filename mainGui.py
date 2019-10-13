@@ -1,73 +1,75 @@
 import tkinter as tk
 
-
-HEIGHT = 1080
-WIDTH = 1920
-root = tk.Tk()
-
-
-canvas = tk.Canvas(root, height=HEIGHT, width=WIDTH, bg='black')
-canvas.pack()
+class mainApp():
+    def main_input(say):
+        print(say)
 
 
-def exitApp():
-    root.destroy()
+    #def changeLabel(l, newText):
+        #l["text"] = newText
+        #return (l)
 
+    def exitApp(self):
+        self.root.destroy()
+    
+    def __init__(self):
+        self.root = tk.Tk()
+        self.HEIGHT = 1080
+        self.WIDTH = 1920
+        self.canvas = tk.Canvas(self.root, height=self.HEIGHT, width=self.WIDTH, bg='black')
+        self.canvas.pack()
 
-def main_input(say):
-    print(say)
+    def runMain(self):
+        self.mainFrames()
+        self.mainButton()
+        self.mainEntry()
+        self.mainLabels()
+        self.mainScroll()
+        self.root.mainloop()    
 
+    def mainFrames(self):
+        self.frame = tk.Frame(self.root, bg='black')
+        self.frame.place(relx=0.7, relwidth=0.3, relheight=0.20)
 
-def changeLabel(l, newText):
-    l["text"] = newText
-    return (l)
+        self.frame_display = tk.Frame(self.root, bg='white')
+        self.frame_display.place(relx=0.24, rely=0.2, relwidth=0.5, relheight=0.6)
 
+        self.frame_dline = tk.Frame(self.root, bg='white')
+        self.frame_dline.place(relx=0.8, rely=0.2, relwidth=0.3, relheight=0.299)
 
-frame = tk.Frame(root, bg='black')
-frame.place(relx=0.7, relwidth=0.3, relheight=0.20)
+        self.frame_cal = tk.Frame(self.root, bg='white')
+        self.frame_cal.place(relx=0.8, rely=0.5, relwidth=0.3, relheight=0.3)
 
-frame_display = tk.Frame(root, bg='white')
-frame_display.place(relx=0.24, rely=0.2, relwidth=0.5, relheight=0.6)
+        self.frame_tt = tk.Frame(self.root, bg='white')
+        self.frame_tt.place(rely=0.2, relwidth=0.2, relheight=0.6)
 
-frame_dline = tk.Frame(root, bg='white')
-frame_dline.place(relx=0.8, rely=0.2, relwidth=0.3, relheight=0.299)
+        self.frame_image = tk.Frame(self.root, bg='white')
+        self.frame_image.place(relx=0.37, rely=0.01, relwidth=0.2, relheight=0.1)
 
-frame_cal = tk.Frame(root, bg='white')
-frame_cal.place(relx=0.8, rely=0.5, relwidth=0.3, relheight=0.3)
+        self.frame_sugg = tk.Frame(self.root, bg='black')
+        self.frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)
 
-frame_tt = tk.Frame(root, bg='white')
-frame_tt.place(rely=0.2, relwidth=0.2, relheight=0.6)
+    def mainLabels(self):
+        self.label1 = tk.Label(self.frame, text="WELCOME, USER",bg='black', fg='white', font=25)
+        self.label1.pack()
+        #  labels for calender --------->
+        self.label_tt1 = tk.Label(self.frame_tt, text="Time table", font=20)
+        self.label_tt1.place(rely=0.1, relheight=1, relwidth=1)
 
-frame_image = tk.Frame(root, bg='white')
-frame_image.place(relx=0.37, rely=0.01, relwidth=0.2, relheight=0.1)
+        self.label_dline = tk.Label(self.frame_dline, text="DEADLINES", fg='black', font=30)
+        self.label_dline.place(relheight=1, relwidth=1)
 
-frame_sugg = tk.Frame(root, bg='black')
-frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)
+        self.label_cal1 = tk.Label(self.frame_cal, text="CALENDER", font=15)
+        self.label_cal1.place(relx=0.08, relheight=0.1, relwidth=0.5)
 
+        self.label_cal2 = tk.Label(self.frame_cal)
+        self.label_cal2.place(rely=0.1, relheight=0.9, relwidth=1)
 
-label1 = tk.Label(frame, text="WELCOME, USER",
-                     bg='black', fg='white', font=25)
-label1.pack()
+        self.label_sugg = tk.Label(self.frame_sugg, text='Suggestions: ',font=20, bg='black', fg='white')
+        self.label_sugg.place(relwidth=0.14, relheight=0.3)
 
-# labels for calender --------->
-label_tt1 = tk.Label(frame_tt, text="Time table", font=20)
-label_tt1.place(rely=0.1, relheight=1, relwidth=1)
-
-label_dline = tk.Label(frame_dline, text="DEADLINES", fg='black', font=30)
-label_dline.place(relheight=1, relwidth=1)
-
-label_cal1 = tk.Label(frame_cal, text="CALENDER", font=15)
-label_cal1.place(relx=0.08, relheight=0.1, relwidth=0.5)
-
-label_cal2 = tk.Label(frame_cal)
-label_cal2.place(rely=0.1, relheight=0.9, relwidth=1)
-
-label_sugg = tk.Label(frame_sugg, text='Suggestions: ',
-                      font=20, bg='black', fg='white')
-label_sugg.place(relwidth=0.14, relheight=0.3)
-
-label_main = tk.Label(frame_display)
-label_main.place(relwidth=1, relheight=0.95)
+        self.label_main = tk.Label(self.frame_display)
+        self.label_main.place(relwidth=1, relheight=0.95)
 
 
 # label for after info
@@ -77,64 +79,67 @@ label_main.place(relwidth=1, relheight=0.95)
 
 # --------------------------------------------------------------------------------------
 
+    def mainButton(self):
+        # button for main display ---->
 
-# button for main display ---->
+        self.button_main = tk.Button(self.frame_display, text="-->", bg='black', fg='white', activebackground='black',
+                        activeforeground='white')
+        self.button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
-button_main = tk.Button(frame_display, text="-->", bg='black', fg='white', activebackground='black',
-                        activeforeground='white', command=lambda: main_input(entry_main.get()))
-button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
+        # buttons for calender ----->
+        self.button_cal1 = tk.Button(self.frame_cal, text="<--", bg='#1f1f14',fg='white', activebackground='black', activeforeground='white')
+        self.button_cal1.place(relx=0.0001, relheight=0.1, relwidth=0.1)
 
-# buttons for calender ----->
-
-button_cal1 = tk.Button(frame_cal, text="<--", bg='#1f1f14',
+        self.button_cal1 = tk.Button(self.frame_cal, text="-->", bg='#1f1f14',
                         fg='white', activebackground='black', activeforeground='white')
-button_cal1.place(relx=0.0001, relheight=0.1, relwidth=0.1)
+        self.button_cal1.place(relx=0.55, relheight=0.1, relwidth=0.1)
 
-button_cal1 = tk.Button(frame_cal, text="-->", bg='#1f1f14',
-                        fg='white', activebackground='black', activeforeground='white')
-button_cal1.place(relx=0.55, relheight=0.1, relwidth=0.1)
+        # buttons for time table ------->
 
-# buttons for time table ------->
-
-button_tt1 = tk.Button(frame_tt, text='<--', bg='#1f1f14', fg='white',
+        self.button_tt1 = tk.Button(self.frame_tt, text='<-- ', bg='#1f1f14', fg='white',
                        activebackground='black', activeforeground='white')
-button_tt1.place(relheight=0.1, relwidth=0.15)
+        self.button_tt1.place(relheight=0.1, relwidth=0.15)
 
-button_tt2 = tk.Button(frame_tt, text='-->', bg='#1f1f14', fg='white',
+        self.button_tt2 = tk.Button(self.frame_tt, text='  -->', bg='#1f1f14', fg='white',
                        activebackground='black', activeforeground='white')
-button_tt2.place(relx=0.85, relheight=0.1, relwidth=0.15)
+        self.button_tt2.place(relx=0.85, relheight=0.1, relwidth=0.15)
 
-# suggestion buttons ------>
+        # suggestion buttons ------>
 
-button_sugg1 = tk.Button(frame_sugg, text='Suggestion 1', bg='#1f1f14',
-                         fg='white', activebackground='black', activeforeground='white')
-button_sugg1.place(relx=0.05, rely=0.45, relheight=0.4, relwidth=0.15)
-
-
-button_sugg2 = tk.Button(frame_sugg, text='Suggestion 2', bg='#1f1f14',
-                         fg='white', activebackground='black', activeforeground='white')
-button_sugg2.place(relx=0.25, rely=0.45, relheight=0.4, relwidth=0.15)
-
-button_sugg3 = tk.Button(frame_sugg, text='Suggestion 3', bg='#1f1f14',
-                         fg='white', activebackground='black', activeforeground='white')
-button_sugg3.place(relx=0.45, rely=0.45, relheight=0.4, relwidth=0.15)
-
-button_sugg4 = tk.Button(frame_sugg, text='Suggestion 4', bg='#1f1f14',
-                         fg='white', activebackground='black', activeforeground='white')
-button_sugg4.place(relx=0.65, rely=0.45, relheight=0.4, relwidth=0.15)
-
-button_exit = tk.Button(frame_sugg, text="EXIT", bg='#1f1f14', fg='white',
-                        activebackground='black', activeforeground='white', command=exitApp)
-button_exit.place(relx=0.85, rely=0.25, relheight=0.4, relwidth=0.08)
+        self.button_sugg1 = tk.Button(self.frame_sugg, text='Suggestion 1', bg='#1f1f14',
+                         fg='white', activebackground='black', activeforeground='white', bd = 0)
+        self.button_sugg1.place(relx=0.05, rely=0.45, relheight=0.4, relwidth=0.15)
 
 
-# scrollbar for main window ------>
+        self.button_sugg2 = tk.Button(self.frame_sugg, text='Suggestion 2', bg='#1f1f14',
+                         fg='white', activebackground='black', activeforeground='white', bd = 0)
+        self.button_sugg2.place(relx=0.25, rely=0.45, relheight=0.4, relwidth=0.15)
 
-scroll1 = tk.Scrollbar(label_main, bg='blue')
-scroll1.place(relheight=1, relx=0.98)
+        self.button_sugg3 = tk.Button(self.frame_sugg, text='Suggestion 3', bg='#1f1f14',
+                         fg='white', activebackground='black', activeforeground='white', bd = 0)
+        self.button_sugg3.place(relx=0.45, rely=0.45, relheight=0.4, relwidth=0.15)
+
+        self.button_sugg4 = tk.Button(self.frame_sugg, text='Suggestion 4', bg='#1f1f14',
+                         fg='white', activebackground='black', activeforeground='white', bd = 0)
+        self.button_sugg4.place(relx=0.65, rely=0.45, relheight=0.4, relwidth=0.15)
+
+        self.button_exit = tk.Button(self.frame_sugg, text="EXIT", bg='#1f1f14', fg='white',
+                        activebackground='black', activeforeground='white', bd = 0)
+        self.button_exit.place(relx=0.85, rely=0.45, relheight=0.4, relwidth=0.08)
 
 
-entry_main = tk.Entry(frame_display, bg='white', fg='black')
-entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
+        # scrollbar for main window ------>
+    def mainScroll(self):
+        self.scroll1 = tk.Scrollbar(self.label_main, bg='blue')
+        self.scroll1.place(relheight=1, relx=0.98)
 
-root.mainloop()
+    def mainEntry(self):
+        self.entry_main = tk.Entry(self.frame_display, bg='white', fg='black'))
+        self.entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
+
+    #def exitApp(self):
+        #self.root.destroy()
+
+
+main = mainApp()
+main.runMain()
