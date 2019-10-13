@@ -62,7 +62,7 @@ def loginLms():  # sends a request to website for login => pushes a toast notif 
 
     except AttributeError:
         print("Invalid Login Please try agin")
-        app.button.config( height = 0, text="Invalid Login Please try agin")
+        app.button1.config( height = 0, text="Invalid Login Please try agin")
         
         app.root.update()
         
@@ -186,7 +186,7 @@ class loginApp():
         self.height = 500
         self.width = 550
         self.canvas = tk1.Canvas(
-            self.root, height=self.height, width=self.width, bg='black')
+            self.root, height=self.height, width=self.width, bg='#424040')
         self.canvas.pack()
 
     def runApp(self):
@@ -196,38 +196,45 @@ class loginApp():
         self.initEntry()
         self.root.mainloop()
 
+    def initImage(self):
+        self.button_loginimage = tk1.PhotoImage(file = 'button_login.png')
+        self.button_cancelimage = tk1.PhotoImage(file = 'button_cancel.png')
+
     def initFrames(self):
-        self.frame = tk1.Frame(self.root, bg='black')
+        self.frame = tk1.Frame(self.root, bg='#0a0a0a')
         self.frame.place(relwidth=1, relheight=1)
 
     def initLabels(self):
         self.label_logo = tk1.Label(
-            self.frame, text="LIGHT", fg='white', font=1000, bg='black')
+            self.frame, text="LIGHT", fg='white', font=1000, bg='#0a0a0a')
         self.label_logo.place(relx=0.4, relheight=0.2, relwidth=0.2)
         self.label2 = tk1.Label(
-            self.frame, text="Password: ", bg='black', fg='white', font=25)
+            self.frame, text="Password: ", bg='#0a0a0a', fg='white', font=23)
         self.label2.place(relx=0.15, rely=0.5,)
 
         self.label1 = tk1.Label(
-            self.frame, text="Username: ", bg='black', fg='white', font=25)
+            self.frame, text="Username: ", bg='#0a0a0a', fg='white', font=23)
         self.label1.place(relx=0.15, rely=0.4)
 
         
 
     def initEntry(self):
-        self.entry_user = tk1.Entry(self.frame, bg='#1f1f14', fg='white', bd = 0)
+        self.entry_user = tk1.Entry(self.frame, bg='#2d2a2e', fg='white', bd = 1)
         self.entry_user.place(relx=0.4, rely=0.41,
                               relheight=0.05, relwidth=0.5)
         self.entry_pass = tk1.Entry(
-            self.frame, bg='#1f1f14', fg='white', show="*", bd = 0)
+            self.frame, bg='#2d2a2e', fg='white', show="*", bd = 1)
         self.entry_pass.place(relx=0.4, rely=0.51,
                               relheight=0.05, relwidth=0.5)
 
     def initButtons(self):
-
-        self.button = tk1.Button(self.frame, text="Submit", bg='#1f1f14', fg='white',
-                                 activebackground='black', activeforeground='white', command=self.login, bd = 0, highlightcolor = 'white')
-        self.button.place(relx=0.5, rely=0.61, relheight=0.05, relwidth=0.2)
+        self.button_loginimage = tk1.PhotoImage(file = 'button_login.png')
+        self.button1 = tk1.Button(self.frame, text="Submit", bg='#0a0a0a', fg='white',
+                                 activebackground='black', activeforeground='white', command=self.login, bd = 0, image =self.button_loginimage )
+        self.button1.place(relx=0.15, rely=0.65, relheight=0.05, relwidth=0.32)
+        self.button_cancelimage = tk1.PhotoImage(file = 'button_cancel.png')
+        self.button2 = tk1.Button(self.frame, image = self.button_cancelimage, bg = '#0a0a0a', bd=0 )
+        self.button2.place(relx = 0.55, rely = 0.65, relheight =0.05, relwidth = 0.32)
 
     def login(self):  # gets data from login gui and invokes loginLms()
         global userId

@@ -40,12 +40,14 @@ class mainApp():
     
     def runMain(self):
         self.mainFrames()
+        self.exitApp()
         self.mainButton()
         self.mainEntry()
         self.mainLabels()
         self.mainScroll()
-        self.root.mainloop()    
-
+        self.root.mainloop()
+        
+        
     def mainFrames(self):
         self.frame = tk.Frame(self.root, bg='black')
         self.frame.place(relx=0.7, relwidth=0.3, relheight=0.20)
