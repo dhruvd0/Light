@@ -40,7 +40,7 @@ class mainApp():
     
     def runMain(self):
         self.mainFrames()
-        self.exitApp()
+        
         self.mainButton()
         self.mainEntry()
         self.mainLabels()
@@ -118,7 +118,7 @@ class mainApp():
         self.button_tt2.place(relx=0.85, relheight=0.1, relwidth=0.15)
 
         # suggestion buttons ------>
-
+        
         self.button_sugg1 = tk.Button(self.frame_sugg, text='Suggestion 1', bg='#1f1f14',
                          fg='white', activebackground='black', activeforeground='white', bd = 0)
         self.button_sugg1.place(relx=0.05, rely=0.45, relheight=0.4, relwidth=0.15)
@@ -127,13 +127,13 @@ class mainApp():
         self.button_sugg2 = tk.Button(self.frame_sugg, text='Suggestion 2', bg='#1f1f14',
                          fg='white', activebackground='black', activeforeground='white', bd = 0)
         self.button_sugg2.place(relx=0.25, rely=0.45, relheight=0.4, relwidth=0.15)
-
-        self.button_sugg3 = tk.Button(self.frame_sugg, text='Suggestion 3', bg='#1f1f14',
-                         fg='white', activebackground='black', activeforeground='white', bd = 0)
+        self.button_faculty_cont=tk.PhotoImage(file='button_faculty-contacts.png')
+        self.button_sugg3 = tk.Button(self.frame_sugg, text='Suggestion 3', bg='black',
+                         fg='white', activebackground='black', activeforeground='white', bd = 0,image=self.button_faculty_cont)
         self.button_sugg3.place(relx=0.45, rely=0.45, relheight=0.4, relwidth=0.15)
-
-        self.button_sugg4 = tk.Button(self.frame_sugg, text='Suggestion 4', bg='#1f1f14',
-                         fg='white', activebackground='black', activeforeground='white', bd = 0)
+        self.button_messages= tk.PhotoImage(file='button_show-messages.png')
+        self.button_sugg4 = tk.Button(self.frame_sugg, text='Suggestion 4', bg='black',
+                         fg='white', activebackground='black', activeforeground='white', bd = 0,image=self.button_messages)
         self.button_sugg4.place(relx=0.65, rely=0.45, relheight=0.4, relwidth=0.15)
 
         self.button_exit = tk.Button(self.frame_sugg, text="EXIT", bg='#1f1f14', fg='white',
