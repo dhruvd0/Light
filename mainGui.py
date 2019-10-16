@@ -40,7 +40,7 @@ class mainApp():
     
     def runMain(self):
         self.mainFrames()
-        self.exitApp()
+
         self.mainButton()
         self.mainEntry()
         self.mainLabels()
@@ -86,7 +86,7 @@ class mainApp():
         self.label_cal2 = tk.Label(self.frame_cal)
         self.label_cal2.place(rely=0.1, relheight=0.9, relwidth=1)
 
-        self.label_sugg = tk.Label(self.frame_sugg, text='Suggestions: ',font=20, bg='black', fg='white')
+        self.label_sugg = tk.Label(self.frame_sugg, text='Shortcuts: ',font=24, bg='black', fg='white')
         self.label_sugg.place(relwidth=0.14, relheight=0.3)
 
         self.label_main = tk.Label(self.frame_display)
@@ -118,15 +118,15 @@ class mainApp():
         self.button_tt2.place(relx=0.85, relheight=0.1, relwidth=0.15)
 
         # suggestion buttons ------>
+        self.button_openfile = tk.PhotoImage(file = 'button_open-file.png')
+        self.button_sugg1 = tk.Button(self.frame_sugg, text='Suggestion 1', bg='black',
+                         fg='white', activebackground='black', activeforeground='white', bd = 0, image = self.button_openfile)
+        self.button_sugg1.place(relx=0.05, rely=0.45, relheight=0.45, relwidth=0.13)
 
-        self.button_sugg1 = tk.Button(self.frame_sugg, text='Suggestion 1', bg='#1f1f14',
-                         fg='white', activebackground='black', activeforeground='white', bd = 0)
-        self.button_sugg1.place(relx=0.05, rely=0.45, relheight=0.4, relwidth=0.15)
-
-
-        self.button_sugg2 = tk.Button(self.frame_sugg, text='Suggestion 2', bg='#1f1f14',
-                         fg='white', activebackground='black', activeforeground='white', bd = 0)
-        self.button_sugg2.place(relx=0.25, rely=0.45, relheight=0.4, relwidth=0.15)
+        self.button_search = tk.PhotoImage(file = 'button_search.png')
+        self.button_sugg2 = tk.Button(self.frame_sugg, text='Suggestion 2', bg='black',
+                         fg='white', activebackground='black', activeforeground='white', bd = 0, image = self.button_search)
+        self.button_sugg2.place(relx=0.25, rely=0.45, relheight=0.45, relwidth=0.12)
 
         self.button_sugg3 = tk.Button(self.frame_sugg, text='Suggestion 3', bg='#1f1f14',
                          fg='white', activebackground='black', activeforeground='white', bd = 0)
@@ -135,12 +135,13 @@ class mainApp():
         self.button_sugg4 = tk.Button(self.frame_sugg, text='Suggestion 4', bg='#1f1f14',
                          fg='white', activebackground='black', activeforeground='white', bd = 0)
         self.button_sugg4.place(relx=0.65, rely=0.45, relheight=0.4, relwidth=0.15)
-
+        
+        self.button_power = tk.PhotoImage(file = 'power1.png')
         self.button_exit = tk.Button(self.frame_sugg, text="EXIT", bg='#1f1f14', fg='white',
-                        activebackground='black', activeforeground='white', bd = 0,command=self.exitApp)
-        self.button_exit.place(relx=0.85, rely=0.45, relheight=0.4, relwidth=0.08)
+                        activebackground='black', activeforeground='white', bd = 0,image = self.button_power,command=self.exitApp)
+        self.button_exit.place(relx=0.85, rely=0.45, relheight=0.8, relwidth=0.08)
 
-
+           
         # scrollbar for main window ------>
     def mainScroll(self):
         self.scroll1 = tk.Scrollbar(self.label_main, bg='blue')

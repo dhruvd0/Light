@@ -196,9 +196,6 @@ class loginApp():
         self.initEntry()
         self.root.mainloop()
 
-    def initImage(self):
-        self.button_loginimage = tk1.PhotoImage(file = 'button_login.png')
-        self.button_cancelimage = tk1.PhotoImage(file = 'button_cancel.png')
 
     def initFrames(self):
         self.frame = tk1.Frame(self.root, bg='#0a0a0a')
@@ -210,11 +207,15 @@ class loginApp():
         self.label_logo.place(relx=0.4, relheight=0.2, relwidth=0.2)
         self.label2 = tk1.Label(
             self.frame, text="Password: ", bg='#0a0a0a', fg='white', font=23)
-        self.label2.place(relx=0.15, rely=0.5,)
+        self.label2.place(relx=0.15, rely=0.5)
 
         self.label1 = tk1.Label(
             self.frame, text="Username: ", bg='#0a0a0a', fg='white', font=23)
         self.label1.place(relx=0.15, rely=0.4)
+
+        self.label_error = tk1.Label(self.frame, text = '''You have entered your password or username incorrectly. 
+        Please check and try again. ''',fg = 'red', bg = 'white', bd = 0)
+        self.label_error.place(relx = 0.16, rely = 0.75, relheight = 0.06 , relwidth= 0.7 )
 
         
 
