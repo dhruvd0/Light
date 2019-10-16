@@ -40,7 +40,7 @@ class mainApp():
     
     def runMain(self):
         self.mainFrames()
-
+        
         self.mainButton()
         self.mainEntry()
         self.mainLabels()
@@ -128,12 +128,13 @@ class mainApp():
                          fg='white', activebackground='black', activeforeground='white', bd = 0, image = self.button_search)
         self.button_sugg2.place(relx=0.25, rely=0.45, relheight=0.45, relwidth=0.12)
 
-        self.button_sugg3 = tk.Button(self.frame_sugg, text='Suggestion 3', bg='#1f1f14',
-                         fg='white', activebackground='black', activeforeground='white', bd = 0)
+      
+        self.button_sugg3 = tk.Button(self.frame_sugg, text='Suggestion 3', bg='black',
+                         fg='white', activebackground='black', activeforeground='white', bd = 0,image=self.button_faculty_cont)
         self.button_sugg3.place(relx=0.45, rely=0.45, relheight=0.4, relwidth=0.15)
-
-        self.button_sugg4 = tk.Button(self.frame_sugg, text='Suggestion 4', bg='#1f1f14',
-                         fg='white', activebackground='black', activeforeground='white', bd = 0)
+        self.button_messages= tk.PhotoImage(file='button_show-messages.png')
+        self.button_sugg4 = tk.Button(self.frame_sugg, text='Suggestion 4', bg='black',
+                         fg='white', activebackground='black', activeforeground='white', bd = 0,image=self.button_messages)
         self.button_sugg4.place(relx=0.65, rely=0.45, relheight=0.4, relwidth=0.15)
         
         self.button_power = tk.PhotoImage(file = 'power1.png')

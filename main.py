@@ -250,5 +250,5 @@ class loginApp():
 
 
 app = loginApp()
-app.runApp()
+autoLogin()
 
