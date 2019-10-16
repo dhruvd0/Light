@@ -12,6 +12,7 @@ from getpass import getpass
 from bs4 import BeautifulSoup
 import wget
 import numpy as np
+import threading
 #import mainGui
 
 # Globals
@@ -24,7 +25,7 @@ userName = "user"
 dashboardPage = "dash"
 
 
-def autoLogin():  # checks if file has login data and launches gui if file is empty
+def autoLogin(self):  # checks if file has login data and launches gui if file is empty
     global userPass
     global userId
     try:
@@ -37,8 +38,7 @@ def autoLogin():  # checks if file has login data and launches gui if file is em
         loginLms()
 
     except os.error:
-
-        app.runApp()
+        
 
 
 def loginLms():  # sends a request to website for login => pushes a toast notif if successfull
@@ -179,67 +179,10 @@ def deadLines():
 
 
 #print (deadLines())
-class loginApp():
-    def __init__(self):
-        self.root = tk1.Tk()
-        self.height = 500
-        self.width = 550
-        self.canvas = tk1.Canvas(
-            self.root, height=self.height, width=self.width, bg='black')
-        self.canvas.pack()
-
-    def runApp(self):
-        self.initFrames()
-        self.initButtons()
-        self.initLabels()
-        self.initEntry()
-        self.root.mainloop()
-
-    def initFrames(self):
-        self.frame = tk1.Frame(self.root, bg='black')
-        self.frame.place(relwidth=1, relheight=1)
-
-    def initLabels(self):
-        self.label_logo = tk1.Label(
-            self.frame, text="LIGHT", fg='white', font=1000, bg='black')
-        self.label_logo.place(relx=0.4, relheight=0.2, relwidth=0.2)
-        self.label2 = tk1.Label(
-            self.frame, text="Password: ", bg='black', fg='white', font=25)
-        self.label2.place(relx=0.15, rely=0.5,)
-
-        self.label1 = tk1.Label(
-            self.frame, text="Username: ", bg='black', fg='white', font=25)
-        self.label1.place(relx=0.15, rely=0.4)
-
-        
-
-    def initEntry(self):
-        self.entry_user = tk1.Entry(self.frame, bg='#1f1f14', fg='white')
-        self.entry_user.place(relx=0.4, rely=0.41,
-                              relheight=0.05, relwidth=0.5)
-        self.entry_pass = tk1.Entry(
-            self.frame, bg='#1f1f14', fg='white', show="*")
-        self.entry_pass.place(relx=0.4, rely=0.51,
-                              relheight=0.05, relwidth=0.5)
-
-    def initButtons(self):
-
-        self.button = tk1.Button(self.frame, text="Submit", bg='#1f1f14', fg='white',
-                                 activebackground='black', activeforeground='white', command=self.login)
-        self.button.place(relx=0.5, rely=0.61, relheight=0.05, relwidth=0.2)
-
-    def login(self):  # gets data from login gui and invokes loginLms()
-        global userId
-        global userPass
-        userId = self.entry_user.get()
-        userPass = self.entry_pass.get()
-        
-        loginLms()
-
-    def exit(self):
-        self.root.destroy()
 
 
-app = loginApp()
-app.runApp()
+loginThread=threading.Thread(target=autoLogin)
+print ("hello")
+print ("hello")
+loginThread.start()
 
