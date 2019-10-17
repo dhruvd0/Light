@@ -7,7 +7,7 @@ import urllib
 import web
 from getpass import getpass
 from bs4 import BeautifulSoup
-import wget
+
 import numpy as np
 import threading
 
@@ -70,7 +70,7 @@ class App(Tk):
         try:
             self.userName = self.dashboardPage.find(
                 "span", {"class": "usertext"}).text
-            notifs.loginSuccess(self.userName)
+           # notifs.loginSuccess(self.userName)
             np.save("my_file.npy", self.d)
             
             print("Hi ", self.userName)
