@@ -51,7 +51,12 @@ class App(Tk):
         frame.grid(row=0, column=0)
         frame.tkraise()
     def getName(self):
-        return ("test")
+        print ("test")
+
+    def exitApp(self):
+        print ("test")
+        self.destroy()
+        
 
     def loginLms(self):  # sends a request to website for login => pushes a toast notif if successfull
 
@@ -65,10 +70,11 @@ class App(Tk):
         try:
             self.userName = self.dashboardPage.find(
                 "span", {"class": "usertext"}).text
+            notifs.loginSuccess(self.userName)
             np.save("my_file.npy", self.d)
             
             print("Hi ", self.userName)
-            self.update()
+           
             self.show_frame(dashBoardUI)
             
             #notifs.loginSuccess(self.userName)  # windows toast notification
@@ -101,8 +107,7 @@ class App(Tk):
             self.show_frame(loginUI)
 
 
-    def exitApp(self):
-        self.destroy()
+    
 
     def seeLastMessages(self):
         unreadCount = self.dashboardPage.find(
@@ -219,17 +224,21 @@ class App(Tk):
 
 class dashBoardUI(Frame):
     def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
+
         
-        print (controller.userName)
+        controller.update()
+        Frame.__init__(self, parent)
+        self.controller=controller
+        
         HEIGHT = 1080
         WIDTH = 1920
 
         canvas = Canvas(self, height=HEIGHT, width=WIDTH, bg='black')
         canvas.pack()
-
+        
         frame = Frame(self, bg='black')
         frame.place(relx=0.7, relwidth=0.3, relheight=0.20)
+        
 
         frame_display = Frame(self, bg='white')
         frame_display.place(relx=0.24, rely=0.2, relwidth=0.5, relheight=0.6)
@@ -249,11 +258,11 @@ class dashBoardUI(Frame):
         frame_sugg = Frame(self, bg='black')
         frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)
         
-        controller.update()
+       
         label1 = Label(frame, text="WELCOME, "+controller.userName,
                        bg='black', fg='white', font=25)
         label1.pack()
-        controller.update()
+       
 
         # labels for calender --------->
         label_tt1 = Label(frame_tt, text="Time table", font=20)
@@ -276,7 +285,7 @@ class dashBoardUI(Frame):
         label_main.place(relwidth=1, relheight=0.95)
 
         button_main = Button(frame_display, text="-->", bg='black', fg='white', activebackground='black',
-                             activeforeground='white',)  # command=lambda: main_input(entry_main.get())
+                             activeforeground='white')  # command=lambda: main_input(entry_main.get())
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         button_cal1 = Button(frame_cal, text="<--", bg='#1f1f14',
@@ -318,7 +327,7 @@ class dashBoardUI(Frame):
 
         button_power = PhotoImage(file='Images/power1.png')
         button_exit = Button(frame_sugg, text="EXIT", bg='#1f1f14', fg='white',
-                             activebackground='black', activeforeground='white', bd=0, image=button_power,)
+                             activebackground='black', activeforeground='white', bd=0,command=controller.exitApp,)
         button_exit.place(relx=0.85, rely=0.45, relheight=0.8, relwidth=0.08)
         # scrollbar for main window ------>
 
@@ -327,6 +336,10 @@ class dashBoardUI(Frame):
 
         entry_main = Entry(frame_display, bg='white', fg='black')
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
+
+    def exitUI(self):
+        print ("test")
+
 
 
 class loginUI(Frame):
