@@ -11,13 +11,6 @@ from bs4 import BeautifulSoup
 import numpy as np
 import threading
 
-d = {}
-request_session = requests.Session()
-
-userId = "id"
-userPass = " pass"
-userName = "user"
-dashboardPage = "dash"
 
 # UI---------------------
 
@@ -114,7 +107,7 @@ class App(Tk):
             "label", {"class": "unreadnumber"}).text
         print("You have ", unreadCount, " messages:")
 
-        messagesRequest = request_session.get(
+        messagesRequest = self.request_session.get(
             "http://lms.bennett.edu.in/message/index.php")
         messagePage = BeautifulSoup(messagesRequest.content, "html5lib")
         messages = messagePage.find_all("span", {"class": "text"})
