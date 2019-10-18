@@ -44,9 +44,12 @@ class App(Tk):
         self.frames = {}
 
         
-
-        
+        #use this to debug functions:
+      
         self.autoLogin()
+        print (self.deadLines())
+        self.exitApp()
+        #--------
         #self.show_frame(loginUI)
 
     def show_frame(self, context):
@@ -79,9 +82,9 @@ class App(Tk):
             
             print("Hi ", self.userName)
            
-            self.show_frame(dashBoardUI)
+            #self.show_frame(dashBoardUI)
             
-            #notifs.loginSuccess(self.userName)  # windows toast notification
+            notifs.loginSuccess(self.userName)  # windows toast notification
             
     
 
@@ -213,17 +216,17 @@ class App(Tk):
         calLink = self.dashboardPage.find(
             "a", {"title": "This month"}).attrs["href"]
         calendarRequest = self.request_session.get(calLink)
-        calendarPage = BeautifulSoup(calendarRequest.content, "html5lib")
-        events = []
-        calendarEvents = calendarPage.find_all(
+        calendarPage = BeautifulSoup(calendarRequest.content, "html5lib") #main calendar page
+        events = [] #contains dicts of events
+        ulElements = calendarPage.find_all(
             "ul", {"class": "events-new"})  # ul element
-        for calendarEvent in calendarEvents:
-            eves = calendarEvent.find_all("li")
-            event = {}
-            for i in eves:
-                event["name"] = eves.a.text
-                events.append(event)
-        return (events)
+        for ul in ulElements:
+            liElements = ul.find_all("li") #li elements inside the ul element
+            for liElement in liElements:
+                events.append(liElement.a.text)
+        print (events)
+            
+       
 
 
 class dashBoardUI(Frame):
