@@ -1,5 +1,5 @@
 
-#test for pull request
+# test for pull request
 
 
 from tkinter import *
@@ -15,13 +15,6 @@ from bs4 import BeautifulSoup
 import numpy as np
 import threading
 
-d = {}
-request_session = requests.Session()
-
-userId = "id"
-userPass = " pass"
-userName = "user"
-dashboardPage = "dash"
 
 # UI---------------------
 
@@ -43,27 +36,26 @@ class App(Tk):
 
         self.frames = {}
 
-        
-        #use this to debug functions:
-      
+        # use this to debug functions:
+
         self.autoLogin()
-        print (self.deadLines())
-        self.exitApp()
-        #--------
-        #self.show_frame(loginUI)
+        print(self.deadLines())
+        # self.exitApp()
+        # --------
+        # self.show_frame(loginUI)
 
     def show_frame(self, context):
-        frame=context(self.container,self)
-        self.frames[context]=frame
+        frame = context(self.container, self)
+        self.frames[context] = frame
         frame.grid(row=0, column=0)
         frame.tkraise()
+
     def getName(self):
-        print ("test")
+        print("test")
 
     def exitApp(self):
-        print ("test")
+        print("test")
         self.destroy()
-        
 
     def loginLms(self):  # sends a request to website for login => pushes a toast notif if successfull
 
@@ -79,14 +71,12 @@ class App(Tk):
                 "span", {"class": "usertext"}).text
            # notifs.loginSuccess(self.userName)
             np.save("my_file.npy", self.d)
-            
+
             print("Hi ", self.userName)
-           
-            #self.show_frame(dashBoardUI)
-            
+
+            # self.show_frame(dashBoardUI)
+
             notifs.loginSuccess(self.userName)  # windows toast notification
-            
-    
 
             return True
 
@@ -95,7 +85,7 @@ class App(Tk):
             print("Invalid login please try again")
             self.frames[loginUI].label_error.place(
                 relx=0.16, rely=0.75, relheight=0.06, relwidth=0.7)
-            
+
             return False
 
     def autoLogin(self):  # checks if file has login data and launches gui if file is empty
@@ -112,9 +102,6 @@ class App(Tk):
         except os.error:
 
             self.show_frame(loginUI)
-
-
-    
 
     def seeLastMessages(self):
         unreadCount = self.dashboardPage.find(
@@ -216,36 +203,52 @@ class App(Tk):
         calLink = self.dashboardPage.find(
             "a", {"title": "This month"}).attrs["href"]
         calendarRequest = self.request_session.get(calLink)
-        calendarPage = BeautifulSoup(calendarRequest.content, "html5lib") #main calendar page
-        events = [] #contains dicts of events
-        ulElements = calendarPage.find_all(
-            "ul", {"class": "events-new"})  # ul element
-        for ul in ulElements:
-            liElements = ul.find_all("li") #li elements inside the ul element
-            for liElement in liElements:
-                events.append(liElement.a.text)
-        print (events)
-            
-       
+        calendarPage = BeautifulSoup(
+            calendarRequest.content, "html5lib")  # main calendar page
+        events = []  # contains dicts of events
+        liElements = calendarPage.find_all(
+            "li", {"class": "calendar_event_course"})  # li element
+
+        #print(liElements)
+
+        for liElement in liElements:
+            dayViewRequest = self.request_session.get(liElement.a["href"])
+            dayViewPage = BeautifulSoup(dayViewRequest.content, "html5lib")
+            h3Element = dayViewPage.find(
+                "h3", {"class": "referer"}, text=liElement.a.text)
+            event = {"name": h3Element.a.text, "link": h3Element.a["href"]}
+
+            fileReq = self.request_session.get(event["link"])
+            filePage = BeautifulSoup(fileReq.content, "html5lib")
+            if filePage.find("h3").text == "Submission status":
+                event["isSubmit"] = True
+                
+            else:
+                event["isSubmit"] = False
+
+            events.append(event)[]
+
+        for i in events:
+            print(i)
+
+        
 
 
 class dashBoardUI(Frame):
     def __init__(self, parent, controller):
 
-        
         controller.update()
         Frame.__init__(self, parent)
-        self.controller=controller
-        
+        self.controller = controller
+
         HEIGHT = 1080
         WIDTH = 1920
 
         canvas = Canvas(self, height=HEIGHT, width=WIDTH, bg='black')
         canvas.pack()
-        
+
         frame = Frame(self, bg='black')
         frame.place(relx=0.7, relwidth=0.3, relheight=0.20)
-        
 
         frame_display = Frame(self, bg='white')
         frame_display.place(relx=0.24, rely=0.2, relwidth=0.5, relheight=0.6)
@@ -264,12 +267,10 @@ class dashBoardUI(Frame):
 
         frame_sugg = Frame(self, bg='black')
         frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)
-        
-       
+
         label1 = Label(frame, text="WELCOME, "+controller.userName,
                        bg='black', fg='white', font=25)
         label1.pack()
-       
 
         # labels for calender --------->
         label_tt1 = Label(frame_tt, text="Time table", font=20)
@@ -334,7 +335,7 @@ class dashBoardUI(Frame):
 
         button_power = PhotoImage(file='Images/power1.png')
         button_exit = Button(frame_sugg, text="EXIT", bg='#1f1f14', fg='white',
-                             activebackground='black', activeforeground='white', bd=0,command=controller.exitApp,)
+                             activebackground='black', activeforeground='white', bd=0, command=controller.exitApp,)
         button_exit.place(relx=0.85, rely=0.45, relheight=0.8, relwidth=0.08)
         # scrollbar for main window ------>
 
@@ -345,14 +346,13 @@ class dashBoardUI(Frame):
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
     def exitUI(self):
-        print ("test")
-
+        print("test")
 
 
 class loginUI(Frame):
     def __init__(self, parent, controller):
-        
-        self.controller=controller
+
+        self.controller = controller
         Frame.__init__(self, parent, bg="black",)
         height = 500
         width = 550
@@ -388,13 +388,11 @@ class loginUI(Frame):
 
         # --------------------------------------------
     def getDat(self):
-        
+
         self.controller.userId = self.entry_user.get()
         self.controller.userPass = self.entry_pass.get()
 
         self.controller.loginLms()
-        
-        
 
 
 class testFrame(Frame):
@@ -409,9 +407,7 @@ class testFrame(Frame):
         canvas.pack()
 
 
-
 # -------------------------------------------------------------
-
 
 app = App()
 app.mainloop()
