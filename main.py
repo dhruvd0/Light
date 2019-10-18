@@ -88,7 +88,7 @@ class App(Tk):
 
         try:
 
-            read_d = np.load('my_file.npy').item()
+            read_d = np.load('my_file.npy',allow_pickle=True).item()
             os.path.getsize('my_file.npy')
             self.userId = read_d["username"]
             self.userPass = read_d["password"]
