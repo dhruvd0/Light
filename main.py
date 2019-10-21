@@ -37,9 +37,9 @@ class App(Tk):
         self.frames = {}
 
         # use this to debug functions:
-
+        self.powerImage = PhotoImage(file='Images/power1.png')
         self.autoLogin()
-        print(self.deadLines())
+        
         # self.exitApp()
         # --------
         # self.show_frame(loginUI)
@@ -74,9 +74,9 @@ class App(Tk):
 
             print("Hi ", self.userName)
 
-            # self.show_frame(dashBoardUI)
+            self.show_frame(dashBoardUI)
 
-            notifs.loginSuccess(self.userName)  # windows toast notification
+            #notifs.loginSuccess(self.userName)  # windows toast notification
 
             return True
 
@@ -226,7 +226,7 @@ class App(Tk):
             else:
                 event["isSubmit"] = False
 
-            events.append(event)[]
+            events.append(event)
 
         for i in events:
             print(i)
@@ -333,9 +333,9 @@ class dashBoardUI(Frame):
                               fg='white', activebackground='black', activeforeground='white', bd=0, image=button_messages)
         button_sugg4.place(relx=0.65, rely=0.45, relheight=0.4, relwidth=0.15)
 
-        button_power = PhotoImage(file='Images/power1.png')
+        
         button_exit = Button(frame_sugg, text="EXIT", bg='#1f1f14', fg='white',
-                             activebackground='black', activeforeground='white', bd=0, command=controller.exitApp,)
+                             activebackground='black', activeforeground='white', bd=0, command=controller.exitApp,image=controller.powerImage)
         button_exit.place(relx=0.85, rely=0.45, relheight=0.8, relwidth=0.08)
         # scrollbar for main window ------>
 
