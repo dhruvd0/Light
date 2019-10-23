@@ -37,15 +37,19 @@ class App(Tk):
         self.events = []  # contains dicts of events
         self.powerImage = PhotoImage(file='Images/power1.png')
         self.frames = {}
-        self.initBackgroundThreads()
+        self.backGroundThread = threading.Thread(target=self.initBackgroundThreads, name="Background thread").start()
         self.autoLogin()
 
     def initBackgroundThreads(self):
-        print("back thread:", os.getpid())
+        
+        while(True):
+            
+            if(self.userName!='name'):
+                print ("NOTIFYING")
+                notifs.loginSuccess(self.userName)
+                break
+        self.deadLines()
 
-        self.backGroundThread = threading.Thread(
-            target=self.deadLines, name="Background thread")
-        self.backGroundThread.start()
 
     def show_frame(self, context):
         frame = context(self.container, self)
@@ -78,7 +82,7 @@ class App(Tk):
 
             print("Hi ", self.userName)
 
-            # notifs.loginSuccess(self.userName)  # windows toast notification
+            
 
             return True
 
