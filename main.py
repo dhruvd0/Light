@@ -9,6 +9,7 @@ import webbrowser
 import requests
 import urllib
 import web
+import threading
 from getpass import getpass
 from bs4 import BeautifulSoup
 #import wget
@@ -33,16 +34,26 @@ class App(Tk):
         self.container.pack(side="top", fill="both", expand=True)
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
-
+        self.events = []  # contains dicts of events
+        self.powerImage = PhotoImage(file='Images/power1.png')
         self.frames = {}
+        self.autoLogin()
+        print("main thread:", os.getpid())
 
         # use this to debug functions:
-        self.powerImage = PhotoImage(file='Images/power1.png')
-        self.autoLogin()
-        
+
+        self.initBackgroundThreads()
+
         # self.exitApp()
         # --------
         # self.show_frame(loginUI)
+
+    def initBackgroundThreads(self):
+        print("back thread:", os.getpid())
+
+        self.backGroundThread = threading.Thread(
+            target=self.deadLines, name="Background thread")
+        self.backGroundThread.start()
 
     def show_frame(self, context):
         frame = context(self.container, self)
@@ -69,14 +80,13 @@ class App(Tk):
         try:
             self.userName = self.dashboardPage.find(
                 "span", {"class": "usertext"}).text
-           # notifs.loginSuccess(self.userName)
-            np.save("my_file.npy", self.d)
+
+            np.save("loginDetails.npy", self.d)
+            self.show_frame(dashBoardUI)
 
             print("Hi ", self.userName)
 
-            self.show_frame(dashBoardUI)
-
-            #notifs.loginSuccess(self.userName)  # windows toast notification
+            # notifs.loginSuccess(self.userName)  # windows toast notification
 
             return True
 
@@ -92,8 +102,8 @@ class App(Tk):
 
         try:
 
-            read_d = np.load('my_file.npy',allow_pickle=True).item()
-            os.path.getsize('my_file.npy')
+            read_d = np.load('loginDetails.npy', allow_pickle=True).item()
+            os.path.getsize('loginDetails.npy')
             self.userId = read_d["username"]
             self.userPass = read_d["password"]
             print("try block")
@@ -200,38 +210,53 @@ class App(Tk):
             print(linkReq.headers["content-type"])
 
     def deadLines(self):
-        calLink = self.dashboardPage.find(
-            "a", {"title": "This month"}).attrs["href"]
-        calendarRequest = self.request_session.get(calLink)
-        calendarPage = BeautifulSoup(
-            calendarRequest.content, "html5lib")  # main calendar page
-        events = []  # contains dicts of events
-        liElements = calendarPage.find_all(
-            "li", {"class": "calendar_event_course"})  # li element
+        try:
+            read_d = np.load('events.npy')
+            os.path.getsize("events.npy")
+            print (read_d)
+            print ("Reading from file")
+        except os.error:
+            print ("downloading")
+            while(True):
+                try:
 
-        #print(liElements)
 
-        for liElement in liElements:
-            dayViewRequest = self.request_session.get(liElement.a["href"])
-            dayViewPage = BeautifulSoup(dayViewRequest.content, "html5lib")
-            h3Element = dayViewPage.find(
-                "h3", {"class": "referer"}, text=liElement.a.text)
-            event = {"name": h3Element.a.text, "link": h3Element.a["href"]}
+                    calLink = self.dashboardPage.find(
+                        "a", {"title": "This month"}).attrs["href"]
+                    calendarRequest = self.request_session.get(calLink)
+                    calendarPage = BeautifulSoup(
+                        calendarRequest.content, "html5lib")  # main calendar page
 
-            fileReq = self.request_session.get(event["link"])
-            filePage = BeautifulSoup(fileReq.content, "html5lib")
-            if filePage.find("h3").text == "Submission status":
-                event["isSubmit"] = True
-                
-            else:
-                event["isSubmit"] = False
+                    liElements = calendarPage.find_all(
+                        "li", {"class": "calendar_event_course"})  # li element
 
-            events.append(event)
+                    # print(liElements)
 
-        for i in events:
-            print(i)
+                    for liElement in liElements:
+                        dayViewRequest = self.request_session.get(
+                            liElement.a["href"])
+                        dayViewPage = BeautifulSoup(
+                            dayViewRequest.content, "html5lib")
+                        h3Element = dayViewPage.find(
+                            "h3", {"class": "referer"}, text=liElement.a.text)
+                        event = {"name": h3Element.a.text,
+                                 "link": h3Element.a["href"]}
 
-        
+                        fileReq = self.request_session.get(event["link"])
+                        filePage = BeautifulSoup(fileReq.content, "html5lib")
+                        if filePage.find("h3").text == "Submission status":
+                            event["isSubmit"] = True
+
+                        else:
+                            event["isSubmit"] = False
+
+                        self.events.append(event)
+                        print("Saving event:", event)
+
+                    np.save("events.npy", self.events)
+                    return (True)
+                except AttributeError:
+                    pass
 
 
 class dashBoardUI(Frame):
@@ -273,7 +298,7 @@ class dashBoardUI(Frame):
         label1.pack()
 
         # labels for calender --------->
-        label_tt1 = Label(frame_tt, text="Time table", font=20)
+        label_tt1 = Label(frame_tt, text="test", font=20)
         label_tt1.place(rely=0.1, relheight=1, relwidth=1)
 
         label_dline = Label(frame_dline, text="DEADLINES", fg='black', font=30)
@@ -333,9 +358,8 @@ class dashBoardUI(Frame):
                               fg='white', activebackground='black', activeforeground='white', bd=0, image=button_messages)
         button_sugg4.place(relx=0.65, rely=0.45, relheight=0.4, relwidth=0.15)
 
-        
         button_exit = Button(frame_sugg, text="EXIT", bg='#1f1f14', fg='white',
-                             activebackground='black', activeforeground='white', bd=0, command=controller.exitApp,image=controller.powerImage)
+                             activebackground='black', activeforeground='white', bd=0, command=controller.exitApp, image=controller.powerImage)
         button_exit.place(relx=0.85, rely=0.45, relheight=0.8, relwidth=0.08)
         # scrollbar for main window ------>
 
