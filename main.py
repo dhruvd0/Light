@@ -37,16 +37,8 @@ class App(Tk):
         self.events = []  # contains dicts of events
         self.powerImage = PhotoImage(file='Images/power1.png')
         self.frames = {}
-        self.autoLogin()
-        print("main thread:", os.getpid())
-
-        # use this to debug functions:
-
         self.initBackgroundThreads()
-
-        # self.exitApp()
-        # --------
-        # self.show_frame(loginUI)
+        self.autoLogin()
 
     def initBackgroundThreads(self):
         print("back thread:", os.getpid())
@@ -213,13 +205,15 @@ class App(Tk):
         try:
             read_d = np.load('events.npy')
             os.path.getsize("events.npy")
-            print (read_d)
-            print ("Reading from file")
+            print(read_d)
+            print("Reading from file")
         except os.error:
-            print ("downloading")
+            print("downloading")
+            count = 0
             while(True):
+                count += 1
+                print("Trying:", count)
                 try:
-
 
                     calLink = self.dashboardPage.find(
                         "a", {"title": "This month"}).attrs["href"]
@@ -256,6 +250,8 @@ class App(Tk):
                     np.save("events.npy", self.events)
                     return (True)
                 except AttributeError:
+                    pass
+                except TypeError:
                     pass
 
 
@@ -369,9 +365,6 @@ class dashBoardUI(Frame):
         entry_main = Entry(frame_display, bg='white', fg='black')
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
-    def exitUI(self):
-        print("test")
-
 
 class loginUI(Frame):
     def __init__(self, parent, controller):
@@ -418,20 +411,8 @@ class loginUI(Frame):
 
         self.controller.loginLms()
 
-
-class testFrame(Frame):
-
-    def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-
-        HEIGHT = 1080
-        WIDTH = 1920
-
-        canvas = Canvas(self, height=HEIGHT, width=WIDTH, bg='white')
-        canvas.pack()
-
-
 # -------------------------------------------------------------
+
 
 app = App()
 app.mainloop()
