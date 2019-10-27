@@ -129,8 +129,8 @@ class App(Tk):
             "h4", {"class": "media-heading"})
         fileId = 0
         files = []  # dictionary of files returned
-
-        for courseHead in courseHeadings:
+        courseHeadings=courseHeadings[0:int(len(courseHeadings)/2)]
+        for courseHead in courseHeadings :
 
             courseLink = courseHead.a["href"]
 
@@ -157,7 +157,7 @@ class App(Tk):
                     files.append(fileDict)
                     break
         if (len(files) == 0):
-            return ("No files Found")
+            return (False)
         else:
             self.files=files
             return (self.files)
