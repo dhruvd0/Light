@@ -41,7 +41,7 @@ class App(Tk):
         self.autoLogin()
         
     def initBackgroundThreads(self):
-        
+        self.seeLastMessages()
         while(True):
             
             if(self.userName!='name'):
@@ -50,6 +50,7 @@ class App(Tk):
                 break
         #self.deadLines()
         print (self.fileSearch("Tutorial 1"))
+
 
 
 
@@ -84,8 +85,6 @@ class App(Tk):
 
             print("Hi ", self.userName)
 
-            
-
             return True
 
         except AttributeError:
@@ -112,16 +111,24 @@ class App(Tk):
             self.show_frame(loginUI)
 
     def seeLastMessages(self):
-        unreadCount = self.dashboardPage.find(
-            "label", {"class": "unreadnumber"}).text
-        print("You have ", unreadCount, " messages:")
+        while True:
+            try:
+                    
 
-        messagesRequest = self.request_session.get(
-            "http://lms.bennett.edu.in/message/index.php")
-        messagePage = BeautifulSoup(messagesRequest.content, "html5lib")
-        messages = messagePage.find_all("span", {"class": "text"})
-        for message in messages:
-            print(message.text)
+                unreadCount = self.dashboardPage.find(
+                    "label", {"class": "unreadnumber"}).text
+                
+                notifs.notify("You have "+ unreadCount+ " messages")
+                messagesRequest = self.request_session.get("http://lms.bennett.edu.in/message/index.php")
+                messagePage = BeautifulSoup(messagesRequest.content, "html5lib")
+                messages = messagePage.find_all("span", {"class": "text"})
+                for message in messages:
+                    print(message.text)
+                break
+            except TypeError:
+                pass
+
+        
 
     def fileSearch(self, searchName):  # returns a dictionary of file details
         # input("File to search:")
