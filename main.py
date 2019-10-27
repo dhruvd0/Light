@@ -39,7 +39,7 @@ class App(Tk):
         self.frames = {}
         self.backGroundThread = threading.Thread(target=self.initBackgroundThreads, name="Background thread").start()
         self.autoLogin()
-
+        
     def initBackgroundThreads(self):
         
         while(True):
@@ -48,7 +48,9 @@ class App(Tk):
                 print ("NOTIFYING")
                 notifs.loginSuccess(self.userName)
                 break
-        self.deadLines()
+        #self.deadLines()
+        print (self.fileSearch("Tutorial 1"))
+
 
 
     def show_frame(self, context):
@@ -157,14 +159,8 @@ class App(Tk):
         if (len(files) == 0):
             return ("No files Found")
         else:
-            for i in files:
-                print(i, "\n")
-            id = 1  # int(input("Select fle id:"))
-            for i in files:
-
-                if(i["id"] == id):
-                    self.file = i
-
+            self.files=files
+            return (self.files)
     def downloadFile(self, file):
         #print (file["url"])
         fileRequest = self.request_session.get(file["url"], stream=True)
@@ -318,7 +314,7 @@ class dashBoardUI(Frame):
         label_main.place(relwidth=1, relheight=0.95)
 
         button_main = Button(frame_display, text="-->", bg='black', fg='white', activebackground='black',
-                             activeforeground='white')  # command=lambda: main_input(entry_main.get())
+                             activeforeground='white',command=lambda: web.openWeb(entry_main.get()))
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         button_cal1 = Button(frame_cal, text="<--", bg='#1f1f14',
