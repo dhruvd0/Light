@@ -36,6 +36,16 @@ class App(Tk):
         self.container.grid_columnconfigure(0, weight=1)
         self.events = []  # contains dicts of events
         self.powerImage = PhotoImage(file='Images/power1.png')
+        self.loginbg = PhotoImage(file='Images/loginbg2_image.png')
+        self.mainbg = PhotoImage(file='Images/mainbg_image.png')
+        self.cancelimage = PhotoImage(file='Images/button_cancel.png')
+        self.searchimage = PhotoImage(file='Images/button_search.png')
+        self.openimage = PhotoImage(file='Images/button_open-file.png')
+        self.facultyimage = PhotoImage(file='Images/button_faculty_contacts.png')
+        self.loginimage = PhotoImage(file='Images/button_login.png')
+        self.messageimage = PhotoImage(file='Images/button_show-messages.png')
+
+        #self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
         self.backGroundThread = threading.Thread(target=self.initBackgroundThreads, name="Background thread").start()
         self.autoLogin()
@@ -275,8 +285,11 @@ class dashBoardUI(Frame):
         canvas = Canvas(self, height=HEIGHT, width=WIDTH, bg='black')
         canvas.pack()
 
-        frame = Frame(self, bg='black')
-        frame.place(relx=0.7, relwidth=0.3, relheight=0.20)
+        mainlabel = Label(self, image = controller.mainbg)
+        mainlabel.place(relheight = 1 , relwidth = 1)
+
+        frame = Frame(self, bg='#2875AC')
+        frame.place(relx=0.7, relwidth=0.2, relheight=0.05)
 
         frame_display = Frame(self, bg='white')
         frame_display.place(relx=0.24, rely=0.2, relwidth=0.5, relheight=0.6)
@@ -383,31 +396,41 @@ class loginUI(Frame):
         canvas = Canvas(
             self, height=height, width=width, bg='black')
         canvas.pack()
-        b = Button(self, text="Submit", bg='#1f1f14', fg='white', activebackground='black',
-                   activeforeground='white', command=lambda: self.getDat())
-        b.place(relx=0.5, rely=0.61, relheight=0.05, relwidth=0.2)
+
+        loginlabel = Label(self, image = controller.loginbg)
+        loginlabel.place(relheight = 1, relwidth = 1)
+
+        b = Button(self, text="Submit", bg='#202021', fg='white', activebackground='black',
+                   activeforeground='white',bd = 0,image = controller.loginimage, command=lambda: self.getDat())
+        b.place(relx=0.22, rely=0.68, relheight=0.05, relwidth=0.315)
+
+        b2 = Button(self,text = "Cancel",bg='#202021', fg='white', activebackground='black',bd = 0,activeforeground='white', image = controller.cancelimage )
+        b2.place(relx=0.6, rely=0.68, relheight=0.05, relwidth=0.317)
 
         # --------------------------------------
+        check = Checkbutton(self, text = 'Remember ID and Password',bg = '#202021', fg = 'grey', activeforeground = 'white', activebackground = '#202021')
+        check.place(relx = 0.4, rely = 0.59)
+
         self.label_logo = Label(
-            self, text="LIGHT", fg='white', font=1000, bg='#0a0a0a')
+            self, text="LIGHT", fg='white', font=1000, bg='#202021',image = controller.logoapp)
         self.label_logo.place(relx=0.4, relheight=0.2, relwidth=0.2)
         self.label2 = Label(
-            self, text="Password: ", bg='#0a0a0a', fg='white', font=23)
-        self.label2.place(relx=0.15, rely=0.5)
+            self, text="Password: ", bg='#38383A', fg='white', font=23)
+        self.label2.place(relx=0.15, rely=0.48)
 
         self.label1 = Label(
-            self, text="Username: ", bg='#0a0a0a', fg='white', font=23)
-        self.label1.place(relx=0.15, rely=0.4)
+            self, text="Username: ", bg='#38383A', fg='white', font=23)
+        self.label1.place(relx=0.15, rely=0.38)
 
         self.label_error = Label(self, text='''You have entered your password or username incorrectly. 
-        Please check and try again. ''', fg='red', bg='white', bd=0)
+        Please check and try again. ''', fg='white', bg='#38383A', bd=2)
 
-        self.entry_user = Entry(self, bg='#1f1f14', fg='white')
-        self.entry_user.place(relx=0.4, rely=0.41,
+        self.entry_user = Entry(self, bg='#202021', fg='white',bd = 2)
+        self.entry_user.place(relx=0.4, rely=0.38,
                               relheight=0.05, relwidth=0.5)
         self.entry_pass = Entry(
-            self, bg='#1f1f14', fg='white', show="*")
-        self.entry_pass.place(relx=0.4, rely=0.51,
+            self, bg='#202021', fg='white', show="*",bd = 2)
+        self.entry_pass.place(relx=0.4, rely=0.48,
                               relheight=0.05, relwidth=0.5)
 
         # --------------------------------------------
