@@ -412,7 +412,7 @@ class loginUI(Frame):
         check.place(relx = 0.4, rely = 0.59)
 
         self.label_logo = Label(
-            self, text="LIGHT", fg='white', font=1000, bg='#202021',image = controller.logoapp)
+            self, text="LIGHT", fg='white', font=1000, bg='#202021')
         self.label_logo.place(relx=0.4, relheight=0.2, relwidth=0.2)
         self.label2 = Label(
             self, text="Password: ", bg='#38383A', fg='white', font=23)
