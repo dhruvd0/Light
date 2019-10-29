@@ -81,16 +81,27 @@ class App(Tk):
 
         self.d = {"username": self.userId, "password": self.userPass}
 
-        login = self.request_session.post(
+        try:
+            login = self.request_session.post(
             "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=self.d)  # post request
         # soup element which has all the html content
+        except:
+            print ("lms is not working :/")
+            return ()
         self.dashboardPage = BeautifulSoup(login.content, "html5lib")
 
+
         try:
+
             self.userName = self.dashboardPage.find(
                 "span", {"class": "usertext"}).text
 
-            np.save("loginDetails.npy", self.d)
+            if (self.frames[loginUI].check.get()):
+
+                np.save("loginDetails.npy", self.d)
+            else:
+                os.remove("loginDetails.npy")
+           
             self.show_frame(dashBoardUI)
 
             print("Hi ", self.userName)
@@ -204,7 +215,7 @@ class App(Tk):
                 assignmentPageRequest.content, "html5lib")
             assignmentDiv = assignmentPage.find("div", {"id": "intro"})
             file["name"] = assignmentDiv.a.text
-            assignmentFileReq = request_session.get(assignmentDiv.a["href"])
+            assignmentFileReq = self.request_session.get(assignmentDiv.a["href"])
             path = file["course"]+"/"+file["name"]
             try:
                 with open(path, 'wb') as t:
