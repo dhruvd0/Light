@@ -15,6 +15,7 @@ from bs4 import BeautifulSoup
 #import wget
 import numpy as np
 import threading
+import tkinterhtml
 
 
 # UI---------------------
@@ -47,8 +48,9 @@ class App(Tk):
 
         #self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
-        self.backGroundThread = threading.Thread(target=self.initBackgroundThreads, name="Background thread").start()
-        self.autoLogin()
+        #self.backGroundThread = threading.Thread(target=self.initBackgroundThreads, name="Background thread").start()
+        #elf.autoLogin()
+        self.show_frame(dashBoardUI)
         
     def initBackgroundThreads(self):
         self.seeLastMessages()
@@ -59,7 +61,7 @@ class App(Tk):
                 notifs.loginSuccess(self.userName)
                 break
         #self.deadLines()
-        print (self.fileSearch("Tutorial 1"))
+        #print (self.fileSearch("Tutorial 1"))
 
 
 
@@ -162,42 +164,46 @@ class App(Tk):
 
     def fileSearch(self, searchName):  # returns a dictionary of file details
         # input("File to search:")
-        courseHeadings = self.dashboardPage.find_all(
-            "h4", {"class": "media-heading"})
-        fileId = 0
-        files = []  # dictionary of files returned
-        courseHeadings=courseHeadings[0:int(len(courseHeadings)/2)]
-        for courseHead in courseHeadings :
+        try:
 
-            courseLink = courseHead.a["href"]
+            courseHeadings = self.dashboardPage.find_all(
+                "h4", {"class": "media-heading"})
+            fileId = 0
+            files = []  # dictionary of files returned
+            courseHeadings=courseHeadings[0:int(len(courseHeadings)/2)]
+            for courseHead in courseHeadings :
 
-            courseRequest = self.request_session.get(courseLink)
-            coursePage = BeautifulSoup(courseRequest.content, "html5lib")
-            resources = coursePage.find_all(
-                "div", {"class": "activityinstance"})
+                courseLink = courseHead.a["href"]
 
-            courseName = "".join(
-                [i for i in courseHead.text.split() if i != " "])
+                courseRequest = self.request_session.get(courseLink)
+                coursePage = BeautifulSoup(courseRequest.content, "html5lib")
+                resources = coursePage.find_all(
+                    "div", {"class": "activityinstance"})
 
-            for resource in resources:
+                courseName = "".join(
+                    [i for i in courseHead.text.split() if i != " "])
 
-                resourceName = resource.span.text
-                filterName = resourceName.split()
-                resourceName = " ".join(
-                    [i for i in filterName if i != "File" and i != "URL"])
+                for resource in resources:
 
-                if resourceName == searchName:
-                    fileId += 1
+                    resourceName = resource.span.text
+                    filterName = resourceName.split()
+                    resourceName = " ".join(
+                        [i for i in filterName if i != "File" and i != "URL"])
 
-                    fileDict = {"id": fileId, "name": resourceName,
-                                "course": courseName, "url": resource.a["href"]}
-                    files.append(fileDict)
-                    break
-        if (len(files) == 0):
-            return (False)
-        else:
-            self.files=files
-            return (self.files)
+                    if resourceName == searchName:
+                        fileId += 1
+
+                        fileDict = {"id": fileId, "name": resourceName,
+                                    "course": courseName, "url": resource.a["href"]}
+                        files.append(fileDict)
+                        break
+            if (len(files) == 0):
+                return (False)
+            else:
+                self.files=files
+                return (self.files)
+        except AttributeError:
+            pass
     def downloadFile(self, file):
         #print (file["url"])
         fileRequest = self.request_session.get(file["url"], stream=True)
@@ -354,7 +360,7 @@ class dashBoardUI(Frame):
         label_main.place(relwidth=1, relheight=0.95)
 
         button_main = Button(frame_display, text="-->", bg='black', fg='white', activebackground='black',
-                             activeforeground='white',command=lambda: web.openWeb(entry_main.get()))
+                             activeforeground='white',command=lambda: self.mainSearch(entry_main.get()))
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         button_cal1 = Button(frame_cal, text="<--", bg='#1f1f14',
@@ -404,7 +410,11 @@ class dashBoardUI(Frame):
 
         entry_main = Entry(frame_display, bg='white', fg='black')
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
-
+    def mainSearch(self,query):
+        print ("Lms:")
+        print (self.controller.fileSearch(query))
+        web.openWeb(query)
+        
 
 class loginUI(Frame):
     def __init__(self, parent, controller):
