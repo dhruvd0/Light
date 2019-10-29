@@ -81,13 +81,10 @@ class App(Tk):
 
         self.d = {"username": self.userId, "password": self.userPass}
 
-        try:
-            login = self.request_session.post(
+        login = self.request_session.post(
             "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=self.d)  # post request
         # soup element which has all the html content
-        except:
-            print ("lms is not working :/")
-            return ()
+        
         self.dashboardPage = BeautifulSoup(login.content, "html5lib")
 
 
@@ -125,11 +122,23 @@ class App(Tk):
             self.userId = read_d["username"]
             self.userPass = read_d["password"]
             print("try block")
-            self.loginLms()
+            try:
+                
+                test=requests.get("http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1")
+                self.loginLms()
+            except requests.RequestException:
+        
+                print ("lms not working")
 
         except os.error:
-
-            self.show_frame(loginUI)
+            try:
+                
+                test=requests.get("http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1")
+                self.show_frame(loginUI)
+            except requests.RequestException:
+        
+                print ("lms not working")
+           
 
     def seeLastMessages(self):
         while True:
