@@ -48,12 +48,11 @@ class App(Tk):
 
         #self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
-        #self.backGroundThread = threading.Thread(target=self.initBackgroundThreads, name="Background thread").start()
-        #elf.autoLogin()
-        self.show_frame(dashBoardUI)
-        
+        self.backGroundThread = threading.Thread(target=self.initBackgroundThreads, name="Background thread").start()
+        self.autoLogin()
+      
     def initBackgroundThreads(self):
-        self.seeLastMessages()
+        #self.seeLastMessages()
         while(True):
             
             if(self.userName!='name'):
@@ -94,17 +93,19 @@ class App(Tk):
 
             self.userName = self.dashboardPage.find(
                 "span", {"class": "usertext"}).text
+            
+            try:
+                if (self.frames[loginUI].c.get()==1):
+                    
+                    np.save("loginDetails.npy",self.d)
 
-            if (self.frames[loginUI].check.get()):
-
-                np.save("loginDetails.npy", self.d)
-            else:
-                os.remove("loginDetails.npy")
-           
+            except KeyError:
+                pass
+            
             self.show_frame(dashBoardUI)
 
             print("Hi ", self.userName)
-
+            
             return True
 
         except AttributeError:
@@ -133,6 +134,7 @@ class App(Tk):
                 print ("lms not working")
 
         except os.error:
+            print("in os error")
             try:
                 
                 test=requests.get("http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1")
@@ -438,9 +440,10 @@ class loginUI(Frame):
         b2.place(relx=0.6, rely=0.68, relheight=0.05, relwidth=0.317)
 
         # --------------------------------------
-        check = Checkbutton(self, text = 'Remember ID and Password',bg = '#202021', fg = 'grey', activeforeground = 'white', activebackground = '#202021')
-        check.place(relx = 0.4, rely = 0.59)
-
+        self.c=IntVar()
+        self.check = Checkbutton(self, text = 'Remember ID and Password',bg = '#202021', fg = 'grey', activeforeground = 'white', activebackground = '#202021',variable=self.c)
+        self.check.place(relx = 0.4, rely = 0.59)
+     
         self.label_logo = Label(
             self, text="LIGHT", fg='white', font=1000, bg='#202021')
         self.label_logo.place(relx=0.4, relheight=0.2, relwidth=0.2)
@@ -463,6 +466,7 @@ class loginUI(Frame):
         self.entry_pass.place(relx=0.4, rely=0.48,
                               relheight=0.05, relwidth=0.5)
 
+       
         # --------------------------------------------
     def getDat(self):
 
