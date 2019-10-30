@@ -12,7 +12,6 @@ import web
 import threading
 from getpass import getpass
 from bs4 import BeautifulSoup
-#import wget
 import numpy as np
 import threading
 import tkinterhtml
@@ -42,28 +41,27 @@ class App(Tk):
         self.cancelimage = PhotoImage(file='Images/button_cancel.png')
         self.searchimage = PhotoImage(file='Images/button_search.png')
         self.openimage = PhotoImage(file='Images/button_open-file.png')
-        self.facultyimage = PhotoImage(file='Images/button_faculty_contacts.png')
+        self.facultyimage = PhotoImage(
+            file='Images/button_faculty_contacts.png')
         self.loginimage = PhotoImage(file='Images/button_login.png')
         self.messageimage = PhotoImage(file='Images/button_show-messages.png')
 
-        #self. = PhotoImage(file='Images/button_search.png')
+        # self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
-        self.backGroundThread = threading.Thread(target=self.initBackgroundThreads, name="Background thread").start()
+        self.backGroundThread = threading.Thread(
+            target=self.initBackgroundThreads, name="Background thread").start()
         self.autoLogin()
-      
+
     def initBackgroundThreads(self):
-        #self.seeLastMessages()
+        # self.seeLastMessages()
         while(True):
-            
-            if(self.userName!='name'):
-                print ("NOTIFYING")
+
+            if(self.userName != 'name'):
+                print("NOTIFYING")
                 notifs.loginSuccess(self.userName)
                 break
-        #self.deadLines()
+        # self.deadLines()
         #print (self.fileSearch("Tutorial 1"))
-
-
-
 
     def show_frame(self, context):
         frame = context(self.container, self)
@@ -85,27 +83,26 @@ class App(Tk):
         login = self.request_session.post(
             "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=self.d)  # post request
         # soup element which has all the html content
-        
-        self.dashboardPage = BeautifulSoup(login.content, "html5lib")
 
+        self.dashboardPage = BeautifulSoup(login.content, "html5lib")
 
         try:
 
             self.userName = self.dashboardPage.find(
                 "span", {"class": "usertext"}).text
-            
+
             try:
-                if (self.frames[loginUI].c.get()==1):
-                    
-                    np.save("loginDetails.npy",self.d)
+                if (self.frames[loginUI].c.get() == 1):
+
+                    np.save("loginDetails.npy", self.d)
 
             except KeyError:
                 pass
-            
+
             self.show_frame(dashBoardUI)
 
             print("Hi ", self.userName)
-            
+
             return True
 
         except AttributeError:
@@ -126,43 +123,43 @@ class App(Tk):
             self.userPass = read_d["password"]
             print("try block")
             try:
-                
-                test=requests.get("http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1")
+
+                test = requests.get(
+                    "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1")
                 self.loginLms()
             except requests.RequestException:
-        
-                print ("lms not working")
+
+                print("lms not working")
 
         except os.error:
             print("in os error")
             try:
-                
-                test=requests.get("http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1")
+
+                test = requests.get(
+                    "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1")
                 self.show_frame(loginUI)
             except requests.RequestException:
-        
-                print ("lms not working")
-           
+
+                print("lms not working")
 
     def seeLastMessages(self):
         while True:
             try:
-                    
 
                 unreadCount = self.dashboardPage.find(
                     "label", {"class": "unreadnumber"}).text
-                
-                notifs.notify("You have "+ unreadCount+ " messages")
-                messagesRequest = self.request_session.get("http://lms.bennett.edu.in/message/index.php")
-                messagePage = BeautifulSoup(messagesRequest.content, "html5lib")
+
+                notifs.notify("You have " + unreadCount + " messages")
+                messagesRequest = self.request_session.get(
+                    "http://lms.bennett.edu.in/message/index.php")
+                messagePage = BeautifulSoup(
+                    messagesRequest.content, "html5lib")
                 messages = messagePage.find_all("span", {"class": "text"})
                 for message in messages:
                     print(message.text)
                 break
             except TypeError:
                 pass
-
-        
 
     def fileSearch(self, searchName):  # returns a dictionary of file details
         # input("File to search:")
@@ -172,8 +169,8 @@ class App(Tk):
                 "h4", {"class": "media-heading"})
             fileId = 0
             files = []  # dictionary of files returned
-            courseHeadings=courseHeadings[0:int(len(courseHeadings)/2)]
-            for courseHead in courseHeadings :
+            courseHeadings = courseHeadings[0:int(len(courseHeadings)/2)]
+            for courseHead in courseHeadings:
 
                 courseLink = courseHead.a["href"]
 
@@ -202,10 +199,11 @@ class App(Tk):
             if (len(files) == 0):
                 return (False)
             else:
-                self.files=files
+                self.files = files
                 return (self.files)
         except AttributeError:
             pass
+
     def downloadFile(self, file):
         #print (file["url"])
         fileRequest = self.request_session.get(file["url"], stream=True)
@@ -232,7 +230,8 @@ class App(Tk):
                 assignmentPageRequest.content, "html5lib")
             assignmentDiv = assignmentPage.find("div", {"id": "intro"})
             file["name"] = assignmentDiv.a.text
-            assignmentFileReq = self.request_session.get(assignmentDiv.a["href"])
+            assignmentFileReq = self.request_session.get(
+                assignmentDiv.a["href"])
             path = file["course"]+"/"+file["name"]
             try:
                 with open(path, 'wb') as t:
@@ -313,8 +312,8 @@ class dashBoardUI(Frame):
         canvas = Canvas(self, height=HEIGHT, width=WIDTH, bg='black')
         canvas.pack()
 
-        mainlabel = Label(self, image = controller.mainbg)
-        mainlabel.place(relheight = 1 , relwidth = 1)
+        mainlabel = Label(self, image=controller.mainbg)
+        mainlabel.place(relheight=1, relwidth=1)
 
         frame = Frame(self, bg='#2875AC')
         frame.place(relx=0.7, relwidth=0.2, relheight=0.05)
@@ -362,7 +361,7 @@ class dashBoardUI(Frame):
         label_main.place(relwidth=1, relheight=0.95)
 
         button_main = Button(frame_display, text="-->", bg='black', fg='white', activebackground='black',
-                             activeforeground='white',command=lambda: self.mainSearch(entry_main.get()))
+                             activeforeground='white', command=lambda: self.mainSearch(entry_main.get()))
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         button_cal1 = Button(frame_cal, text="<--", bg='#1f1f14',
@@ -412,11 +411,12 @@ class dashBoardUI(Frame):
 
         entry_main = Entry(frame_display, bg='white', fg='black')
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
-    def mainSearch(self,query):
-        print ("Lms:")
-        print (self.controller.fileSearch(query))
+
+    def mainSearch(self, query):
+        print("Lms:")
+        print(self.controller.fileSearch(query))
         web.openWeb(query)
-        
+
 
 class loginUI(Frame):
     def __init__(self, parent, controller):
@@ -429,21 +429,23 @@ class loginUI(Frame):
             self, height=height, width=width, bg='black')
         canvas.pack()
 
-        loginlabel = Label(self, image = controller.loginbg)
-        loginlabel.place(relheight = 1, relwidth = 1)
+        loginlabel = Label(self, image=controller.loginbg)
+        loginlabel.place(relheight=1, relwidth=1)
 
         b = Button(self, text="Submit", bg='#202021', fg='white', activebackground='black',
-                   activeforeground='white',bd = 0,image = controller.loginimage, command=lambda: self.getDat())
+                   activeforeground='white', bd=0, image=controller.loginimage, command=lambda: self.getDat())
         b.place(relx=0.22, rely=0.68, relheight=0.05, relwidth=0.315)
 
-        b2 = Button(self,text = "Cancel",bg='#202021', fg='white', activebackground='black',bd = 0,activeforeground='white', image = controller.cancelimage )
+        b2 = Button(self, text="Cancel", bg='#202021', fg='white', activebackground='black',
+                    bd=0, activeforeground='white', image=controller.cancelimage)
         b2.place(relx=0.6, rely=0.68, relheight=0.05, relwidth=0.317)
 
         # --------------------------------------
-        self.c=IntVar()
-        self.check = Checkbutton(self, text = 'Remember ID and Password',bg = '#202021', fg = 'grey', activeforeground = 'white', activebackground = '#202021',variable=self.c)
-        self.check.place(relx = 0.4, rely = 0.59)
-     
+        self.c = IntVar()
+        self.check = Checkbutton(self, text='Remember ID and Password', bg='#202021',
+                                 fg='grey', activeforeground='white', activebackground='#202021', variable=self.c)
+        self.check.place(relx=0.4, rely=0.59)
+
         self.label_logo = Label(
             self, text="LIGHT", fg='white', font=1000, bg='#202021')
         self.label_logo.place(relx=0.4, relheight=0.2, relwidth=0.2)
@@ -458,16 +460,16 @@ class loginUI(Frame):
         self.label_error = Label(self, text='''You have entered your password or username incorrectly. 
         Please check and try again. ''', fg='white', bg='#38383A', bd=2)
 
-        self.entry_user = Entry(self, bg='#202021', fg='white',bd = 2)
+        self.entry_user = Entry(self, bg='#202021', fg='white', bd=2)
         self.entry_user.place(relx=0.4, rely=0.38,
                               relheight=0.05, relwidth=0.5)
         self.entry_pass = Entry(
-            self, bg='#202021', fg='white', show="*",bd = 2)
+            self, bg='#202021', fg='white', show="*", bd=2)
         self.entry_pass.place(relx=0.4, rely=0.48,
                               relheight=0.05, relwidth=0.5)
 
-       
         # --------------------------------------------
+
     def getDat(self):
 
         self.controller.userId = self.entry_user.get()
