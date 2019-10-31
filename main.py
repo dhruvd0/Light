@@ -14,10 +14,26 @@ from getpass import getpass
 from bs4 import BeautifulSoup
 import numpy as np
 import threading
-import tkinterhtml
+
 
 
 # UI---------------------
+def search(query,string):
+    for i in string.split():
+        check1=i.lower()
+        check2=query.lower()
+        if check1==check2:
+            return True
+    return False
+        
+
+def searchInString(query,string):
+    for i in query.split():
+        if (search(i,string)==False):
+            return False
+    return True
+
+        
 
 
 class App(Tk):
@@ -189,7 +205,7 @@ class App(Tk):
                     resourceName = " ".join(
                         [i for i in filterName if i != "File" and i != "URL"])
 
-                    if resourceName == searchName:
+                    if searchInString(searchName,resourceName):
                         fileId += 1
 
                         fileDict = {"id": fileId, "name": resourceName,
