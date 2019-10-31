@@ -429,9 +429,13 @@ class dashBoardUI(Frame):
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
     def mainSearch(self, query):
-        print("Lms:")
-        print(self.controller.fileSearch(query))
-        web.openWeb(query)
+        
+        if(self.controller.fileSearch(query)==False):
+                
+            web.openWeb(query)
+        else:
+            print (self.controller.fileSearch(query))
+        
 
 
 class loginUI(Frame):
