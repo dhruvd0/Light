@@ -366,7 +366,7 @@ class dashBoardUI(Frame):
         label_dline = Label(frame_dline,bg='black' ,fg='white', font=30)
         label_dline.place(rely= 0.1, relheight=1, relwidth=1)
 
-        label_main = Label(frame_display)
+        label_main = Label(frame_display,bg='grey')
         label_main.place(relwidth=1, relheight=0.95)
 
         button_main = Button(frame_display, text="-->", bg='white', fg='white', activebackground='black',
