@@ -502,6 +502,3 @@ class loginUI(Frame):
 
 app = App()
 app.mainloop()
-
-
-print ("test for push")
