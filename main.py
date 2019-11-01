@@ -352,8 +352,8 @@ class dashBoardUI(Frame):
         '''frame_sugg = Frame(self, bg='black')
         frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)'''
 
-        label1 = Label(frame_dline, text="WELCOME, "+controller.userName
-                       , fg='white', font=25)
+        label1 = Label(frame, text="WELCOME, "+controller.userName
+                      ,bg='#2875AC' , fg='black', font=25)
         label1.pack()
 
         # labels for calender --------->
@@ -419,7 +419,7 @@ class dashBoardUI(Frame):
 
         button_exit = Button(self, text="EXIT", bg='#1f1f14', fg='white',
                              activebackground='black', activeforeground='white', bd=0, command=controller.exitApp, image=controller.powerImage)
-        button_exit.place(relx=0, rely=0.9, relheight=0.12, relwidth=0.06)
+        button_exit.place(relx=0.93, rely=0.9, relheight=0.12, relwidth=0.06)
         # scrollbar for main window ------>
 
         scroll1 = Scrollbar(label_main, bg='blue')
