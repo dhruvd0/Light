@@ -354,16 +354,16 @@ class dashBoardUI(Frame):
         label1.pack()
 
         # labels for calender --------->
-        label_tt_text = Label(frame_tt,text = "CALENDAR", font = 30)
+        label_tt_text = Label(frame_tt,text = "CALENDAR", font = 30,bg='grey',fg='white')
         label_tt_text.place(relx=0.15,relheight = 0.1 ,relwidth = 0.7)
 
-        label_tt1 = Label(frame_tt)
+        label_tt1 = Label(frame_tt,bg='black')
         label_tt1.place(rely = 0.1 ,relheight=1, relwidth=1)
         
-        label_dline_text = Label(frame_dline,text = "DEADLINES", fg = 'black',font = 30)
+        label_dline_text = Label(frame_dline,text = "DEADLINES",bg='grey', fg = 'white',font = 30)
         label_dline_text.place(relheight = 0.1,relwidth = 1)
         
-        label_dline = Label(frame_dline, fg='black', font=30)
+        label_dline = Label(frame_dline,bg='black' ,fg='white', font=30)
         label_dline.place(rely= 0.1, relheight=1, relwidth=1)
 
         label_main = Label(frame_display)
@@ -375,11 +375,11 @@ class dashBoardUI(Frame):
 
         # buttons for time table ------->
 
-        button_tt1 = Button(frame_tt, text='<-- ', bg='white', fg='white',
+        button_tt1 = Button(frame_tt, text='<-- ', bg='grey', fg='white',
                             activebackground='white', activeforeground='white',bd = 0, image = controller.leftimage)
         button_tt1.place(relheight=0.1, relwidth=0.15)
 
-        button_tt2 = Button(frame_tt, text='  -->', bg='white', fg='white',
+        button_tt2 = Button(frame_tt, text='  -->', bg='grey', fg='white',
                             activebackground='white', activeforeground='white',bd = 0, image = controller.rightimage)
         button_tt2.place(relx=0.85, relheight=0.1, relwidth=0.15)
 
