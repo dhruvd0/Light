@@ -389,10 +389,10 @@ class dashBoardUI(Frame):
         button_exit.place(relx=0.93, rely=0.9, relheight=0.12, relwidth=0.06)
         # scrollbar for main window ------>
 
-        scroll1 = Scrollbar(label_main, bg='blue')
+        scroll1 = Scrollbar(label_main, bg='black')
         scroll1.place(relheight=1, relx=0.98)
 
-        entry_main = Entry(frame_display, bg='white', fg='black')
+        entry_main = Entry(frame_display, bg='#393737', fg='white')
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
     def mainSearch(self, query):
