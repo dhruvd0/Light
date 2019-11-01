@@ -332,16 +332,16 @@ class dashBoardUI(Frame):
         mainlabel.place(relheight=1, relwidth=1)
 
         frame = Frame(self, bg='#2875AC')
-        frame.place(relx=0.7, relwidth=0.2, relheight=0.05)
+        frame.place(relx=0.8, relwidth=0.2, relheight=0.05)
 
         frame_display = Frame(self, bg='white')
         frame_display.place(relx=0.24, rely=0.2, relwidth=0.5, relheight=0.6)
 
         frame_dline = Frame(self, bg='white')
-        frame_dline.place(relx=0.8, rely=0.2, relwidth=0.3, relheight=0.299)
+        frame_dline.place(relx=0.8, rely=0.2, relwidth=0.2, relheight=0.6)
 
-        frame_cal = Frame(self, bg='white')
-        frame_cal.place(relx=0.8, rely=0.5, relwidth=0.3, relheight=0.3)
+      #  frame_cal = Frame(self, bg='white')
+       # frame_cal.place(relx=0.8, rely=0.5, relwidth=0.3, relheight=0.3)
 
         frame_tt = Frame(self, bg='white')
         frame_tt.place(rely=0.2, relwidth=0.2, relheight=0.6)
@@ -349,11 +349,11 @@ class dashBoardUI(Frame):
         frame_image = Frame(self, bg='white')
         frame_image.place(relx=0.37, rely=0.01, relwidth=0.2, relheight=0.1)
 
-        frame_sugg = Frame(self, bg='black')
-        frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)
+        '''frame_sugg = Frame(self, bg='black')
+        frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)'''
 
-        label1 = Label(frame, text="WELCOME, "+controller.userName,
-                       bg='black', fg='white', font=25)
+        label1 = Label(frame_dline, text="WELCOME, "+controller.userName
+                       , fg='white', font=25)
         label1.pack()
 
         # labels for calender --------->
@@ -363,7 +363,7 @@ class dashBoardUI(Frame):
         label_dline = Label(frame_dline, text="DEADLINES", fg='black', font=30)
         label_dline.place(relheight=1, relwidth=1)
 
-        label_cal1 = Label(frame_cal, text="CALENDER", font=15)
+        '''label_cal1 = Label(frame_cal, text="CALENDER", font=15)
         label_cal1.place(relx=0.08, relheight=0.1, relwidth=0.5)
 
         label_cal2 = Label(frame_cal)
@@ -371,7 +371,7 @@ class dashBoardUI(Frame):
 
         label_sugg = Label(frame_sugg, text='Suggestions: ',
                            font=20, bg='black', fg='white')
-        label_sugg.place(relwidth=0.14, relheight=0.3)
+        label_sugg.place(relwidth=0.14, relheight=0.3)'''
 
         label_main = Label(frame_display)
         label_main.place(relwidth=1, relheight=0.95)
@@ -380,13 +380,13 @@ class dashBoardUI(Frame):
                              activeforeground='white', command=lambda: self.mainSearch(entry_main.get()))
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
-        button_cal1 = Button(frame_cal, text="<--", bg='#1f1f14',
+        '''button_cal1 = Button(frame_cal, text="<--", bg='#1f1f14',
                              fg='white', activebackground='black', activeforeground='white')
         button_cal1.place(relx=0.0001, relheight=0.1, relwidth=0.1)
 
         button_cal1 = Button(frame_cal, text="-->", bg='#1f1f14',
                              fg='white', activebackground='black', activeforeground='white')
-        button_cal1.place(relx=0.55, relheight=0.1, relwidth=0.1)
+        button_cal1.place(relx=0.55, relheight=0.1, relwidth=0.1)'''
 
         # buttons for time table ------->
 
@@ -399,7 +399,7 @@ class dashBoardUI(Frame):
         button_tt2.place(relx=0.85, relheight=0.1, relwidth=0.15)
 
         # suggestion buttons ------>
-        button_openfile = PhotoImage(file='Images/button_open-file.png')
+        '''button_openfile = PhotoImage(file='Images/button_open-file.png')
         button_sugg1 = Button(frame_sugg, text='Suggestion 1', bg='black',
                               fg='white', activebackground='black', activeforeground='white', bd=0, image=button_openfile)
         button_sugg1.place(relx=0.05, rely=0.45, relheight=0.45, relwidth=0.13)
@@ -415,11 +415,11 @@ class dashBoardUI(Frame):
         button_messages = PhotoImage(file='Images/button_show-messages.png')
         button_sugg4 = Button(frame_sugg, text='Suggestion 4', bg='black',
                               fg='white', activebackground='black', activeforeground='white', bd=0, image=button_messages)
-        button_sugg4.place(relx=0.65, rely=0.45, relheight=0.4, relwidth=0.15)
+        button_sugg4.place(relx=0.65, rely=0.45, relheight=0.4, relwidth=0.15)'''
 
-        button_exit = Button(frame_sugg, text="EXIT", bg='#1f1f14', fg='white',
+        button_exit = Button(self, text="EXIT", bg='#1f1f14', fg='white',
                              activebackground='black', activeforeground='white', bd=0, command=controller.exitApp, image=controller.powerImage)
-        button_exit.place(relx=0.85, rely=0.45, relheight=0.8, relwidth=0.08)
+        button_exit.place(relx=0, rely=0.9, relheight=0.12, relwidth=0.06)
         # scrollbar for main window ------>
 
         scroll1 = Scrollbar(label_main, bg='blue')
