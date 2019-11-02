@@ -72,20 +72,10 @@ class App(Tk):
 
         # self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
-        self.backGroundThread = threading.Thread(target=self.initBackgroundThreads, name="Background thread").start()
+      
         self.autoLogin()
         
 
-    def initBackgroundThreads(self):
-        # self.seeLastMessages()
-        while(True):
-
-            if(self.userName != 'name'):
-                print("NOTIFYING")
-                
-                break
-        # self.deadLines()
-        #print (self.fileSearch("Tutorial 1"))
 
     def show_frame(self, context):
         frame = context(self.container, self)
@@ -493,8 +483,10 @@ class loginUI(Frame):
 app = App()
 
 
-msgThread=threading.Thread(target=app.seeLastMessages).start()
 
 app.mainloop()
+
+
+msgThread=threading.Thread(target=app.seeLastMessages).start()
 
 np.save("msg.npy",app.unreads)
