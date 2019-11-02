@@ -51,16 +51,13 @@ class App(Tk):
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
         self.events = []  # contains dicts of events
-        self.powerImage = PhotoImage(file='Images/power1.png')
+        self.powerImage = PhotoImage(file='Images/power.png')
         self.loginbg = PhotoImage(file='Images/loginbg2_image.png')
         self.mainbg = PhotoImage(file='Images/mainbg_image.png')
-        self.cancelimage = PhotoImage(file='Images/button_cancel.png')
-        self.searchimage = PhotoImage(file='Images/button_search.png')
-        self.openimage = PhotoImage(file='Images/button_open-file.png')
-        self.facultyimage = PhotoImage(
-            file='Images/button_faculty_contacts.png')
         self.loginimage = PhotoImage(file='Images/button_login.png')
-        self.messageimage = PhotoImage(file='Images/button_show-messages.png')
+        self.leftimage = PhotoImage(file='Images/left_image.png')
+        self.rightimage = PhotoImage(file='Images/right_image.png')
+        self.enterimage = PhotoImage(file='Images/enter_arrow.png')
 
         # self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
@@ -331,20 +328,20 @@ class dashBoardUI(Frame):
         mainlabel = Label(self, image=controller.mainbg)
         mainlabel.place(relheight=1, relwidth=1)
 
-        frame = Frame(self, bg='#2875AC')
+        frame = Frame(self, bg='black')
         frame.place(relx=0.8, relwidth=0.2, relheight=0.05)
 
         frame_display = Frame(self, bg='white')
-        frame_display.place(relx=0.24, rely=0.2, relwidth=0.5, relheight=0.6)
+        frame_display.place(relx=0.24, rely=0.23, relwidth=0.5, relheight=0.6)
 
         frame_dline = Frame(self, bg='white')
-        frame_dline.place(relx=0.8, rely=0.2, relwidth=0.2, relheight=0.6)
+        frame_dline.place(relx=0.8, rely=0.23, relwidth=0.2, relheight=0.6)
 
       #  frame_cal = Frame(self, bg='white')
        # frame_cal.place(relx=0.8, rely=0.5, relwidth=0.3, relheight=0.3)
 
         frame_tt = Frame(self, bg='white')
-        frame_tt.place(rely=0.2, relwidth=0.2, relheight=0.6)
+        frame_tt.place(rely=0.23, relwidth=0.2, relheight=0.6)
 
         frame_image = Frame(self, bg='white')
         frame_image.place(relx=0.37, rely=0.01, relwidth=0.2, relheight=0.1)
@@ -353,79 +350,49 @@ class dashBoardUI(Frame):
         frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)'''
 
         label1 = Label(frame, text="WELCOME, "+controller.userName
-                      ,bg='#2875AC' , fg='black', font=25)
+                      ,bg='black' , fg='white', font=25)
         label1.pack()
 
         # labels for calender --------->
-        label_tt1 = Label(frame_tt, text="test", font=20)
-        label_tt1.place(rely=0.1, relheight=1, relwidth=1)
+        label_tt_text = Label(frame_tt,text = "TIMETABLE", font = 30,bg='grey',fg='white')
+        label_tt_text.place(relx=0.15,relheight = 0.1 ,relwidth = 0.7)
 
-        label_dline = Label(frame_dline, text="DEADLINES", fg='black', font=30)
-        label_dline.place(relheight=1, relwidth=1)
+        label_tt1 = Label(frame_tt,bg='black')
+        label_tt1.place(rely = 0.1 ,relheight=1, relwidth=1)
+        
+        label_dline_text = Label(frame_dline,text = "DEADLINES",bg='grey', fg = 'white',font = 30)
+        label_dline_text.place(relheight = 0.1,relwidth = 1)
+        
+        label_dline = Label(frame_dline,bg='black' ,fg='white', font=30)
+        label_dline.place(rely= 0.1, relheight=1, relwidth=1)
 
-        '''label_cal1 = Label(frame_cal, text="CALENDER", font=15)
-        label_cal1.place(relx=0.08, relheight=0.1, relwidth=0.5)
-
-        label_cal2 = Label(frame_cal)
-        label_cal2.place(rely=0.1, relheight=0.9, relwidth=1)
-
-        label_sugg = Label(frame_sugg, text='Suggestions: ',
-                           font=20, bg='black', fg='white')
-        label_sugg.place(relwidth=0.14, relheight=0.3)'''
-
-        label_main = Label(frame_display)
+        label_main = Label(frame_display,bg='grey')
         label_main.place(relwidth=1, relheight=0.95)
 
-        button_main = Button(frame_display, text="-->", bg='black', fg='white', activebackground='black',
-                             activeforeground='white', command=lambda: self.mainSearch(entry_main.get()))
+        button_main = Button(frame_display, text="-->", bg='white', fg='white', activebackground='black',
+                             activeforeground='white',bd = 0, image = controller.enterimage, command=lambda: self.mainSearch(entry_main.get()))
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
-
-        '''button_cal1 = Button(frame_cal, text="<--", bg='#1f1f14',
-                             fg='white', activebackground='black', activeforeground='white')
-        button_cal1.place(relx=0.0001, relheight=0.1, relwidth=0.1)
-
-        button_cal1 = Button(frame_cal, text="-->", bg='#1f1f14',
-                             fg='white', activebackground='black', activeforeground='white')
-        button_cal1.place(relx=0.55, relheight=0.1, relwidth=0.1)'''
 
         # buttons for time table ------->
 
-        button_tt1 = Button(frame_tt, text='<-- ', bg='#1f1f14', fg='white',
-                            activebackground='black', activeforeground='white')
+        button_tt1 = Button(frame_tt, text='<-- ', bg='grey', fg='white',
+                            activebackground='white', activeforeground='white',bd = 0, image = controller.leftimage)
         button_tt1.place(relheight=0.1, relwidth=0.15)
 
-        button_tt2 = Button(frame_tt, text='  -->', bg='#1f1f14', fg='white',
-                            activebackground='black', activeforeground='white')
+        button_tt2 = Button(frame_tt, text='  -->', bg='grey', fg='white',
+                            activebackground='white', activeforeground='white',bd = 0, image = controller.rightimage)
         button_tt2.place(relx=0.85, relheight=0.1, relwidth=0.15)
 
-        # suggestion buttons ------>
-        '''button_openfile = PhotoImage(file='Images/button_open-file.png')
-        button_sugg1 = Button(frame_sugg, text='Suggestion 1', bg='black',
-                              fg='white', activebackground='black', activeforeground='white', bd=0, image=button_openfile)
-        button_sugg1.place(relx=0.05, rely=0.45, relheight=0.45, relwidth=0.13)
 
-        button_search = PhotoImage(file='Images/button_search.png')
-        button_sugg2 = Button(frame_sugg, text='Suggestion 2', bg='black',
-                              fg='white', activebackground='black', activeforeground='white', bd=0, image=button_search)
-        button_sugg2.place(relx=0.25, rely=0.45, relheight=0.45, relwidth=0.12)
-
-        button_sugg3 = Button(frame_sugg, text='Suggestion 3', bg='black',
-                              fg='white', activebackground='black', activeforeground='white', bd=0)
-        button_sugg3.place(relx=0.45, rely=0.45, relheight=0.4, relwidth=0.15)
-        button_messages = PhotoImage(file='Images/button_show-messages.png')
-        button_sugg4 = Button(frame_sugg, text='Suggestion 4', bg='black',
-                              fg='white', activebackground='black', activeforeground='white', bd=0, image=button_messages)
-        button_sugg4.place(relx=0.65, rely=0.45, relheight=0.4, relwidth=0.15)'''
-
-        button_exit = Button(self, text="EXIT", bg='#1f1f14', fg='white',
+        button_exit = Button(self, text="EXIT", bg='black', fg='white',
                              activebackground='black', activeforeground='white', bd=0, command=controller.exitApp, image=controller.powerImage)
         button_exit.place(relx=0.93, rely=0.9, relheight=0.12, relwidth=0.06)
         # scrollbar for main window ------>
 
-        scroll1 = Scrollbar(label_main, bg='blue')
+        scroll1 = Scrollbar(label_main, bg='black')
         scroll1.place(relheight=1, relx=0.98)
 
-        entry_main = Entry(frame_display, bg='white', fg='black')
+        entry_main = Entry(frame_display, bg='#393737', fg='white')
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
     def mainSearch(self, query):
