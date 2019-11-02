@@ -59,6 +59,14 @@ class App(Tk):
         self.rightimage = PhotoImage(file='Images/right_image.png')
         self.enterimage = PhotoImage(file='Images/enter_arrow.png')
         self.cancelimage=PhotoImage(file='Images/button_cancel.png')
+        try:
+                
+           temp=np.load("msg.npy").item()
+           self.unreads=list(temp)
+        except FileNotFoundError:
+            self.unreads=[]
+        
+        
 
         # self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
@@ -72,7 +80,7 @@ class App(Tk):
 
             if(self.userName != 'name'):
                 print("NOTIFYING")
-                notifs.loginSuccess(self.userName)
+                
                 break
         # self.deadLines()
         #print (self.fileSearch("Tutorial 1"))
@@ -159,19 +167,27 @@ class App(Tk):
     def seeLastMessages(self):
         while True:
             try:
+                l = requests.post("http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=self.d)  # post request
+        # soup element which has all the html content
 
-                unreadCount = self.dashboardPage.find(
+                dash = BeautifulSoup(l.content, "html5lib")
+
+                unreadCount = dash.find(
                     "label", {"class": "unreadnumber"}).text
+                
 
-                notifs.notify("You have " + unreadCount + " messages")
-                messagesRequest = self.request_session.get(
-                    "http://lms.bennett.edu.in/message/index.php")
-                messagePage = BeautifulSoup(
-                    messagesRequest.content, "html5lib")
-                messages = messagePage.find_all("span", {"class": "text"})
-                for message in messages:
-                    print(message.text)
-                break
+                temp=self.unreads[::-1]
+                if(len(temp)>0):
+                    check=temp[0]
+                    if (check!=unreadCount):
+                        print ("   N    ")
+                        notifs.notify("You have " + unreadCount + " messages")
+                        self.unreads.append(unreadCount)
+                else:
+                    print ("Appending")
+                    self.unreads.append(unreadCount)
+                    
+              
             except TypeError:
                 pass
 
@@ -468,5 +484,15 @@ class loginUI(Frame):
 # -------------------------------------------------------------
 
 
+
+
+
+
 app = App()
+
+
+msgThread=threading.Thread(target=app.seeLastMessages).start()
+
 app.mainloop()
+
+np.save("msg.npy",app.unreads)
