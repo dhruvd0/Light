@@ -59,7 +59,7 @@ class App(Tk):
         self.rightimage = PhotoImage(file='Images/right_image.png')
         self.enterimage = PhotoImage(file='Images/enter_arrow.png')
         self.cancelimage=PhotoImage(file='Images/button_cancel.png')
-        self.logoimage=PhotoImage(file='Images/logo.png')
+        self.logoimage=PhotoImage(file='Images/logo4.png')
         try:
                 
            temp=np.load("msg.npy",allow_pickle=True).item()
@@ -354,7 +354,7 @@ class dashBoardUI(Frame):
         frame_tt.place(rely=0.23, relwidth=0.2, relheight=0.6)
 
         frame_image = Frame(self, bg='white')
-        frame_image.place(relx=0.37, rely=0.01, relwidth=0.3, relheight=0.3)
+        frame_image.place(relx=0.40, rely=0.01, relwidth=0.15, relheight=0.18)
 
         '''frame_sugg = Frame(self, bg='black')
         frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)'''
@@ -363,7 +363,7 @@ class dashBoardUI(Frame):
         label_logo.place(relheight=1,relwidth = 1)
         
         label1 = Label(frame, text="WELCOME, "+controller.userName
-                      ,bg='black' , fg='white', font=25)
+                       , fg='white', font=25)
         label1.pack()
 
         # labels for calender --------->
@@ -447,8 +447,8 @@ class loginUI(Frame):
         self.check.place(relx=0.4, rely=0.59)
 
         self.label_logo = Label(
-            self, text="LIGHT", fg='white', font=1000, bg='#202021')
-        self.label_logo.place(relx=0.4, relheight=0.2, relwidth=0.2)
+            self, text="LIGHT", fg='white', font=1000, bg='#202021', image = controller.logoimage)
+        self.label_logo.place(relx=0.35, relheight=0.33, relwidth=0.4)
         self.label2 = Label(
             self, text="Password: ", bg='#38383A', fg='white', font=23)
         self.label2.place(relx=0.15, rely=0.48)
