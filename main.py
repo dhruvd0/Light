@@ -59,7 +59,6 @@ class App(Tk):
         self.rightimage = PhotoImage(file='Images/right_image.png')
         self.enterimage = PhotoImage(file='Images/enter_arrow.png')
         self.cancelimage=PhotoImage(file='Images/button_cancel.png')
-        self.logoimage=PhotoImage(file='Images/logo.png')
         try:
                 
            temp=np.load("msg.npy").item()
@@ -366,9 +365,6 @@ class dashBoardUI(Frame):
 
         '''frame_sugg = Frame(self, bg='black')
         frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)'''
-
-        label_logo = Label(frame_image,image = controller.logoimage)
-        label_logo.place(relheight=1,relwidth =1)
         
         label1 = Label(frame, text="WELCOME, "+controller.userName
                       ,bg='black' , fg='white', font=25)
