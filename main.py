@@ -61,9 +61,11 @@ class App(Tk):
         self.cancelimage=PhotoImage(file='Images/button_cancel.png')
         try:
                 
-           temp=np.load("msg.npy").item()
+           temp=np.load("msg.npy",allow_pickle=True).item()
            self.unreads=list(temp)
         except FileNotFoundError:
+            self.unreads=[]
+        except ValueError:
             self.unreads=[]
         
         
