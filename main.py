@@ -64,9 +64,9 @@ class App(Tk):
 
         # self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
-        self.backGroundThread = threading.Thread(
-            target=self.initBackgroundThreads, name="Background thread").start()
+        self.backGroundThread = threading.Thread(target=self.initBackgroundThreads, name="Background thread").start()
         self.autoLogin()
+        
 
     def initBackgroundThreads(self):
         # self.seeLastMessages()
