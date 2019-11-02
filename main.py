@@ -58,6 +58,7 @@ class App(Tk):
         self.leftimage = PhotoImage(file='Images/left_image.png')
         self.rightimage = PhotoImage(file='Images/right_image.png')
         self.enterimage = PhotoImage(file='Images/enter_arrow.png')
+        self.cancelimage=PhotoImage(file='Images/button_cancel.png')
 
         # self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
@@ -348,7 +349,7 @@ class dashBoardUI(Frame):
 
         '''frame_sugg = Frame(self, bg='black')
         frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)'''
-
+        
         label1 = Label(frame, text="WELCOME, "+controller.userName
                       ,bg='black' , fg='white', font=25)
         label1.pack()
