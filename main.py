@@ -354,7 +354,7 @@ class dashBoardUI(Frame):
         label1.pack()
 
         # labels for calender --------->
-        label_tt_text = Label(frame_tt,text = "CALENDAR", font = 30,bg='grey',fg='white')
+        label_tt_text = Label(frame_tt,text = "TIMETABLE", font = 30,bg='grey',fg='white')
         label_tt_text.place(relx=0.15,relheight = 0.1 ,relwidth = 0.7)
 
         label_tt1 = Label(frame_tt,bg='black')
