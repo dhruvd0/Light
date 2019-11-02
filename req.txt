@@ -1,0 +1,11 @@
+python -m pip install tkinter
+python -m pip install os
+python -m pip install win10toast
+python -m pip install webbrowser
+python -m pip install requests
+python -m pip install urllib
+python -m pip install threading
+python -m pip install getpass
+python -m pip install bs4
+python -m pip install numpy 
+python -m pip install threading
