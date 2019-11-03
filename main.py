@@ -98,38 +98,30 @@ class App(Tk):
     def loginLms(self):  # sends a request to website for login => pushes a toast notif if successfull
 
         self.d = {"username": self.userId, "password": self.userPass}
-
         login = self.request_session.post(
             "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=self.d)  # post request
         # soup element which has all the html content
-
         self.dashboardPage = BeautifulSoup(login.content, "html5lib")
 
         try:
 
             self.userName = self.dashboardPage.find(
                 "span", {"class": "usertext"}).text
-
             try:
                 if (self.frames[loginUI].c.get() == 1):
 
                     np.save("loginDetails.npy", self.d)
-
             except KeyError:
                 pass
 
             self.show_frame(dashBoardUI)
-
             print("Hi ", self.userName)
-
             return True
-
         except AttributeError:
             #print (self.d)
             print("Invalid login please try again")
             self.frames[loginUI].label_error.place(
                 relx=0.16, rely=0.75, relheight=0.06, relwidth=0.7)
-
             return False
 
     def autoLogin(self):  # checks if file has login data and launches gui if file is empty
@@ -167,8 +159,6 @@ class App(Tk):
 
                 unreadCount = self.dashboardPage.find(
                     "label", {"class": "unreadnumber"}).text
-
-        
                 notifs.notify("You have " + unreadCount + " messages")
                 break
                
@@ -176,36 +166,27 @@ class App(Tk):
                 pass
 
     def fileSearch(self, searchName):  # returns a dictionary of file details
-        # input("File to search:")
         try:
-
             courseHeadings = self.dashboardPage.find_all(
                 "h4", {"class": "media-heading"})
             fileId = 0
             files = []  # dictionary of files returned
             courseHeadings = courseHeadings[0:int(len(courseHeadings)/2)]
             for courseHead in courseHeadings:
-
                 courseLink = courseHead.a["href"]
-
                 courseRequest = self.request_session.get(courseLink)
                 coursePage = BeautifulSoup(courseRequest.content, "html5lib")
                 resources = coursePage.find_all(
                     "div", {"class": "activityinstance"})
-
                 courseName = "".join(
                     [i for i in courseHead.text.split() if i != " "])
-
                 for resource in resources:
-
                     resourceName = resource.span.text
                     filterName = resourceName.split()
                     resourceName = " ".join(
                         [i for i in filterName if i != "File" and i != "URL"])
-
                     if searchInString(searchName, resourceName):
                         fileId += 1
-
                         fileDict = {"id": fileId, "name": resourceName,
                                     "course": courseName, "url": resource.a["href"]}
                         files.append(fileDict)
@@ -264,15 +245,14 @@ class App(Tk):
             read_d = np.load('events.npy')
             os.path.getsize("events.npy")
             print(read_d)
-            print("Reading from file")
+           
         except os.error:
-            print("downloading")
+            
             count = 0
             while(True):
                 count += 1
-                print("Trying:", count)
+                
                 try:
-
                     calLink = self.dashboardPage.find(
                         "a", {"title": "This month"}).attrs["href"]
                     calendarRequest = self.request_session.get(calLink)
@@ -281,9 +261,6 @@ class App(Tk):
 
                     liElements = calendarPage.find_all(
                         "li", {"class": "calendar_event_course"})  # li element
-
-                    # print(liElements)
-
                     for liElement in liElements:
                         dayViewRequest = self.request_session.get(
                             liElement.a["href"])
@@ -293,18 +270,14 @@ class App(Tk):
                             "h3", {"class": "referer"}, text=liElement.a.text)
                         event = {"name": h3Element.a.text,
                                  "link": h3Element.a["href"]}
-
                         fileReq = self.request_session.get(event["link"])
                         filePage = BeautifulSoup(fileReq.content, "html5lib")
                         if filePage.find("h3").text == "Submission status":
                             event["isSubmit"] = True
-
                         else:
                             event["isSubmit"] = False
-
                         self.events.append(event)
                         print("Saving event:", event)
-
                     np.save("events.npy", self.events)
                     return (True)
                 except AttributeError:
