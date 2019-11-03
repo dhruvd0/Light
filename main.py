@@ -60,7 +60,6 @@ class App(Tk):
         self.enterimage = PhotoImage(file='Images/enter_arrow.png')
         self.cancelimage=PhotoImage(file='Images/button_cancel.png')
         self.logoimage=PhotoImage(file='Images/logo4.png')
-        self.mondayImage=PhotoImage(file="Time_Table/monday.png")
         try:
                 
            temp=np.load("msg.npy",allow_pickle=True).item()
@@ -74,8 +73,8 @@ class App(Tk):
 
         # self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
-        self.show_frame(dashBoardUI)
-        #self.autoLogin()
+      
+        self.autoLogin()
         
 
 
@@ -333,67 +332,53 @@ class dashBoardUI(Frame):
         HEIGHT = 1080
         WIDTH = 1920
 
-      
-
         canvas = Canvas(self, height=HEIGHT, width=WIDTH, bg='black')
         canvas.pack()
+
+        mainlabel = Label(self, image=controller.mainbg)
+        mainlabel.place(relheight=1, relwidth=1)
+
         frame = Frame(self, bg='black')
         frame.place(relx=0.8, relwidth=0.2, relheight=0.05)
+
+        frame_display = Frame(self, bg='white')
+        frame_display.place(relx=0.24, rely=0.23, relwidth=0.5, relheight=0.6)
+
+        frame_dline = Frame(self, bg='white')
+        frame_dline.place(relx=0.8, rely=0.23, relwidth=0.2, relheight=0.6)
+
+      #  frame_cal = Frame(self, bg='white')
+       # frame_cal.place(relx=0.8, rely=0.5, relwidth=0.3, relheight=0.3)
+
+        frame_tt = Frame(self, bg='white')
+        frame_tt.place(rely=0.23, relwidth=0.2, relheight=0.6)
+
         frame_image = Frame(self, bg='white')
         frame_image.place(relx=0.40, rely=0.01, relwidth=0.15, relheight=0.18)
+
+        '''frame_sugg = Frame(self, bg='black')
+        frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)'''
+
         label_logo = Label(frame_image, image = controller.logoimage)
         label_logo.place(relheight=1,relwidth = 1)
-      
+        
         label1 = Label(frame, text="WELCOME, "+controller.userName
                        , fg='white', font=25)
         label1.pack()
-        
-        #---------------------------------------------------------------------
 
-        #DEADLINES
-        frame_dline = Frame(self, bg='white')
-        frame_dline.place(relx=0.8, rely=0.23, relwidth=0.2, relheight=0.6)
+        # labels for calender --------->
+        label_tt_text = Label(frame_tt,text = "TIMETABLE", font = 30,bg='grey',fg='white')
+        label_tt_text.place(relx=0.15,relheight = 0.1 ,relwidth = 0.7)
+
+        label_tt1 = Label(frame_tt,bg='black')
+        label_tt1.place(rely = 0.1 ,relheight=1, relwidth=1)
+        
         label_dline_text = Label(frame_dline,text = "DEADLINES",bg='grey', fg = 'white',font = 30)
         label_dline_text.place(relheight = 0.1,relwidth = 1)
         
         label_dline = Label(frame_dline,bg='black' ,fg='white', font=30)
         label_dline.place(rely= 0.1, relheight=1, relwidth=1)
 
-
-        #------------------------------------------------------------------
-
-        #TIME TABLE
-        frame_tt = Frame(self, bg='white')
-        frame_tt.place(rely=0.23, relwidth=0.4, relheight=0.6)
-        label_tt_text = Label(frame_tt,text = "TIMETABLE", font = 30,bg='grey',fg='white')
-        label_tt_text.place(relx=0.15,relheight = 0.1 ,relwidth = 0.7)
-
-        label_tt1 = Label(frame_tt,bg='black')
-        label_tt1.place(rely = 0.1 ,relheight=3, relwidth=1)
-        
-        button_tt1 = Button(frame_tt, text='<-- ', bg='grey', fg='white',
-                            activebackground='white', activeforeground='white',bd = 0, image = controller.leftimage)
-        button_tt1.place(relheight=0.1, relwidth=0.15)
-
-        button_tt2 = Button(frame_tt, text='  -->', bg='grey', fg='white',
-                            activebackground='white', activeforeground='white',bd = 0, image = controller.rightimage)
-        button_tt2.place(relx=0.85, relheight=0.1, relwidth=0.15)
-        
-        #-----------------------------------------------------------------------
-
-
-        #SEARCH
-
-
-        mainlabel = Label(self, image=controller.mainbg)
-        mainlabel.place(relheight=1, relwidth=1)
-
-
-
-        frame_display = Frame(self, bg='white')
-        frame_display.place(relx=0.24, rely=0.23, relwidth=0.5, relheight=0.6)
-
-      
         label_main = Label(frame_display,bg='grey')
         label_main.place(relwidth=1, relheight=0.95)
 
@@ -401,7 +386,21 @@ class dashBoardUI(Frame):
                              activeforeground='white',bd = 0, image = controller.enterimage, command=lambda: self.mainSearch(entry_main.get()))
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
+        # buttons for time table ------->
 
+        button_tt1 = Button(frame_tt, text='<-- ', bg='grey', fg='white',
+                            activebackground='white', activeforeground='white',bd = 0, image = controller.leftimage)
+        button_tt1.place(relheight=0.1, relwidth=0.15)
+
+        button_tt2 = Button(frame_tt, text='  -->', bg='grey', fg='white',
+                            activebackground='white', activeforeground='white',bd = 0, image = controller.rightimage)
+        button_tt2.place(relx=0.85, relheight=0.1, relwidth=0.15)
+
+
+        button_exit = Button(self, text="EXIT", bg='black', fg='white',
+                             activebackground='black', activeforeground='white', bd=0, command=controller.exitApp, image=controller.powerImage)
+        button_exit.place(relx=0.93, rely=0.9, relheight=0.12, relwidth=0.06)
+        # scrollbar for main window ------>
 
         scroll1 = Scrollbar(label_main, bg='black')
         scroll1.place(relheight=1, relx=0.98)
@@ -409,14 +408,6 @@ class dashBoardUI(Frame):
         entry_main = Entry(frame_display, bg='#393737', fg='white')
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
-   
-
-        button_exit = Button(self, text="EXIT", bg='black', fg='white',
-                             activebackground='black', activeforeground='white', bd=0, command=controller.exitApp, image=controller.powerImage)
-        button_exit.place(relx=0.93, rely=0.9, relheight=0.12, relwidth=0.06)
-        
-
-       
     def mainSearch(self, query):
         
         if(self.controller.fileSearch(query)==False):
