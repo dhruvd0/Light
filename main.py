@@ -331,7 +331,7 @@ class dashBoardUI(Frame):
 
         self.label_tt1 = Label(
             frame_tt, bg='black', image=self.controller.timeTable[self.day]["image"])
-        self.label_tt1.place(rely=0.1, relheight=1, relwidth=1)
+        self.label_tt1.place(rely=0.1, relheight=0.9, relwidth=1)
 
         label_dline_text = Label(
             frame_dline, text="DEADLINES", bg='grey', fg='white', font=30)
