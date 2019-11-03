@@ -68,6 +68,8 @@ class App(Tk):
 
         self.timeTable = []
         index = 0
+        
+        msgThread = threading.Thread(target=self.seeLastMessages).start()
         for i in os.listdir("Time_Table"):
             t = {}
             t["name"] = i
@@ -146,8 +148,7 @@ class App(Tk):
                 self.loginLms()
             except requests.RequestException:
 
-                print("lms not working")
-
+                print ("lms not working")
         except os.error:
             print("in os error")
             try:
@@ -157,31 +158,20 @@ class App(Tk):
                 self.show_frame(loginUI)
             except requests.RequestException:
 
-                print("lms not working")
+                print ("lms not working ")
 
     def seeLastMessages(self):
         while True:
             try:
-                l = requests.post(
-                    "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=self.d)  # post request
-        # soup element which has all the html content
+              
 
-                dash = BeautifulSoup(l.content, "html5lib")
-
-                unreadCount = dash.find(
+                unreadCount = self.dashboardPage.find(
                     "label", {"class": "unreadnumber"}).text
 
-                temp = self.unreads[::-1]
-                if(len(temp) > 0):
-                    check = temp[0]
-                    if (check != unreadCount):
-                        print("   N    ")
-                        notifs.notify("You have " + unreadCount + " messages")
-                        self.unreads.append(unreadCount)
-                else:
-                    print("Appending")
-                    self.unreads.append(unreadCount)
-
+        
+                notifs.notify("You have " + unreadCount + " messages")
+                break
+               
             except TypeError:
                 pass
 
@@ -514,6 +504,5 @@ app = App()
 app.mainloop()
 
 
-msgThread = threading.Thread(target=app.seeLastMessages).start()
 
 np.save("msg.npy", app.unreads)
