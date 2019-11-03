@@ -2,7 +2,7 @@
 # test for pull request
 
 
-from tkinter import Frame,Label,Entry,PhotoImage,Canvas,Tk,Button,Scrollbar,Checkbutton,IntVar
+from tkinter import Frame, Label, Entry, PhotoImage, Canvas, Tk, Button, Scrollbar, Checkbutton, IntVar
 import os
 import notifs
 import webbrowser
@@ -16,24 +16,21 @@ import numpy as np
 import threading
 
 
-
 # UI---------------------
-def search(query,string):
+def search(query, string):
     for i in string.split():
-        check1=i.lower()
-        check2=query.lower()
-        if check1==check2:
+        check1 = i.lower()
+        check2 = query.lower()
+        if check1 == check2:
             return True
     return False
-        
 
-def searchInString(query,string):
+
+def searchInString(query, string):
     for i in query.split():
-        if (search(i,string)==False):
+        if (search(i, string) == False):
             return False
     return True
-
-        
 
 
 class App(Tk):
@@ -58,39 +55,30 @@ class App(Tk):
         self.leftimage = PhotoImage(file='Images/left_image.png')
         self.rightimage = PhotoImage(file='Images/right_image.png')
         self.enterimage = PhotoImage(file='Images/enter_arrow.png')
-        self.cancelimage=PhotoImage(file='Images/button_cancel.png')
-        self.logoimage=PhotoImage(file='Images/logo4.png')
+        self.cancelimage = PhotoImage(file='Images/button_cancel.png')
+        self.logoimage = PhotoImage(file='Images/logo4.png')
         try:
-                
-           temp=np.load("msg.npy",allow_pickle=True).item()
-           self.unreads=list(temp)
-        except FileNotFoundError:
-            self.unreads=[]
-        except ValueError:
-            self.unreads=[]
 
-        self.timeTable=[]
-        index=0
+            temp = np.load("msg.npy", allow_pickle=True).item()
+            self.unreads = list(temp)
+        except FileNotFoundError:
+            self.unreads = []
+        except ValueError:
+            self.unreads = []
+
+        self.timeTable = []
+        index = 0
         for i in os.listdir("Time_Table"):
-            t={}
-            t["name"]=i
-            t["image"]=PhotoImage(file="Time_Table/"+i)
-            t["index"]=index
-            index+=1
+            t = {}
+            t["name"] = i
+            t["image"] = PhotoImage(file="Time_Table/"+i)
+            t["index"] = index
+            index += 1
             self.timeTable.append(t)
 
-
-        print (self.timeTable)
-            
-
-        
-
-        # self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
-        self.show_frame(dashBoardUI)
-        #self.autoLogin()
-        
 
+        self.autoLogin()
 
     def show_frame(self, context):
         frame = context(self.container, self)
@@ -174,27 +162,26 @@ class App(Tk):
     def seeLastMessages(self):
         while True:
             try:
-                l = requests.post("http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=self.d)  # post request
+                l = requests.post(
+                    "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=self.d)  # post request
         # soup element which has all the html content
 
                 dash = BeautifulSoup(l.content, "html5lib")
 
                 unreadCount = dash.find(
                     "label", {"class": "unreadnumber"}).text
-                
 
-                temp=self.unreads[::-1]
-                if(len(temp)>0):
-                    check=temp[0]
-                    if (check!=unreadCount):
-                        print ("   N    ")
+                temp = self.unreads[::-1]
+                if(len(temp) > 0):
+                    check = temp[0]
+                    if (check != unreadCount):
+                        print("   N    ")
                         notifs.notify("You have " + unreadCount + " messages")
                         self.unreads.append(unreadCount)
                 else:
-                    print ("Appending")
+                    print("Appending")
                     self.unreads.append(unreadCount)
-                    
-              
+
             except TypeError:
                 pass
 
@@ -226,7 +213,7 @@ class App(Tk):
                     resourceName = " ".join(
                         [i for i in filterName if i != "File" and i != "URL"])
 
-                    if searchInString(searchName,resourceName):
+                    if searchInString(searchName, resourceName):
                         fileId += 1
 
                         fileDict = {"id": fileId, "name": resourceName,
@@ -338,7 +325,7 @@ class App(Tk):
 
 class dashBoardUI(Frame):
     def __init__(self, parent, controller):
-        self.day=0
+        self.day = 0
         controller.update()
         Frame.__init__(self, parent)
         self.controller = controller
@@ -361,55 +348,51 @@ class dashBoardUI(Frame):
         frame_dline = Frame(self, bg='white')
         frame_dline.place(relx=0.8, rely=0.23, relwidth=0.2, relheight=0.6)
 
-     
-
         frame_tt = Frame(self, bg='white')
         frame_tt.place(rely=0.23, relwidth=0.2, relheight=0.6)
 
         frame_image = Frame(self, bg='white')
         frame_image.place(relx=0.40, rely=0.01, relwidth=0.15, relheight=0.18)
 
-       
+        label_logo = Label(frame_image, image=controller.logoimage)
+        label_logo.place(relheight=1, relwidth=1)
 
-        label_logo = Label(frame_image, image = controller.logoimage)
-        label_logo.place(relheight=1,relwidth = 1)
-        
-        label1 = Label(frame, text="WELCOME, "+controller.userName
-                       , fg='white', font=25)
+        label1 = Label(frame, text="WELCOME, " +
+                       controller.userName, fg='white', font=25)
         label1.pack()
 
         # labels for calender --------->
-        self.label_tt_text = Label(frame_tt,text = controller.timeTable[self.day]["name"], font = 30,bg='grey',fg='white')
-        self.label_tt_text.place(relx=0.15,relheight = 0.1 ,relwidth = 0.7)
+        self.label_tt_text = Label(
+            frame_tt, text=controller.timeTable[self.day]["name"], font=30, bg='grey', fg='white')
+        self.label_tt_text.place(relx=0.15, relheight=0.1, relwidth=0.7)
 
+        self.label_tt1 = Label(
+            frame_tt, bg='black', image=self.controller.timeTable[self.day]["image"])
+        self.label_tt1.place(rely=0.1, relheight=1, relwidth=1)
 
+        label_dline_text = Label(
+            frame_dline, text="DEADLINES", bg='grey', fg='white', font=30)
+        label_dline_text.place(relheight=0.1, relwidth=1)
 
-        self.label_tt1 = Label(frame_tt,bg='black',image=self.controller.timeTable[self.day]["image"])
-        self.label_tt1.place(rely = 0.1 ,relheight=1, relwidth=1)
-        
-        label_dline_text = Label(frame_dline,text = "DEADLINES",bg='grey', fg = 'white',font = 30)
-        label_dline_text.place(relheight = 0.1,relwidth = 1)
-        
-        label_dline = Label(frame_dline,bg='black' ,fg='white', font=30)
-        label_dline.place(rely= 0.1, relheight=1, relwidth=1)
+        label_dline = Label(frame_dline, bg='black', fg='white', font=30)
+        label_dline.place(rely=0.1, relheight=1, relwidth=1)
 
-        label_main = Label(frame_display,bg='grey')
+        label_main = Label(frame_display, bg='grey')
         label_main.place(relwidth=1, relheight=0.95)
 
         button_main = Button(frame_display, text="-->", bg='white', fg='white', activebackground='black',
-                             activeforeground='white',bd = 0, image = controller.enterimage, command=lambda: self.mainSearch(entry_main.get()))
+                             activeforeground='white', bd=0, image=controller.enterimage, command=lambda: self.mainSearch(entry_main.get()))
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         # buttons for time table ------->
 
         button_tt1 = Button(frame_tt, text='<-- ', bg='grey', fg='white',
-                            activebackground='white', activeforeground='white',bd = 0, image = controller.leftimage,command=self.dayLeft)
+                            activebackground='white', activeforeground='white', bd=0, image=controller.leftimage, command=self.dayLeft)
         button_tt1.place(relheight=0.1, relwidth=0.15)
 
         button_tt2 = Button(frame_tt, text='  -->', bg='grey', fg='white',
-                            activebackground='white', activeforeground='white',bd = 0, image = controller.rightimage,command=self.dayRight)
+                            activebackground='white', activeforeground='white', bd=0, image=controller.rightimage, command=self.dayRight)
         button_tt2.place(relx=0.85, relheight=0.1, relwidth=0.15)
-
 
         button_exit = Button(self, text="EXIT", bg='black', fg='white',
                              activebackground='black', activeforeground='white', bd=0, command=controller.exitApp, image=controller.powerImage)
@@ -423,31 +406,34 @@ class dashBoardUI(Frame):
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
     def dayLeft(self):
-        if self.day==0:
-            self.day=4
-            
-        else:
-            self.day=self.day-1
-        self.label_tt1.config(image=self.controller.timeTable[self.day]["image"])
-        self.label_tt_text.config(text = self.controller.timeTable[self.day]["name"])
-    def dayRight(self):
-        if self.day==4:
-            self.day=0
-            
-        else:
-            self.day=self.day+1
-        self.label_tt1.config(image=self.controller.timeTable[self.day]["image"])
-        self.label_tt_text.config(text = self.controller.timeTable[self.day]["name"])
+        if self.day == 0:
+            self.day = 4
 
+        else:
+            self.day = self.day-1
+        self.label_tt1.config(
+            image=self.controller.timeTable[self.day]["image"])
+        self.label_tt_text.config(
+            text=self.controller.timeTable[self.day]["name"])
+
+    def dayRight(self):
+        if self.day == 4:
+            self.day = 0
+
+        else:
+            self.day = self.day+1
+        self.label_tt1.config(
+            image=self.controller.timeTable[self.day]["image"])
+        self.label_tt_text.config(
+            text=self.controller.timeTable[self.day]["name"])
 
     def mainSearch(self, query):
-        
-        if(self.controller.fileSearch(query)==False):
-                
+
+        if(self.controller.fileSearch(query) == False):
+
             web.openWeb(query)
         else:
-            print (self.controller.fileSearch(query))
-        
+            print(self.controller.fileSearch(query))
 
 
 class loginUI(Frame):
@@ -479,7 +465,7 @@ class loginUI(Frame):
         self.check.place(relx=0.4, rely=0.59)
 
         self.label_logo = Label(
-            self, text="LIGHT", fg='white', font=1000, bg='#202021', image = controller.logoimage)
+            self, text="LIGHT", fg='white', font=1000, bg='#202021', image=controller.logoimage)
         self.label_logo.place(relx=0.35, relheight=0.33, relwidth=0.4)
         self.label2 = Label(
             self, text="Password: ", bg='#38383A', fg='white', font=23)
@@ -512,17 +498,12 @@ class loginUI(Frame):
 # -------------------------------------------------------------
 
 
-
-
-
-
 app = App()
-
 
 
 app.mainloop()
 
 
-msgThread=threading.Thread(target=app.seeLastMessages).start()
+msgThread = threading.Thread(target=app.seeLastMessages).start()
 
-np.save("msg.npy",app.unreads)
+np.save("msg.npy", app.unreads)
