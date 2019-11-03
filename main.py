@@ -2,7 +2,7 @@
 # test for pull request
 
 
-from tkinter import *
+from tkinter import Frame,Label,Entry,PhotoImage,Canvas,Tk,Button,Scrollbar
 import os
 import notifs
 import webbrowser
