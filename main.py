@@ -2,7 +2,7 @@
 # test for pull request
 
 
-from tkinter import Frame,Label,Entry,PhotoImage,Canvas,Tk,Button,Scrollbar
+from tkinter import Frame,Label,Entry,PhotoImage,Canvas,Tk,Button,Scrollbar,Checkbutton,IntVar
 import os
 import notifs
 import webbrowser
@@ -68,6 +68,8 @@ class App(Tk):
             self.unreads=[]
         except ValueError:
             self.unreads=[]
+
+    
         
         
 
@@ -347,8 +349,7 @@ class dashBoardUI(Frame):
         frame_dline = Frame(self, bg='white')
         frame_dline.place(relx=0.8, rely=0.23, relwidth=0.2, relheight=0.6)
 
-      #  frame_cal = Frame(self, bg='white')
-       # frame_cal.place(relx=0.8, rely=0.5, relwidth=0.3, relheight=0.3)
+     
 
         frame_tt = Frame(self, bg='white')
         frame_tt.place(rely=0.23, relwidth=0.2, relheight=0.6)
@@ -356,8 +357,7 @@ class dashBoardUI(Frame):
         frame_image = Frame(self, bg='white')
         frame_image.place(relx=0.40, rely=0.01, relwidth=0.15, relheight=0.18)
 
-        '''frame_sugg = Frame(self, bg='black')
-        frame_sugg.place(rely=0.85, relwidth=1, relheight=0.1)'''
+       
 
         label_logo = Label(frame_image, image = controller.logoimage)
         label_logo.place(relheight=1,relwidth = 1)
@@ -369,6 +369,8 @@ class dashBoardUI(Frame):
         # labels for calender --------->
         label_tt_text = Label(frame_tt,text = "TIMETABLE", font = 30,bg='grey',fg='white')
         label_tt_text.place(relx=0.15,relheight = 0.1 ,relwidth = 0.7)
+
+
 
         label_tt1 = Label(frame_tt,bg='black')
         label_tt1.place(rely = 0.1 ,relheight=1, relwidth=1)
