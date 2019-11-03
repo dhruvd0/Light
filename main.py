@@ -332,8 +332,8 @@ class dashBoardUI(Frame):
         frame = Frame(self, bg='black')
         frame.place(relx=0.8, relwidth=0.2, relheight=0.05)
 
-        frame_display = Frame(self, bg='white')
-        frame_display.place(relx=0.24, rely=0.23, relwidth=0.5, relheight=0.6)
+        self.frame_display = Frame(self, bg='white')
+        self.frame_display.place(relx=0.24, rely=0.23, relwidth=0.5, relheight=0.6)
 
         frame_dline = Frame(self, bg='white')
         frame_dline.place(relx=0.8, rely=0.23, relwidth=0.2, relheight=0.6)
@@ -367,11 +367,11 @@ class dashBoardUI(Frame):
         label_dline = Label(frame_dline, bg='black', fg='white', font=30)
         label_dline.place(rely=0.1, relheight=1, relwidth=1)
 
-        label_main = Label(frame_display, bg='grey')
+        label_main = Label(self.frame_display, bg='grey')
         label_main.place(relwidth=1, relheight=0.95)
 
-        button_main = Button(frame_display, text="-->", bg='white', fg='white', activebackground='black',
-                             activeforeground='white', bd=0, image=controller.enterimage, command=lambda:[ self.mainSearch(entry_main.get()), self.mainwindow()] )
+        button_main = Button(self.frame_display, text="-->", bg='white', fg='white', activebackground='black',
+                             activeforeground='white', bd=0, image=controller.enterimage, command=lambda:self.mainSearch(entry_main.get()) )
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         # buttons for time table ------->
@@ -392,7 +392,7 @@ class dashBoardUI(Frame):
         scroll1 = Scrollbar(label_main, bg='black')
         scroll1.place(relheight=1, relx=0.98)
 
-        entry_main = Entry(frame_display, bg='#393737', fg='white')
+        entry_main = Entry(self.frame_display, bg='#393737', fg='white')
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
     def dayLeft(self):
@@ -424,13 +424,14 @@ class dashBoardUI(Frame):
             web.openWeb(query)
         else:
             print(self.controller.fileSearch(query))
+            self.mainwindow()
 
     def mainwindow(self):
 
         for i in range(len(self.controller.files)):
             frame_inside = Frame(self.frame_display, bg = 'white')
             frame_inside.pack()
-            label = Label(frame_inside,text = 'test')
+            label = Label(frame_inside,text = self.controller.files[i]["name"])
             label.pack()
             
 
