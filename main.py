@@ -55,12 +55,34 @@ class App(Tk):
         self.loginbg = PhotoImage(file='Images/loginbg2_image.png')
         self.mainbg = PhotoImage(file='Images/mainbg_image.png')
         self.cancelimage = PhotoImage(file='Images/button_cancel.png')
+<<<<<<< Updated upstream
         self.searchimage = PhotoImage(file='Images/button_search.png')
         self.openimage = PhotoImage(file='Images/button_open-file.png')
         self.facultyimage = PhotoImage(
             file='Images/button_faculty_contacts.png')
         self.loginimage = PhotoImage(file='Images/button_login.png')
         self.messageimage = PhotoImage(file='Images/button_show-messages.png')
+=======
+        self.logoimage = PhotoImage(file='Images/logo4.png')
+        try:
+
+            temp = np.load("msg.npy", allow_pickle=True).item()
+            self.unreads = list(temp)
+        except FileNotFoundError:
+            self.unreads = []
+        except ValueError:
+            self.unreads = []
+
+        self.timeTable = []
+        index = 0
+        for i in os.listdir("Time_Table"):
+            t = {}
+            t["name"] = i
+            t["image"] = PhotoImage(file="Time_Table/"+i)
+            t["index"] = index
+            index += 1
+            self.timeTable.append(t)
+>>>>>>> Stashed changes
 
         # self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
@@ -161,10 +183,19 @@ class App(Tk):
     def seeLastMessages(self):
         while True:
             try:
+<<<<<<< Updated upstream
+=======
+                l = requests.post(
+                    "http://lms.bennett.edu.in/login/index.php?authldap_skipntlmsso=1", data=self.d)  # post request
+        # soup element which has all the html content
+>>>>>>> Stashed changes
 
-                unreadCount = self.dashboardPage.find(
+                dash = BeautifulSoup(l.content, "html5lib")
+
+                unreadCount = dash.find(
                     "label", {"class": "unreadnumber"}).text
 
+<<<<<<< Updated upstream
                 notifs.notify("You have " + unreadCount + " messages")
                 messagesRequest = self.request_session.get(
                     "http://lms.bennett.edu.in/message/index.php")
@@ -174,6 +205,19 @@ class App(Tk):
                 for message in messages:
                     print(message.text)
                 break
+=======
+                temp = self.unreads[::-1]
+                if(len(temp) > 0):
+                    check = temp[0]
+                    if (check != unreadCount):
+                        print("   N    ")
+                        notifs.notify("You have " + unreadCount + " messages")
+                        self.unreads.append(unreadCount)
+                else:
+                    print("Appending")
+                    self.unreads.append(unreadCount)
+
+>>>>>>> Stashed changes
             except TypeError:
                 pass
 
@@ -335,7 +379,11 @@ class dashBoardUI(Frame):
         frame.place(relx=0.8, relwidth=0.2, relheight=0.05)
 
         frame_display = Frame(self, bg='white')
+<<<<<<< Updated upstream
         frame_display.place(relx=0.24, rely=0.2, relwidth=0.5, relheight=0.6)
+=======
+        frame_display.place(relx=0.24, rely=0.23, relwidth=0.5, relheight=0.6)
+>>>>>>> Stashed changes
 
         frame_dline = Frame(self, bg='white')
         frame_dline.place(relx=0.8, rely=0.2, relwidth=0.2, relheight=0.6)
@@ -363,8 +411,14 @@ class dashBoardUI(Frame):
         label_dline = Label(frame_dline, text="DEADLINES", fg='black', font=30)
         label_dline.place(relheight=1, relwidth=1)
 
+<<<<<<< Updated upstream
         '''label_cal1 = Label(frame_cal, text="CALENDER", font=15)
         label_cal1.place(relx=0.08, relheight=0.1, relwidth=0.5)
+=======
+        self.label_tt1 = Label(
+            frame_tt, bg='black', image=self.controller.timeTable[self.day]["image"])
+        self.label_tt1.place(rely=0.1, relheight=0.9, relwidth=1)
+>>>>>>> Stashed changes
 
         label_cal2 = Label(frame_cal)
         label_cal2.place(rely=0.1, relheight=0.9, relwidth=1)
@@ -373,11 +427,19 @@ class dashBoardUI(Frame):
                            font=20, bg='black', fg='white')
         label_sugg.place(relwidth=0.14, relheight=0.3)'''
 
+<<<<<<< Updated upstream
         label_main = Label(frame_display)
         label_main.place(relwidth=1, relheight=0.95)
 
         button_main = Button(frame_display, text="-->", bg='black', fg='white', activebackground='black',
                              activeforeground='white', command=lambda: self.mainSearch(entry_main.get()))
+=======
+        label_main = Label(frame_display, bg='grey')
+        label_main.place(relwidth=1, relheight=0.95)
+
+        button_main = Button(frame_display, text="-->", bg='white', fg='white', activebackground='black',
+                             activeforeground='white', bd=0, image=controller.enterimage, command=lambda: self.mainSearch(entry_main.get()))
+>>>>>>> Stashed changes
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         '''button_cal1 = Button(frame_cal, text="<--", bg='#1f1f14',
@@ -425,7 +487,11 @@ class dashBoardUI(Frame):
         scroll1 = Scrollbar(label_main, bg='blue')
         scroll1.place(relheight=1, relx=0.98)
 
+<<<<<<< Updated upstream
         entry_main = Entry(frame_display, bg='white', fg='black')
+=======
+        entry_main = Entry(frame_display, bg='#393737', fg='white')
+>>>>>>> Stashed changes
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
 
     def mainSearch(self, query):
@@ -434,8 +500,12 @@ class dashBoardUI(Frame):
                 
             web.openWeb(query)
         else:
+<<<<<<< Updated upstream
             print (self.controller.fileSearch(query))
         
+=======
+            print(self.controller.fileSearch(query))
+>>>>>>> Stashed changes
 
 
 class loginUI(Frame):
@@ -502,3 +572,11 @@ class loginUI(Frame):
 
 app = App()
 app.mainloop()
+<<<<<<< Updated upstream
+=======
+
+
+msgThread = threading.Thread(target=app.seeLastMessages).start()
+
+np.save("msg.npy", app.unreads)
+>>>>>>> Stashed changes
