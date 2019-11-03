@@ -343,8 +343,10 @@ class dashBoardUI(Frame):
         label_main = Label(self.frame_display, bg='grey')
         label_main.place(relwidth=1, relheight=0.95)
 
-        button_main = Button(self.frame_display, text="-->", bg='white', fg='white', activebackground='black',
-                             activeforeground='white', bd=0, image=controller.enterimage, command=lambda:self.mainSearch(entry_main.get()) )
+        label_welcome = Label(self.frame_display, text = "TELL ME WHAT TO DO ....", bg = 'grey', fg = 'white', font = 10 )
+        label_welcome.pack()
+
+        button_main = Button(self.frame_display, text="-->", bg='white', fg='white', bd=0, image=controller.enterimage, command=lambda:self.mainSearch(entry_main.get()) )
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         # buttons for time table ------->
@@ -400,12 +402,27 @@ class dashBoardUI(Frame):
             self.mainwindow()
 
     def mainwindow(self):
+        
+        a = 0.1 #relx
+        b = 0.2 #rely
+        frame_wait = Frame(self.frame_display)
+        frame_wait.place(relx = 0.32,rely = 0.12)
 
+        label_wait = Label(frame_wait, text = "Here are the following results ....", bg = 'grey', fg = 'white',font = 10)
+        label_wait.pack()
         for i in range(len(self.controller.files)):
+            frame_label = Frame(self.frame_display)
+            frame_label.place(relx = a, rely = b)
+            label_name = Label(frame_label,text = self.controller.files[i]["course"], bg = 'grey', fg = 'white', font = 15)
+            label_name.pack()
+
             frame_inside = Frame(self.frame_display, bg = 'white')
-            frame_inside.pack()
-            label = Label(frame_inside,text = self.controller.files[i]["name"])
-            label.pack()
+            frame_inside.place(relx = 0.7,rely = b)
+            button = Button(frame_inside,text = self.controller.files[i]["name"], bg = 'grey', fg = 'white', bd = 1)
+            button.pack()
+            
+            b= b+0.1
+
             
 
 
