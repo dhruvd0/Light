@@ -69,14 +69,26 @@ class App(Tk):
         except ValueError:
             self.unreads=[]
 
-    
-        
+        self.timeTable=[]
+        index=0
+        for i in os.listdir("Time_Table"):
+            t={}
+            t["name"]=i
+            t["image"]=PhotoImage(file="Time_Table/"+i)
+            t["index"]=index
+            index+=1
+            self.timeTable.append(t)
+
+
+        print (self.timeTable)
+            
+
         
 
         # self. = PhotoImage(file='Images/button_search.png')
         self.frames = {}
-      
-        self.autoLogin()
+        self.show_frame(dashBoardUI)
+        #self.autoLogin()
         
 
 
@@ -326,7 +338,7 @@ class App(Tk):
 
 class dashBoardUI(Frame):
     def __init__(self, parent, controller):
-
+        self.day=0
         controller.update()
         Frame.__init__(self, parent)
         self.controller = controller
@@ -367,13 +379,13 @@ class dashBoardUI(Frame):
         label1.pack()
 
         # labels for calender --------->
-        label_tt_text = Label(frame_tt,text = "TIMETABLE", font = 30,bg='grey',fg='white')
-        label_tt_text.place(relx=0.15,relheight = 0.1 ,relwidth = 0.7)
+        self.label_tt_text = Label(frame_tt,text = controller.timeTable[self.day]["name"], font = 30,bg='grey',fg='white')
+        self.label_tt_text.place(relx=0.15,relheight = 0.1 ,relwidth = 0.7)
 
 
 
-        label_tt1 = Label(frame_tt,bg='black')
-        label_tt1.place(rely = 0.1 ,relheight=1, relwidth=1)
+        self.label_tt1 = Label(frame_tt,bg='black',image=self.controller.timeTable[self.day]["image"])
+        self.label_tt1.place(rely = 0.1 ,relheight=1, relwidth=1)
         
         label_dline_text = Label(frame_dline,text = "DEADLINES",bg='grey', fg = 'white',font = 30)
         label_dline_text.place(relheight = 0.1,relwidth = 1)
@@ -391,11 +403,11 @@ class dashBoardUI(Frame):
         # buttons for time table ------->
 
         button_tt1 = Button(frame_tt, text='<-- ', bg='grey', fg='white',
-                            activebackground='white', activeforeground='white',bd = 0, image = controller.leftimage)
+                            activebackground='white', activeforeground='white',bd = 0, image = controller.leftimage,command=self.dayLeft)
         button_tt1.place(relheight=0.1, relwidth=0.15)
 
         button_tt2 = Button(frame_tt, text='  -->', bg='grey', fg='white',
-                            activebackground='white', activeforeground='white',bd = 0, image = controller.rightimage)
+                            activebackground='white', activeforeground='white',bd = 0, image = controller.rightimage,command=self.dayRight)
         button_tt2.place(relx=0.85, relheight=0.1, relwidth=0.15)
 
 
@@ -409,6 +421,24 @@ class dashBoardUI(Frame):
 
         entry_main = Entry(frame_display, bg='#393737', fg='white')
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
+
+    def dayLeft(self):
+        if self.day==0:
+            self.day=4
+            
+        else:
+            self.day=self.day-1
+        self.label_tt1.config(image=self.controller.timeTable[self.day]["image"])
+        self.label_tt_text.config(text = self.controller.timeTable[self.day]["name"])
+    def dayRight(self):
+        if self.day==4:
+            self.day=0
+            
+        else:
+            self.day=self.day+1
+        self.label_tt1.config(image=self.controller.timeTable[self.day]["image"])
+        self.label_tt_text.config(text = self.controller.timeTable[self.day]["name"])
+
 
     def mainSearch(self, query):
         
