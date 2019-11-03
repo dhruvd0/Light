@@ -381,7 +381,7 @@ class dashBoardUI(Frame):
         label_main.place(relwidth=1, relheight=0.95)
 
         button_main = Button(frame_display, text="-->", bg='white', fg='white', activebackground='black',
-                             activeforeground='white', bd=0, image=controller.enterimage, command=lambda: self.mainSearch(entry_main.get()))
+                             activeforeground='white', bd=0, image=controller.enterimage, command=lambda:[ self.mainSearch(entry_main.get()), self.mainwindow()] )
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         # buttons for time table ------->
@@ -434,6 +434,16 @@ class dashBoardUI(Frame):
             web.openWeb(query)
         else:
             print(self.controller.fileSearch(query))
+
+    def mainwindow(self):
+
+        for i in range(len(self.controller.files)):
+            frame_inside = Frame(self.frame_display, bg = 'white')
+            frame_inside.pack()
+            label = Label(frame_inside,text = 'test')
+            label.pack()
+            
+
 
 
 class loginUI(Frame):
