@@ -321,7 +321,7 @@ class dashBoardUI(Frame):
         label_logo.place(relheight=1, relwidth=1)
 
         label1 = Label(frame, text="WELCOME, " +
-                       controller.userName, fg='white', font=25)
+                       controller.userName, fg='white',bg="black", font=25)
         label1.pack()
 
         # labels for calender --------->
