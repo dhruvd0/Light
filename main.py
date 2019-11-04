@@ -80,7 +80,8 @@ class App(Tk):
 
         self.frames = {}
 
-        self.autoLogin()
+        #self.autoLogin()
+        self.show_frame(dashBoardUI)
 
     def show_frame(self, context):
         frame = context(self.container, self)
@@ -320,7 +321,7 @@ class dashBoardUI(Frame):
         label_logo = Label(frame_image, image=controller.logoimage)
         label_logo.place(relheight=1, relwidth=1)
 
-        label1 = Label(frame, text="WELCOME, " +
+        label1 = Label(frame, text="WELCOME, Tanishq Sharma " +
                        controller.userName, bg = 'black', fg = 'white', font=25)
         label1.pack()
         
@@ -347,7 +348,7 @@ class dashBoardUI(Frame):
         label_welcome = Label(self.frame_display, text = "TELL ME WHAT TO DO ....", bg = 'grey', fg = 'white', font = 10 )
         label_welcome.pack()
 
-        button_main = Button(self.frame_display, text="-->", bg='white', fg='white', bd=0, image=controller.enterimage, command=lambda:self.mainSearch(entry_main.get()) )
+        button_main = Button(self.frame_display, text="-->", bg='white', fg='white', bd=0, image=controller.enterimage, command=lambda:self.hardCodeLabels() )
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         # buttons for time table ------->
@@ -402,6 +403,8 @@ class dashBoardUI(Frame):
             print(self.controller.fileSearch(query))
             self.mainwindow()
 
+    def hardCodeLabels(self):
+        pass
     def mainwindow(self):
         
         a = 0.1 #relx
