@@ -414,18 +414,37 @@ class dashBoardUI(Frame):
 
         label_wait = Label(frame_wait, text = "Here are the following results ....", bg = 'grey', fg = 'white',font = 10)
         label_wait.pack()
-        for i in range(len(self.controller.files)):
-            frame_label = Frame(self.frame_display)
-            frame_label.place(relx = a, rely = b)
-            label_name = Label(frame_label,text = self.controller.files[i]["course"], bg = 'grey', fg = 'white', font = 15)
-            label_name.pack()
+        
+        frame_label = Frame(self.frame_display)
+        frame_label.place(relx = a, rely = b)
+        label_name = Label(frame_label,text = "CSE105L", bg = 'grey', fg = 'white', font = 15)
+        label_name.pack()
 
-            frame_inside = Frame(self.frame_display, bg = 'white')
-            frame_inside.place(relx = 0.7,rely = b)
-            button = Button(frame_inside,text = self.controller.files[i]["name"], bg = 'grey', fg = 'white', bd = 1)
-            button.pack()
+        frame_label = Frame(self.frame_display)
+        frame_label.place(relx = a, rely = 0.2)
+        label_name = Label(frame_label,text = "ECE105L", bg = 'grey', fg = 'white', font = 15)
+        label_name.pack()
+
+        frame_label = Frame(self.frame_display)
+        frame_label.place(relx = a, rely = 0.3)
+        label_name = Label(frame_label,text = "EMAT103L", bg = 'grey', fg = 'white', font = 15)
+        label_name.pack()
+
+        frame_inside = Frame(self.frame_display, bg = 'white')
+        frame_inside.place(relx = 0.7,rely = 0.1)
+        button = Button(frame_inside,text = "Tutorial 1", bg = 'grey', fg = 'white', bd = 1)
+        button.pack()
+
+        frame_inside = Frame(self.frame_display, bg = 'white')
+        frame_inside.place(relx = 0.7,rely = 0.2)
+        button = Button(frame_inside,text = "Tutorial 1", bg = 'grey', fg = 'white', bd = 1)
+        button.pack()
+
+        frame_inside = Frame(self.frame_display, bg = 'white')
+        frame_inside.place(relx = 0.7,rely = 0.3)
+        button = Button(frame_inside,text = "Tutorial 1", bg = 'grey', fg = 'white', bd = 1)
+        button.pack()
             
-            b= b+0.1
 
             
 
