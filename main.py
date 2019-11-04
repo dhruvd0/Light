@@ -69,7 +69,7 @@ class App(Tk):
         self.timeTable = []
         index = 0
         
-        msgThread = threading.Thread(target=self.seeLastMessages).start()
+        #msgThread = threading.Thread(target=self.seeLastMessages).start()
         for i in os.listdir("Time_Table"):
             t = {}
             t["name"] = i
@@ -321,8 +321,7 @@ class dashBoardUI(Frame):
         label_logo = Label(frame_image, image=controller.logoimage)
         label_logo.place(relheight=1, relwidth=1)
 
-        label1 = Label(frame, text="WELCOME, Tanishq Sharma " +
-                       controller.userName, bg = 'black', fg = 'white', font=25)
+        label1 = Label(frame, text="WELCOME, Tanishq Sharma ",bg = 'black', fg = 'white', font=25)
         label1.pack()
         
 
@@ -404,7 +403,7 @@ class dashBoardUI(Frame):
             self.mainwindow()
 
     def hardCodeLabels(self):
-        pass
+        print ("Hard code labels")
     def mainwindow(self):
         
         a = 0.1 #relx
