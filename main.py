@@ -303,7 +303,7 @@ class dashBoardUI(Frame):
         mainlabel.place(relheight=1, relwidth=1)
 
         frame = Frame(self, bg='black')
-        frame.place(relx=0.8, relwidth=0.2, relheight=0.05)
+        frame.place(relx=0.8, relwidth=0.2, relheight=0.04)
 
         self.frame_display = Frame(self, bg='white')
         self.frame_display.place(relx=0.24, rely=0.23, relwidth=0.5, relheight=0.6)
@@ -315,14 +315,15 @@ class dashBoardUI(Frame):
         frame_tt.place(rely=0.23, relwidth=0.2, relheight=0.6)
 
         frame_image = Frame(self, bg='white')
-        frame_image.place(relx=0.40, rely=0.01, relwidth=0.15, relheight=0.18)
+        frame_image.place(relx=0.40, rely=0.01, relwidth=0.15, relheight=0.1935)
 
         label_logo = Label(frame_image, image=controller.logoimage)
         label_logo.place(relheight=1, relwidth=1)
 
         label1 = Label(frame, text="WELCOME, " +
-                       controller.userName, fg='white', font=25)
+                       controller.userName, bg = 'black', fg = 'white', font=25)
         label1.pack()
+        
 
         # labels for calender --------->
         self.label_tt_text = Label(
