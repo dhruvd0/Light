@@ -240,6 +240,7 @@ class App(Tk):
 
             print(linkReq.headers["content-type"])
 
+    
     def deadLines(self):
         try:
             read_d = np.load('events.npy')
@@ -347,7 +348,7 @@ class dashBoardUI(Frame):
         label_welcome = Label(self.frame_display, text = "TELL ME WHAT TO DO ....", bg = 'grey', fg = 'white', font = 10 )
         label_welcome.pack()
 
-        button_main = Button(self.frame_display, text="-->", bg='white', fg='white', bd=0, image=controller.enterimage, command=lambda:self.mainSearch(entry_main.get()) )
+        button_main = Button(self.frame_display, text="-->", bg='white', fg='white', bd=0, image=controller.enterimage, command=lambda:self.searchThread(entry_main.get()) )
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         # buttons for time table ------->
@@ -393,6 +394,9 @@ class dashBoardUI(Frame):
         self.label_tt_text.config(
             text=self.controller.timeTable[self.day]["name"])
 
+    def searchThread(self,name):
+        t=threading.Thread(target=self.mainSearch,args=(name,))
+        t.start()
     def mainSearch(self, query):
 
         if(self.controller.fileSearch(query) == False):
