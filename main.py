@@ -190,7 +190,7 @@ class App(Tk):
                         fileDict = {"id": fileId, "name": resourceName,
                                     "course": courseName, "url": resource.a["href"]}
                         files.append(fileDict)
-                        break
+                        
             if (len(files) == 0):
                 return (False)
             else:
@@ -200,7 +200,7 @@ class App(Tk):
             pass
 
     def downloadFile(self, file):
-        #print (file["url"])
+        print ("DOWNLAODING :",file["name"])
         fileRequest = self.request_session.get(file["url"], stream=True)
 
         newFile = file["course"].replace(":", "_")
@@ -238,7 +238,7 @@ class App(Tk):
         else:
             linkReq = self.request_session.get(file["url"], stream=True)
 
-            print(linkReq.headers["content-type"])
+            print ("not downloadable")
 
     
     def deadLines(self):
@@ -415,15 +415,15 @@ class dashBoardUI(Frame):
 
         label_wait = Label(frame_wait, text = "Here are the following results ....", bg = 'grey', fg = 'white',font = 10)
         label_wait.pack()
-        for i in range(len(self.controller.files)):
+        for currFile in self.controller.files:
             frame_label = Frame(self.frame_display)
             frame_label.place(relx = a, rely = b)
-            label_name = Label(frame_label,text = self.controller.files[i]["course"], bg = 'grey', fg = 'white', font = 15)
+            label_name = Label(frame_label,text = currFile["course"], bg = 'grey', fg = 'white', font = 15)
             label_name.pack()
-
+            
             frame_inside = Frame(self.frame_display, bg = 'white')
             frame_inside.place(relx = 0.7,rely = b)
-            button = Button(frame_inside,text = self.controller.files[i]["name"], bg = 'grey', fg = 'white', bd = 1)
+            button = Button(frame_inside,text = currFile["name"], bg = 'grey', fg = 'white', bd = 1,command=lambda:self.controller.downloadFile(currFile))
             button.pack()
             
             b= b+0.1
