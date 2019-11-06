@@ -1,4 +1,4 @@
 # End-Sem-Project
 
-# Run main.exe to start application
+# Run dist/main.exe to start application
 
