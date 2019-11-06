@@ -346,8 +346,9 @@ class dashBoardUI(Frame):
             frame_dline, text="DEADLINES", bg='grey', fg='white', font=30)
         label_dline_text.place(relheight=0.1, relwidth=1)
 
-        label_dline = Label(frame_dline, bg='black', fg='white', font=30)
-        label_dline.place(rely=0.1, relheight=1, relwidth=1)
+        label_dline = Label(frame_dline,text = '''There are no upcoming 
+        deadlines....''', bg='grey', fg='white', font=30)
+        label_dline.place(rely=0.1, relheight=0.9, relwidth=1)
 
         label_main = Label(self.frame_display, bg='grey')
         label_main.place(relwidth=1, relheight=0.95)
@@ -435,7 +436,6 @@ class dashBoardUI(Frame):
             frame_inside.place(relx = 0.7,rely = b)
             button = Button(frame_inside,text = currFile["name"], bg = 'grey', fg = 'white', bd = 1,command=lambda currFile=currFile:self.controller.downloadFile(currFile))
             button.pack()
-            
             
             b= b+0.1
 
