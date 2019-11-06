@@ -3,6 +3,9 @@
 ## Description
 Light is a desktop application made for students of Bennett University to work through the LMS easily and in a more faster way. Now you can access the LMS very easily and the app will make your work faster than never before.
 
+## Bennett University LMS
+
+[lms.bennett.edu.in ](http://lms.bennett.edu.in/login/index.php)
 ## Version :1.0.0
 
 ## Distibution
