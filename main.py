@@ -69,9 +69,6 @@ class App(Tk):
         self.timeTable = []
         self.index = 0
         self.loadTimeTable()
-        
-        msgThread = threading.Thread(target=self.seeLastMessages).start()
-        
 
         self.frames = {}
 
@@ -81,13 +78,13 @@ class App(Tk):
         for i in os.listdir("Time_Table"):
             t = {}
             t["name"] = str(i).strip(".png")
-            
-            
-            t["name"]=t["name"].upper()
+
+            t["name"] = t["name"].upper()
             t["image"] = PhotoImage(file="Time_Table/"+i)
             t["index"] = self.index
             self.index += 1
             self.timeTable.append(t)
+
     def show_frame(self, context):
         frame = context(self.container, self)
         self.frames[context] = frame
@@ -110,7 +107,7 @@ class App(Tk):
         self.dashboardPage = BeautifulSoup(login.content, "html5lib")
 
         try:
-
+            msgThread = threading.Thread(target=self.seeLastMessages).start()
             self.userName = self.dashboardPage.find(
                 "span", {"class": "usertext"}).text
             try:
@@ -146,7 +143,7 @@ class App(Tk):
                 self.loginLms()
             except requests.RequestException:
 
-                print ("lms not working")
+                print("lms not working")
         except os.error:
             print("in os error")
             try:
@@ -156,18 +153,17 @@ class App(Tk):
                 self.show_frame(loginUI)
             except requests.RequestException:
 
-                print ("lms not working ")
+                print("lms not working ")
 
     def seeLastMessages(self):
         while True:
             try:
-              
 
                 unreadCount = self.dashboardPage.find(
                     "label", {"class": "unreadnumber"}).text
                 notifs.notify("You have " + unreadCount + " messages")
                 break
-               
+
             except TypeError:
                 pass
 
@@ -196,7 +192,7 @@ class App(Tk):
                         fileDict = {"id": fileId, "name": resourceName,
                                     "course": courseName, "url": resource.a["href"]}
                         files.append(fileDict)
-                        
+
             if (len(files) == 0):
                 return (False)
             else:
@@ -206,7 +202,7 @@ class App(Tk):
             pass
 
     def downloadFile(self, file):
-        print ("DOWNLAODING :",file["name"])
+        print("DOWNLAODING :", file["name"])
         fileRequest = self.request_session.get(file["url"], stream=True)
 
         newFile = file["course"].replace(":", "_")
@@ -214,7 +210,7 @@ class App(Tk):
 
         temp = file["name"].replace(" ", "_")
         file["name"] = temp
-        print (fileRequest.headers["content-type"])
+        print(fileRequest.headers["content-type"])
         if fileRequest.headers["content-type"] == "application/pdf":
 
             path = file["course"]+"/"+file["name"]+".pdf"
@@ -245,21 +241,20 @@ class App(Tk):
         else:
             linkReq = self.request_session.get(file["url"], stream=True)
 
-            print ("not downloadable")
+            print("not downloadable")
 
-    
     def deadLines(self):
         try:
             read_d = np.load('events.npy')
             os.path.getsize("events.npy")
             print(read_d)
-           
+
         except os.error:
-            
+
             count = 0
             while(True):
                 count += 1
-                
+
                 try:
                     calLink = self.dashboardPage.find(
                         "a", {"title": "This month"}).attrs["href"]
@@ -314,7 +309,8 @@ class dashBoardUI(Frame):
         frame.place(relx=0.8, relwidth=0.2, relheight=0.04)
 
         self.frame_display = Frame(self, bg='white')
-        self.frame_display.place(relx=0.24, rely=0.23, relwidth=0.5, relheight=0.6)
+        self.frame_display.place(relx=0.24, rely=0.23,
+                                 relwidth=0.5, relheight=0.6)
 
         frame_dline = Frame(self, bg='white')
         frame_dline.place(relx=0.8, rely=0.23, relwidth=0.2, relheight=0.6)
@@ -323,15 +319,15 @@ class dashBoardUI(Frame):
         frame_tt.place(rely=0.23, relwidth=0.2, relheight=0.6)
 
         frame_image = Frame(self, bg='white')
-        frame_image.place(relx=0.40, rely=0.01, relwidth=0.15, relheight=0.1935)
+        frame_image.place(relx=0.40, rely=0.01,
+                          relwidth=0.15, relheight=0.1935)
 
         label_logo = Label(frame_image, image=controller.logoimage)
         label_logo.place(relheight=1, relwidth=1)
 
         label1 = Label(frame, text="WELCOME, " +
-                       controller.userName, bg = 'black', fg = 'white', font=25)
+                       controller.userName, bg='black', fg='white', font=25)
         label1.pack()
-        
 
         # labels for calender --------->
         self.label_tt_text = Label(
@@ -352,10 +348,12 @@ class dashBoardUI(Frame):
         label_main = Label(self.frame_display, bg='grey')
         label_main.place(relwidth=1, relheight=0.95)
 
-        label_welcome = Label(self.frame_display, text = "TELL ME WHAT TO DO ....", bg = 'grey', fg = 'white', font = 10 )
+        label_welcome = Label(self.frame_display,
+                              text="SEARCH", bg='grey', fg='white', font=10)
         label_welcome.pack()
 
-        button_main = Button(self.frame_display, text="-->", bg='white', fg='white', bd=0, image=controller.enterimage, command=lambda:self.searchThread(entry_main.get()) )
+        button_main = Button(self.frame_display, text="-->", bg='white', fg='white', bd=0,
+                             image=controller.enterimage, command=lambda: self.searchThread(entry_main.get()))
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         # buttons for time table ------->
@@ -401,12 +399,13 @@ class dashBoardUI(Frame):
         self.label_tt_text.config(
             text=self.controller.timeTable[self.day]["name"])
 
-    def searchThread(self,name):
-        t=threading.Thread(target=self.mainSearch,args=(name,))
+    def searchThread(self, name):
+        t = threading.Thread(target=self.mainSearch, args=(name,))
         t.start()
+
     def mainSearch(self, query):
 
-        self.searchResult=self.controller.fileSearch(query)
+        self.searchResult = self.controller.fileSearch(query)
         if(self.searchResult == False):
 
             web.openWeb(query)
@@ -414,33 +413,35 @@ class dashBoardUI(Frame):
             #print (self.searchResult)
             self.mainwindow()
 
-    def display(self,file):
-        print (file)
+    def display(self, file):
+        print(file)
+
     def mainwindow(self):
-        
-        a = 0.1 #relx
-        b = 0.2 #rely
+
+        a = 0.1  # relx
+        b = 0.2  # rely
         frame_wait = Frame(self.frame_display)
-        frame_wait.place(relx = 0.32,rely = 0.12)
+        frame_wait.place(relx=0.32, rely=0.12)
 
-        label_wait = Label(frame_wait, text = "Here are the following results ....", bg = 'grey', fg = 'white',font = 10)
+        label_wait = Label(
+            frame_wait, text="Here are the following results : ", bg='grey', fg='white', font=10)
         label_wait.pack()
+
         for currFile in self.controller.files:
+
             frame_label = Frame(self.frame_display)
-            frame_label.place(relx = a, rely = b)
-            label_name = Label(frame_label,text = currFile["course"], bg = 'grey', fg = 'white', font = 15)
+            frame_label.place(relx=a, rely=b)
+            label_name = Label(
+                frame_label, text=currFile["course"], bg='grey', fg='white', font=15)
             label_name.pack()
-            
-            frame_inside = Frame(self.frame_display, bg = 'white')
-            frame_inside.place(relx = 0.7,rely = b)
-            button = Button(frame_inside,text = currFile["name"], bg = 'grey', fg = 'white', bd = 1,command=lambda currFile=currFile:self.controller.downloadFile(currFile))
+
+            frame_inside = Frame(self.frame_display, bg='white')
+            frame_inside.place(relx=0.7, rely=b)
+            button = Button(frame_inside, text=currFile["name"], bg='grey', fg='white', bd=1,
+                            command=lambda currFile=currFile: self.controller.downloadFile(currFile))
             button.pack()
-            
-            
-            b= b+0.1
 
-            
-
+            b = b+0.1
 
 
 class loginUI(Frame):
@@ -509,7 +510,6 @@ app = App()
 
 
 app.mainloop()
-
 
 
 np.save("msg.npy", app.unreads)
