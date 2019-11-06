@@ -75,7 +75,7 @@ class App(Tk):
         self.autoLogin()
 
     def loadTimeTable(self):
-        for i in os.listdir("Time_Table"):
+        for i in os.listdir(os.getcwd()+"\\Time_Table"):
             t = {}
             t["name"] = str(i).strip(".png")
 
@@ -92,10 +92,10 @@ class App(Tk):
         frame.tkraise()
 
     def getName(self):
-        print("test")
+        pass
 
     def exitApp(self):
-        print("test")
+        
         self.destroy()
 
     def loginLms(self):  # sends a request to website for login => pushes a toast notif if successfull
@@ -118,11 +118,10 @@ class App(Tk):
                 pass
 
             self.show_frame(dashBoardUI)
-            print("Hi ", self.userName)
+           
             return True
         except AttributeError:
-            #print (self.d)
-            print("Invalid login please try again")
+           
             self.frames[loginUI].label_error.place(
                 relx=0.16, rely=0.75, relheight=0.06, relwidth=0.7)
             return False
@@ -135,7 +134,7 @@ class App(Tk):
             os.path.getsize('loginDetails.npy')
             self.userId = read_d["username"]
             self.userPass = read_d["password"]
-            print("try block")
+           
             try:
 
                 test = requests.get(
@@ -143,9 +142,10 @@ class App(Tk):
                 self.loginLms()
             except requests.RequestException:
 
-                print("lms not working")
+                lmsT=threading.Thread(target=notifs.notify("Lms is NOT working")).start()
+                self.destroy()
         except os.error:
-            print("in os error")
+            
             try:
 
                 test = requests.get(
@@ -153,7 +153,8 @@ class App(Tk):
                 self.show_frame(loginUI)
             except requests.RequestException:
 
-                print("lms not working ")
+                lmsT=threading.Thread(target=notifs.notify("Lms is NOT working")).start()
+                self.destroy()
 
     def seeLastMessages(self):
         while True:
@@ -173,7 +174,7 @@ class App(Tk):
                 "h4", {"class": "media-heading"})
             fileId = 0
             files = []  # dictionary of files returned
-            courseHeadings = courseHeadings[0:int(len(courseHeadings)/2)]
+            courseHeadings = courseHeadings[0:int(len(courseHeadings)/2)-1]
             for courseHead in courseHeadings:
                 courseLink = courseHead.a["href"]
                 courseRequest = self.request_session.get(courseLink)
@@ -202,7 +203,7 @@ class App(Tk):
             pass
 
     def downloadFile(self, file):
-        print("DOWNLAODING :", file["name"])
+        
         fileRequest = self.request_session.get(file["url"], stream=True)
 
         newFile = file["course"].replace(":", "_")
@@ -210,7 +211,7 @@ class App(Tk):
 
         temp = file["name"].replace(" ", "_")
         file["name"] = temp
-        print(fileRequest.headers["content-type"])
+       
         if fileRequest.headers["content-type"] == "application/pdf":
 
             path = file["course"]+"/"+file["name"]+".pdf"
@@ -241,13 +242,13 @@ class App(Tk):
         else:
             linkReq = self.request_session.get(file["url"], stream=True)
 
-            print("not downloadable")
+            
 
     def deadLines(self):
         try:
             read_d = np.load('events.npy')
             os.path.getsize("events.npy")
-            print(read_d)
+            
 
         except os.error:
 
@@ -280,7 +281,7 @@ class App(Tk):
                         else:
                             event["isSubmit"] = False
                         self.events.append(event)
-                        print("Saving event:", event)
+                       
                     np.save("events.npy", self.events)
                     return (True)
                 except AttributeError:
@@ -411,11 +412,9 @@ class dashBoardUI(Frame):
 
             web.openWeb(query)
         else:
-            #print (self.searchResult)
+           
             self.mainwindow()
 
-    def display(self, file):
-        print(file)
 
     def mainwindow(self):
 
