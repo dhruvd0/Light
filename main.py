@@ -208,7 +208,8 @@ class App(Tk):
 
         temp = file["name"].replace(" ", "_")
         file["name"] = temp
-        if fileRequest.headers["content-type"] == "application/pdf":
+        print (fileRequest.headers["content-type"])
+        '''if fileRequest.headers["content-type"] == "application/pdf":
 
             path = file["course"]+"/"+file["name"]+".pdf"
             try:
@@ -238,7 +239,7 @@ class App(Tk):
         else:
             linkReq = self.request_session.get(file["url"], stream=True)
 
-            print ("not downloadable")
+            print ("not downloadable")'''
 
     
     def deadLines(self):
@@ -399,11 +400,12 @@ class dashBoardUI(Frame):
         t.start()
     def mainSearch(self, query):
 
-        if(self.controller.fileSearch(query) == False):
+        self.searchResult=self.controller.fileSearch(query)
+        if(self.searchResult == False):
 
             web.openWeb(query)
         else:
-            print(self.controller.fileSearch(query))
+            #print (self.searchResult)
             self.mainwindow()
 
     def mainwindow(self):
@@ -423,8 +425,9 @@ class dashBoardUI(Frame):
             
             frame_inside = Frame(self.frame_display, bg = 'white')
             frame_inside.place(relx = 0.7,rely = b)
-            button = Button(frame_inside,text = currFile["name"], bg = 'grey', fg = 'white', bd = 1,command=lambda:self.controller.downloadFile(currFile))
+            button = Button(frame_inside,text = currFile["name"], bg = 'grey', fg = 'white', bd = 1,command=lambda:print(currFile))
             button.pack()
+            
             
             b= b+0.1
 
