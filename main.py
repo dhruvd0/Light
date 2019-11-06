@@ -67,21 +67,27 @@ class App(Tk):
             self.unreads = []
 
         self.timeTable = []
-        index = 0
+        self.index = 0
+        self.loadTimeTable()
         
         msgThread = threading.Thread(target=self.seeLastMessages).start()
-        for i in os.listdir("Time_Table"):
-            t = {}
-            t["name"] = i
-            t["image"] = PhotoImage(file="Time_Table/"+i)
-            t["index"] = index
-            index += 1
-            self.timeTable.append(t)
+        
 
         self.frames = {}
 
         self.autoLogin()
 
+    def loadTimeTable(self):
+        for i in os.listdir("Time_Table"):
+            t = {}
+            t["name"] = str(i).strip(".png")
+            
+            
+            t["name"]=t["name"].upper()
+            t["image"] = PhotoImage(file="Time_Table/"+i)
+            t["index"] = self.index
+            self.index += 1
+            self.timeTable.append(t)
     def show_frame(self, context):
         frame = context(self.container, self)
         self.frames[context] = frame
@@ -190,7 +196,7 @@ class App(Tk):
                         fileDict = {"id": fileId, "name": resourceName,
                                     "course": courseName, "url": resource.a["href"]}
                         files.append(fileDict)
-                        break
+                        
             if (len(files) == 0):
                 return (False)
             else:
@@ -200,7 +206,7 @@ class App(Tk):
             pass
 
     def downloadFile(self, file):
-        #print (file["url"])
+        print ("DOWNLAODING :",file["name"])
         fileRequest = self.request_session.get(file["url"], stream=True)
 
         newFile = file["course"].replace(":", "_")
@@ -208,6 +214,7 @@ class App(Tk):
 
         temp = file["name"].replace(" ", "_")
         file["name"] = temp
+        print (fileRequest.headers["content-type"])
         if fileRequest.headers["content-type"] == "application/pdf":
 
             path = file["course"]+"/"+file["name"]+".pdf"
@@ -238,8 +245,9 @@ class App(Tk):
         else:
             linkReq = self.request_session.get(file["url"], stream=True)
 
-            print(linkReq.headers["content-type"])
+            print ("not downloadable")
 
+    
     def deadLines(self):
         try:
             read_d = np.load('events.npy')
@@ -347,7 +355,7 @@ class dashBoardUI(Frame):
         label_welcome = Label(self.frame_display, text = "TELL ME WHAT TO DO ....", bg = 'grey', fg = 'white', font = 10 )
         label_welcome.pack()
 
-        button_main = Button(self.frame_display, text="-->", bg='white', fg='white', bd=0, image=controller.enterimage, command=lambda:self.mainSearch(entry_main.get()) )
+        button_main = Button(self.frame_display, text="-->", bg='white', fg='white', bd=0, image=controller.enterimage, command=lambda:self.searchThread(entry_main.get()) )
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
         self.canvas1 = Canvas(label_main,bg = 'white')
@@ -396,15 +404,21 @@ class dashBoardUI(Frame):
         self.label_tt_text.config(
             text=self.controller.timeTable[self.day]["name"])
 
+    def searchThread(self,name):
+        t=threading.Thread(target=self.mainSearch,args=(name,))
+        t.start()
     def mainSearch(self, query):
 
-        if(self.controller.fileSearch(query) == False):
+        self.searchResult=self.controller.fileSearch(query)
+        if(self.searchResult == False):
 
             web.openWeb(query)
         else:
-            print(self.controller.fileSearch(query))
+            #print (self.searchResult)
             self.mainwindow()
 
+    def display(self,file):
+        print (file)
     def mainwindow(self):
         
         a = 0.1 #relx
@@ -414,16 +428,17 @@ class dashBoardUI(Frame):
 
         label_wait = Label(frame_wait, text = "Here are the following results ....", bg = 'grey', fg = 'white',font = 10)
         label_wait.pack()
-        for i in range(len(self.controller.files)):
-            frame_label = Frame(self.canvas1)
+        for currFile in self.controller.files:
+            frame_label = Frame(self.frame_display)
             frame_label.place(relx = a, rely = b)
-            label_name = Label(frame_label,text = self.controller.files[i]["course"], bg = 'grey', fg = 'white', font = 15)
+            label_name = Label(frame_label,text = currFile["course"], bg = 'grey', fg = 'white', font = 15)
             label_name.pack()
 
             frame_inside = Frame(self.canvas1, bg = 'white')
             frame_inside.place(relx = 0.7,rely = b)
-            button = Button(frame_inside,text = self.controller.files[i]["name"], bg = 'grey', fg = 'white', bd = 1)
+            button = Button(frame_inside,text = currFile["name"], bg = 'grey', fg = 'white', bd = 1,command=lambda currFile=currFile:self.controller.downloadFile(currFile))
             button.pack()
+            
             
             b= b+0.1
 
