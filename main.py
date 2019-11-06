@@ -48,15 +48,15 @@ class App(Tk):
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
         self.events = []  # contains dicts of events
-        self.powerImage = PhotoImage(file='Images/power.png')
-        self.loginbg = PhotoImage(file='Images/loginbg2_image.png')
-        self.mainbg = PhotoImage(file='Images/mainbg_image.png')
-        self.loginimage = PhotoImage(file='Images/button_login.png')
-        self.leftimage = PhotoImage(file='Images/left_image.png')
-        self.rightimage = PhotoImage(file='Images/right_image.png')
-        self.enterimage = PhotoImage(file='Images/enter_arrow.png')
-        self.cancelimage = PhotoImage(file='Images/button_cancel.png')
-        self.logoimage = PhotoImage(file='Images/logo4.png')
+        self.powerImage = PhotoImage(file=os.getcwd()+'\\Images\\power.png')
+        self.loginbg = PhotoImage(file=os.getcwd()+'\\Images\\loginbg2_image.png')
+        self.mainbg = PhotoImage(file=os.getcwd()+'\\Images\\mainbg_image.png')
+        self.loginimage = PhotoImage(file=os.getcwd()+'\\Images\\button_login.png')
+        self.leftimage = PhotoImage(file=os.getcwd()+'\\Images\\left_image.png')
+        self.rightimage = PhotoImage(file=os.getcwd()+'\\Images\\right_image.png')
+        self.enterimage = PhotoImage(file=os.getcwd()+'\\Images\\enter_arrow.png')
+        self.cancelimage = PhotoImage(file=os.getcwd()+'\\Images\\button_cancel.png')
+        self.logoimage = PhotoImage(file=os.getcwd()+'\\Images\\logo4.png')
         try:
 
             temp = np.load("msg.npy", allow_pickle=True).item()
@@ -512,5 +512,3 @@ app = App()
 
 app.mainloop()
 
-
-np.save("msg.npy", app.unreads)
