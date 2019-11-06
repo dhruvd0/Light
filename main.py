@@ -67,21 +67,27 @@ class App(Tk):
             self.unreads = []
 
         self.timeTable = []
-        index = 0
+        self.index = 0
+        self.loadTimeTable()
         
         msgThread = threading.Thread(target=self.seeLastMessages).start()
-        for i in os.listdir("Time_Table"):
-            t = {}
-            t["name"] = i
-            t["image"] = PhotoImage(file="Time_Table/"+i)
-            t["index"] = index
-            index += 1
-            self.timeTable.append(t)
+        
 
         self.frames = {}
 
         self.autoLogin()
 
+    def loadTimeTable(self):
+        for i in os.listdir("Time_Table"):
+            t = {}
+            t["name"] = str(i).strip(".png")
+            
+            
+            t["name"]=t["name"].upper()
+            t["image"] = PhotoImage(file="Time_Table/"+i)
+            t["index"] = self.index
+            self.index += 1
+            self.timeTable.append(t)
     def show_frame(self, context):
         frame = context(self.container, self)
         self.frames[context] = frame
@@ -209,7 +215,7 @@ class App(Tk):
         temp = file["name"].replace(" ", "_")
         file["name"] = temp
         print (fileRequest.headers["content-type"])
-        '''if fileRequest.headers["content-type"] == "application/pdf":
+        if fileRequest.headers["content-type"] == "application/pdf":
 
             path = file["course"]+"/"+file["name"]+".pdf"
             try:
@@ -239,7 +245,7 @@ class App(Tk):
         else:
             linkReq = self.request_session.get(file["url"], stream=True)
 
-            print ("not downloadable")'''
+            print ("not downloadable")
 
     
     def deadLines(self):
