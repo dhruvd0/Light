@@ -414,6 +414,8 @@ class dashBoardUI(Frame):
             #print (self.searchResult)
             self.mainwindow()
 
+    def display(self,file):
+        print (file)
     def mainwindow(self):
         
         a = 0.1 #relx
@@ -431,7 +433,7 @@ class dashBoardUI(Frame):
             
             frame_inside = Frame(self.frame_display, bg = 'white')
             frame_inside.place(relx = 0.7,rely = b)
-            button = Button(frame_inside,text = currFile["name"], bg = 'grey', fg = 'white', bd = 1,command=lambda:print(currFile))
+            button = Button(frame_inside,text = currFile["name"], bg = 'grey', fg = 'white', bd = 1,command=lambda currFile=currFile:self.controller.downloadFile(currFile))
             button.pack()
             
             
