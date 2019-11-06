@@ -56,7 +56,7 @@ class App(Tk):
         self.rightimage = PhotoImage(file='Images/right_image.png')
         self.enterimage = PhotoImage(file='Images/enter_arrow.png')
         self.cancelimage = PhotoImage(file='Images/button_cancel.png')
-        self.logoimage = PhotoImage(file='Images/logo4.png')
+        self.logoimage = PhotoImage(file='Images/logo1.png')
         try:
 
             temp = np.load("msg.npy", allow_pickle=True).item()
@@ -306,7 +306,7 @@ class dashBoardUI(Frame):
         frame.place(relx=0.8, relwidth=0.2, relheight=0.04)
 
         self.frame_display = Frame(self, bg='white')
-        self.frame_display.place(relx=0.24, rely=0.23, relwidth=0.5, relheight=0.6)
+        self.frame_display.place(relx=0.24, rely=0.53, relwidth=0.5, relheight=0.3)
 
         frame_dline = Frame(self, bg='white')
         frame_dline.place(relx=0.8, rely=0.23, relwidth=0.2, relheight=0.6)
@@ -315,7 +315,7 @@ class dashBoardUI(Frame):
         frame_tt.place(rely=0.23, relwidth=0.2, relheight=0.6)
 
         frame_image = Frame(self, bg='white')
-        frame_image.place(relx=0.40, rely=0.01, relwidth=0.15, relheight=0.1935)
+        frame_image.place(relx=0.35, rely=0.15, relwidth=0.3, relheight=0.335)
 
         label_logo = Label(frame_image, image=controller.logoimage)
         label_logo.place(relheight=1, relwidth=1)
@@ -350,6 +350,12 @@ class dashBoardUI(Frame):
         button_main = Button(self.frame_display, text="-->", bg='white', fg='white', bd=0, image=controller.enterimage, command=lambda:self.mainSearch(entry_main.get()) )
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
+        self.canvas1 = Canvas(label_main,bg = 'white')
+        self.canvas1.place(relwidth = 1,relheight=1)
+
+        self.scroll1 = Scrollbar(label_main, bg='black')
+        self.scroll1.place(relheight=1, relx=0.98)
+
         # buttons for time table ------->
 
         button_tt1 = Button(frame_tt, text='<-- ', bg='grey', fg='white',
@@ -364,9 +370,6 @@ class dashBoardUI(Frame):
                              activebackground='black', activeforeground='white', bd=0, command=controller.exitApp, image=controller.powerImage)
         button_exit.place(relx=0.93, rely=0.9, relheight=0.12, relwidth=0.06)
         # scrollbar for main window ------>
-
-        scroll1 = Scrollbar(label_main, bg='black')
-        scroll1.place(relheight=1, relx=0.98)
 
         entry_main = Entry(self.frame_display, bg='#393737', fg='white')
         entry_main.place(rely=0.94, relwidth=0.9, relheight=0.06)
@@ -406,18 +409,18 @@ class dashBoardUI(Frame):
         
         a = 0.1 #relx
         b = 0.2 #rely
-        frame_wait = Frame(self.frame_display)
+        frame_wait = Frame(self.canvas1)
         frame_wait.place(relx = 0.32,rely = 0.12)
 
         label_wait = Label(frame_wait, text = "Here are the following results ....", bg = 'grey', fg = 'white',font = 10)
         label_wait.pack()
         for i in range(len(self.controller.files)):
-            frame_label = Frame(self.frame_display)
+            frame_label = Frame(self.canvas1)
             frame_label.place(relx = a, rely = b)
             label_name = Label(frame_label,text = self.controller.files[i]["course"], bg = 'grey', fg = 'white', font = 15)
             label_name.pack()
 
-            frame_inside = Frame(self.frame_display, bg = 'white')
+            frame_inside = Frame(self.canvas1, bg = 'white')
             frame_inside.place(relx = 0.7,rely = b)
             button = Button(frame_inside,text = self.controller.files[i]["name"], bg = 'grey', fg = 'white', bd = 1)
             button.pack()
