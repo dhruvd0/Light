@@ -349,8 +349,8 @@ class dashBoardUI(Frame):
         label_dline = Label(frame_dline, bg='black', fg='white', font=30)
         label_dline.place(rely=0.1, relheight=1, relwidth=1)
 
-        label_main = Label(self.frame_display, bg='grey')
-        label_main.place(relwidth=1, relheight=0.95)
+        #label_main = Label(self.frame_display, bg='grey')
+        #label_main.place(relwidth=1, relheight=0.95)
 
         label_welcome = Label(self.frame_display, text = "TELL ME WHAT TO DO ....", bg = 'grey', fg = 'white', font = 10 )
         label_welcome.pack()
@@ -358,11 +358,13 @@ class dashBoardUI(Frame):
         button_main = Button(self.frame_display, text="-->", bg='white', fg='white', bd=0, image=controller.enterimage, command=lambda:self.searchThread(entry_main.get()) )
         button_main.place(rely=0.94, relx=0.9, relwidth=0.1, relheight=0.06)
 
-        self.canvas1 = Canvas(label_main,bg = 'white')
-        self.canvas1.place(relwidth = 1,relheight=1)
+        self.canvas1 = Canvas(self.frame_display,bg = 'white')
+        scroll1 = Scrollbar(self.frame_display, bg='black')
+        scroll1.place(relheight=1, relx=0.98)
+        scroll1.config(command = self.canvas1.yview)
+        self.canvas1.config(yscrollcommand = scroll1.set)
+        self.canvas1.pack()
 
-        self.scroll1 = Scrollbar(label_main, bg='black')
-        self.scroll1.place(relheight=1, relx=0.98)
 
         # buttons for time table ------->
 
